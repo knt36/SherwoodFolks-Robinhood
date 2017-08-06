@@ -62,8 +62,8 @@ export class RobinhoodDataService {
     );
   }
 
-  public cmdAccounts(link: string): Promise <any> {
-  }
+  // public cmdAccounts(link: string): Promise <any> {
+  // }
 }
 
 export interface GetAccountResponse {

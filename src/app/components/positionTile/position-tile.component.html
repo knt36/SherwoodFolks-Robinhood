@@ -1,0 +1,24 @@
+<div class="positionTile container-fluid {{color+'-border'}} box-shadow">
+	<div class="text-center">
+		<div class="price-info">
+			<div class="col-5">
+				<h5>$ {{position.currentPrice}}</h5>
+				<p class="inline-block"><span class="glyphicon {{statusIcon}}" aria-hidden="true"></span> {{position.percentChange}}%</p>
+				<h6 class="profit inline-block {{color}}">${{position.profit}}</h6>
+			</div>
+			<div class="col-5">
+				<h6><span>Total:</span> ${{position.value}}</h6>
+				<h6><span>Bought:</span> ${{position.bought}}</h6>
+			</div>
+		</div>
+
+		<div id="positionGraph">
+
+		</div>
+
+		<div class="">
+			<button type="button" class="btn btn-buy">BUY</button>
+			<button type="button" class="btn btn-sell">SELL</button>
+		</div>
+	</div>
+</div>

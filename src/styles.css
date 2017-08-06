@@ -1,1 +1,108 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+	/*--- position tile --------*/
+	--bold-font: #212121;
+	--light-font: #616161;
+	--lighter-font: #9E9E9E;
+
+}
+
+body {
+	background-color: #EEEEEE;
+}
+
+.container-fluid {
+	padding-left: 10px;
+	padding-right: 10px;
+	overflow-y: scroll;
+}
+
+h5, h6, p {
+	margin-bottom: 0px;
+
+}
+h5 {
+	font-size: 15px;
+	color: var(--bold-font);
+
+}
+h6{
+	font-size: 13px;
+	color: var(--light-font);
+}
+
+p {
+	font-size: 12px;
+	color: var(--lighter-font);
+
+}
+span {
+	font-size: 10px;
+	color: var(--lighter-font);
+}
+
+.inline-block{
+	display: inline-block;
+}
+
+.box-shadow{
+	box-shadow: 0 3px 3px rgba(0,0,0,0.16);
+}
+
+.btn {
+	background-color: white;
+	text-transform: uppercase;
+	text-align: center;
+	border: none;
+	font-weight: bold;
+	font-size: 16px;
+
+}
+
+.btn-sell {
+	color: #90A4AE;
+}
+
+.btn-buy {
+	color: #0277BD;
+}
+
+.btn-unwatch {
+	color: #90A4AE;
+}
+
+.btn-watch {
+	color: #90A4AE;
+}
+
+.red-border {
+	border-left: 3px solid red;
+}
+
+.green-border {
+	border-left: 3px solid limegreen;
+
+}
+
+.red{
+	color: red;
+
+}
+
+.green{
+	color: limegreen;
+}
+
+.flex-list {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.flex-item {
+	display: inline-flex;
+	margin: 10px 0px;
+}

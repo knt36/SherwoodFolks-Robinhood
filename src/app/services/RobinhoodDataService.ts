@@ -18,7 +18,7 @@ export class RobinhoodDataService {
   }
 
   public sampleFunction(){
-    this.login("", "").then(res=>{
+    this.login("kntran10", "48384d4e34E").then(res=>{
       this.getAccounts().then(result=>{
         this.getWatchList().then(watchlist=>{
           this.getPositionList().then(positions=>{

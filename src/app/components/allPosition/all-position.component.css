@@ -1,0 +1,17 @@
+#searchPositions{
+	margin: 15px auto;
+}
+
+#positionList {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.positionTile {
+	display: inline-flex;
+	margin: 8px;
+}

@@ -1,0 +1,33 @@
+.watchTile {
+	width: 180px;
+	padding-left: 10px;
+	padding-right: 10px;
+	background-color: white;
+}
+
+.col-4{
+	width: 40%;
+}
+
+.col-6 {
+	width: 60%;
+}
+
+#graph {
+	width: 100%;
+	height: 50px;
+	margin: 8px auto;
+}
+
+.btn-toggle-add {
+	height: 20px;
+	margin-top: 5px;
+	padding: 0px 10px;
+	background-color: white;
+	border: 2px solid darkgray;
+}
+
+.btn-group {
+	display: flex;
+}
+

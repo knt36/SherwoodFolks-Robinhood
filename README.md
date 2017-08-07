@@ -1,3 +1,8 @@
+# Installation:
+- For chartjs:
+    + npm install ng2-charts --save
+    + npm install chart.js --save
+
 # Stock
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.0.

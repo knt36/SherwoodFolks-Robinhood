@@ -1,6 +1,7 @@
 import {Injectable, NgModule} from "@angular/core";
 import {HttpClient, HttpClientModule, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
+import {IntervalObservable} from "rxjs/observable/IntervalObservable";
 /**
  * Created by roy_f on 7/31/2017.
  */
@@ -13,18 +14,22 @@ export class RobinhoodDataService {
   public positionList: Stock[] = [];
   public account: Account = null;
 
+  public historicsFetchingThread = null;
+
   constructor(public http: HttpClient) {
-    this.sampleFunction();
+    this.initiateService("kntran10", "48384d4e34E");
   }
 
-  public sampleFunction(){
-    this.login("kntran10", "48384d4e34E").then(res=>{
+  public initiateService(login, password){
+    this.login(login, password).then(res=>{
       this.getAccounts().then(result=>{
         this.getWatchList().then(watchlist=>{
           this.getPositionList().then(positions=>{
-            this.getWatchItemHistoricsAll("5minute", "regular", "day").then(updatedPositionWatch=>{
-              console.log(updatedPositionWatch);
-            });
+              this.historicsFetchingThread = IntervalObservable.create(3000).subscribe(()=>{
+                this.getWatchItemHistoricsAll("5minute", "trading", "day").then(historics=>{
+                });
+                this.getQuoteAll();
+              });
           });
         });
       })
@@ -99,7 +104,7 @@ export class RobinhoodDataService {
           const promises = [];
           res.results.forEach(result=>{
             promises.push(this.getStockDetail(result.instrument).then(stockDetails =>{
-              const temp: WatchListItemDetailResponse.RootObject = stockDetails;
+              const temp: DetailResponse.RootObject = stockDetails;
               this.watchList.push(new Stock(temp, null));
             }));
           });
@@ -113,7 +118,7 @@ export class RobinhoodDataService {
   public getStockDetail(instrumentURL:string): Promise<any> {
     // urlstring provided from the getwatchlist procedure
     return(new Promise((resolve,reject)=>{
-      this.http.get<WatchListItemDetailResponse.RootObject>(instrumentURL,{headers:this.setAuthHeaders()}).subscribe(res=>{
+      this.http.get<DetailResponse.RootObject>(instrumentURL,{headers:this.setAuthHeaders()}).subscribe(res=>{
         resolve(res);
       });
     }));
@@ -135,15 +140,16 @@ export class RobinhoodDataService {
     return(new Promise((resolve,reject)=>{
       const allPromises = [];
       this.watchList.forEach(watchItem=>{
-        const promise = this.getStockHistorics(watchItem.watchListItemDetail.symbol,interval,bound,span).then(historics=>{
+        const promise = this.getStockHistorics(watchItem.detailResponse.symbol,interval,bound,span).then(historics=>{
           watchItem.historics = historics;
+
         });
         allPromises.push(promise);
       });
 
       this.positionList.forEach(positionItem=>{
         const promise = this.getStockHistorics(
-          positionItem.watchListItemDetail.symbol,interval,bound,span).then(historics=>{
+          positionItem.detailResponse.symbol,interval,bound,span).then(historics=>{
           positionItem.historics = historics;
         });
         allPromises.push(promise);
@@ -165,6 +171,47 @@ export class RobinhoodDataService {
         })
       })
     );
+  }
+
+  public getQuote(symbol):Promise<any>{
+    return(new Promise((resolve,reject)=>{
+      this.http.get<QuoteResponse.RootObject>("https://api.robinhood.com/quotes/"+ symbol+"/",
+        {headers:this.setAuthHeaders()}).subscribe(response=>{
+
+        resolve(response);
+      })
+    }));
+  }
+
+  public getQuoteAll():Promise<any>{
+    return(new Promise((resolve,reject)=>{
+      const allPromises = [];
+      this.positionList.forEach(item=>{
+        const promise = this.getQuote(item.detailResponse.symbol);
+        allPromises.push(promise);
+        promise.then(quote =>{
+          item.quote = quote;
+          item.currentPriceUX = this.MyToFixed(quote.bid_price,2);
+        });
+      });
+
+      this.watchList.forEach(item=>{
+        const promise = this.getQuote(item.detailResponse.symbol);
+        allPromises.push(promise);
+        promise.then(quote =>{
+          item.quote = quote;
+          item.currentPriceUX = this.MyToFixed(quote.bid_price,2);
+        });
+      });
+
+      Promise.all(allPromises).then(res=>{
+        resolve();
+      });
+    }))
+  }
+  public MyToFixed(i, digits){
+    const pow = Math.pow(10, digits);
+    return Math.floor(i * pow) / pow;
   }
 }
 
@@ -225,7 +272,7 @@ declare module WatchListResponse {
 
 }
 
-declare module WatchListItemDetailResponse {
+declare module DetailResponse {
 
   export interface RootObject {
     min_tick_size?: any;
@@ -347,17 +394,52 @@ declare module PositionResponse {
 
 }
 
+declare module QuoteResponse {
+
+  export interface RootObject {
+    ask_price: string;
+    ask_size: number;
+    bid_price: string;
+    bid_size: number;
+    last_trade_price: string;
+    last_extended_hours_trade_price: string;
+    previous_close: string;
+    adjusted_previous_close: string;
+    previous_close_date: string;
+    symbol: string;
+    trading_halted: boolean;
+    has_traded: boolean;
+    last_trade_price_source: string;
+    updated_at: Date;
+    instrument: string;
+  }
+
+}
+
 
 
 
 export class Stock{
   public historics: HistoricsResponse.RootObject = null;
-  public watchListItemDetail: WatchListItemDetailResponse.RootObject = null;
+  public detailResponse: DetailResponse.RootObject = null;
   public positionListItemDetail:PositionResponse.PositionDetail = null;
+  public quote:QuoteResponse.RootObject = null;
 
-  constructor(watchListItemDetail:WatchListItemDetailResponse.RootObject,
+  // UX dependant fields
+  public currentPriceUX;
+  public boughtUX;
+  // total equity in stock
+  public valueUX;
+  public profitUX;
+  public percentChangeUX;
+  public statusUX;
+  public groupUX;
+  public soldUX;
+  public percentChangeSinceSoldUX;
+
+  constructor(detailResponse:DetailResponse.RootObject,
               positionListItemDetail: PositionResponse.PositionDetail){
-    this.watchListItemDetail = watchListItemDetail;
+    this.detailResponse = detailResponse;
     this.positionListItemDetail = positionListItemDetail;
   }
 }

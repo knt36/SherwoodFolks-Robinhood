@@ -172,7 +172,11 @@ export class RobinhoodDataService {
       })
     );
   }
+  public addToWatchList(): Promise<any>{
+    return(new Promise((resolve,reject)=>{
 
+    }))
+  }
   public getQuote(symbol):Promise<any>{
     return(new Promise((resolve,reject)=>{
       this.http.get<QuoteResponse.RootObject>("https://api.robinhood.com/quotes/"+ symbol+"/",
@@ -191,7 +195,7 @@ export class RobinhoodDataService {
         allPromises.push(promise);
         promise.then(quote =>{
           item.quote = quote;
-          item.currentPriceUX = this.MyToFixed(quote.bid_price,2);
+          item.currentPriceUX = this.MyToFixed(quote.last_trade_price,2);
         });
       });
 
@@ -200,7 +204,7 @@ export class RobinhoodDataService {
         allPromises.push(promise);
         promise.then(quote =>{
           item.quote = quote;
-          item.currentPriceUX = this.MyToFixed(quote.bid_price,2);
+          item.currentPriceUX = this.MyToFixed(quote.last_trade_price,2);
         });
       });
 
@@ -435,12 +439,14 @@ export class Stock{
   public statusUX;
   public groupUX;
   public soldUX;
+  public symbolUX;
   public percentChangeSinceSoldUX;
 
   constructor(detailResponse:DetailResponse.RootObject,
               positionListItemDetail: PositionResponse.PositionDetail){
     this.detailResponse = detailResponse;
     this.positionListItemDetail = positionListItemDetail;
+    this.symbolUX = detailResponse.symbol;
   }
 }
 

@@ -13,6 +13,8 @@ import { AppRoutingModule }     from './app-routing.module';
 import {PositionTileComponent} from "./components/positionTile/position-tile.component";
 import {WatchListComponent} from "./components/watchList/watch-list.component";
 import {WatchTileComponent} from "./components/watchTile/watch-tile.component";
+import { ChartsModule } from 'ng2-charts';
+import {ChartComponent} from "./components/chart/chart.component";
 
 @NgModule({
   declarations: [
@@ -22,13 +24,16 @@ import {WatchTileComponent} from "./components/watchTile/watch-tile.component";
     AllPositionComponent,
     PositionTileComponent,
     WatchListComponent,
-    WatchTileComponent
+    WatchTileComponent,
+    ChartComponent
+
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ChartsModule
   ],
   providers: [RobinhoodDataService, HttpClient],
   bootstrap: [AppComponent]

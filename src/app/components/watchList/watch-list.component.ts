@@ -17,5 +17,6 @@ export class WatchListComponent {
   watchList: any[];
   constructor(robinhoodService: RobinhoodDataService){
     this.watchList = robinhoodService.watchList;
+      console.log(this.watchList);
   }
 }

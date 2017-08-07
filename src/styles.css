@@ -106,3 +106,10 @@ span {
 	display: inline-flex;
 	margin: 10px 0px;
 }
+
+.name h6{
+	background-color: #EEEEEE;
+	color: #616161;
+	margin-bottom: 0px;
+	margin-top: 5px;
+}

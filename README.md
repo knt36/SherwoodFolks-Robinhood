@@ -1,7 +1,7 @@
 # Installation:
 - For chartjs:
-    npm install ng2-charts --save
-    npm install chart.js --save
+    + npm install ng2-charts --save
+    + npm install chart.js --save
 
 # Stock
 

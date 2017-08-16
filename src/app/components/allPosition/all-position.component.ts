@@ -8,7 +8,7 @@ import {RobinhoodDataService} from "../../services/RobinhoodDataService";
 @Component({
     selector: 'all-position',
     templateUrl : './all-position.component.html',
-    styleUrls: ['./all-position.component.css']
+    styleUrls: ['all-position.component.scss']
 })
 
 

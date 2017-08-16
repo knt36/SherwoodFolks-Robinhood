@@ -7,7 +7,6 @@ import {RobinhoodDataService} from "./services/RobinhoodDataService";
 import {HttpModule} from "@angular/http";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
-import {MainComponent} from "./components/main/main.component";
 import {AllPositionComponent} from "./components/allPosition/all-position.component";
 import { AppRoutingModule }     from './app-routing.module';
 import {PositionTileComponent} from "./components/positionTile/position-tile.component";
@@ -20,7 +19,6 @@ import {ChartComponent} from "./components/chart/chart.component";
   declarations: [
     AppComponent,
     HomeComponent,
-    MainComponent,
     AllPositionComponent,
     PositionTileComponent,
     WatchListComponent,

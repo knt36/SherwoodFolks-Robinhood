@@ -1,0 +1,11 @@
+$background-color: #222428;
+$active-background-color: #000000;
+$bold-font-color: white;
+$normal-font-color: #74828d;
+$red-color: #e3482c;
+$green-color: #21ce99;
+
+
+@mixin border-right{
+  border-right: 2px solid $active-background-color;
+}

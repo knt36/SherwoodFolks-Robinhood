@@ -31,6 +31,7 @@ export class ChartComponent {
         },
         tooltips: {
             position: 'average',
+
             caretSize: 0,
             cornerRadius: 1,
             bodyFontSize: 11,
@@ -54,8 +55,5 @@ export class ChartComponent {
     public lineChartLegend:boolean = false;
     public lineChartType:string = 'line';
 
-    public chartHovered(e:any):void {
-        console.log(e);
-    }
 
 }

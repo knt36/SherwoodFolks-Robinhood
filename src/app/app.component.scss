@@ -7,11 +7,12 @@
 .menu {
   width: 200px;
   height: 100vh;
+  float: left;
 
   @include border-right();
 
   .nav-btn{
-    height: 50px;
+    height: $menu-height;
     padding: 8px 20px;
     display: flex;
     flex-direction: column;

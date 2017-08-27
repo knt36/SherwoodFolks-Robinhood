@@ -1,17 +1,20 @@
+@import '../../styles/dark-theme';
+@import '../../../style';
+
+.container-fluid{
+	min-height: 100vh;
+}
+
 #searchPositions{
-	margin: 15px auto;
+
+	@include custom-search-bar();
+
+	.input-group{
+		height: $item-height;
+	}
 }
 
-#positionList {
+#positionList{
 	width: 100%;
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	justify-content: flex-start;
-	align-items: center;
-}
-
-.positionTile {
-	display: inline-flex;
-	margin: 8px;
+	height: 100vh;
 }

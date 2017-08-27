@@ -1,9 +1,7 @@
 @import './app/styles/dark-theme';
 
-$lg-font-size: 1.2em;
-$md-font-size: 1em;
-$sm-font-size: 0.8em;
-$xl-font-size: 1.7em;
+$item-height: 5em;
+$menu-height: 3.5em;
 
 body {
   background-color: $background-color;

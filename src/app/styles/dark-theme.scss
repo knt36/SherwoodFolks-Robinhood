@@ -5,7 +5,45 @@ $normal-font-color: #74828d;
 $red-color: #e3482c;
 $green-color: #21ce99;
 
+$lg-font-size: 1.2em;
+$md-font-size: 1em;
+$sm-font-size: 0.8em;
+$xl-font-size: 1.7em;
+
+
+
 
 @mixin border-right{
   border-right: 2px solid $active-background-color;
+}
+
+@mixin custom-search-bar {
+  .input-group {
+    border-bottom: 2px solid $active-background-color;
+
+    .input-group-addon{
+      background-color: $background-color;
+      border: none;
+      color: $normal-font-color;
+    }
+    input{
+      background-color: $background-color;
+      color: $normal-font-color;
+      font-size: $lg-font-size ;
+      border: none;
+      height: inherit;
+      box-shadow: none;
+      outline: none;
+    }
+
+    ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+      color: $normal-font-color;
+    }
+    ::-moz-placeholder { /* Mozilla Firefox 19+ */
+      color: $normal-font-color;
+    }
+    ::-ms-input-placeholder { /* Microsoft Edge */
+      color: $normal-font-color;
+    }
+  }
 }

@@ -15,6 +15,7 @@ export class HomeComponent {
     username: "",
     password: ""
   }
+
   constructor(public robinhoodDataService: RobinhoodDataService) {
 
   }

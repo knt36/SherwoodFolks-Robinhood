@@ -5,7 +5,7 @@ import {AllPositionComponent} from "./components/allPosition/all-position.compon
 import {WatchListComponent} from "./components/watchList/watch-list.component";
 
 const routes: Routes = [
-  { path: '', redirectTo: '/main', pathMatch: 'full' },
+  { path: '', redirectTo: '/position', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'position', component: AllPositionComponent },
   { path: 'watchList', component: WatchListComponent}

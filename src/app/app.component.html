@@ -1,20 +1,18 @@
-<!--The content below is only a placeholder and can be replaced.-->
 <div class="menu">
-	<nav>
-		<div class="nav-btn">
-			<a href="">Logo</a>
-		</div>
-		<div class="nav-btn">
-			<a href="">Portfolio</a>
-		</div>
-		<div class="nav-btn">
-			<a routerLink="/position" routerLinkActive="active">My Stocks</a>
-		</div>
-		<div class="nav-btn">
-			<a routerLink="/watchList" routerLinkActive="active">Watch List</a>
+	<nav class="navbar navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="">Portfolio</a></li>
+					<li class="active"><a routerLink="/position" routerLinkActive="active">My Stocks</a></li>
+					<li class="active"><a routerLink="/watchList" routerLinkActive="active">Watch List</a></li>
+					<button type="submit" class="btn btn-default">Sign out</button>
+				</ul>
+			</div>
 		</div>
 	</nav>
 </div>
+
 <router-outlet></router-outlet>
 
 

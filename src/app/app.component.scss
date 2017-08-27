@@ -4,32 +4,32 @@
 
 
 /*-------- menu --------------*/
-.menu {
-  width: 200px;
-  height: 100vh;
-  float: left;
-
-  @include border-right();
-
-  .nav-btn{
-    height: $menu-height;
-    padding: 8px 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    a{
-      text-decoration: none;
-      color: $normal-font-color;
-      font-size: $lg-font-size;
-    }
-
-    .active {
-      color: $bold-font-color;
-    }
-
-    &:hover{
-      background-color: $active-background-color;
-    }
-
-  }
-}
+//.menu {
+//  width: 200px;
+//  height: 100vh;
+//  float: left;
+//
+//  @include border-right();
+//
+//  .nav-btn{
+//    height: $menu-height;
+//    padding: 8px 20px;
+//    display: flex;
+//    flex-direction: column;
+//    justify-content: center;
+//    a{
+//      text-decoration: none;
+//      color: $normal-font-color;
+//      font-size: $lg-font-size;
+//    }
+//
+//    .active {
+//      color: $bold-font-color;
+//    }
+//
+//    &:hover{
+//      background-color: $active-background-color;
+//    }
+//
+//  }
+//}

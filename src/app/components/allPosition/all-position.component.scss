@@ -20,8 +20,5 @@
 //}
 
 #position-page{
-	height: 100vh;
-	width: 100%;
-	margin-left: $std-width;
-
+	@include stock-page();
 }

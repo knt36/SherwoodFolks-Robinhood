@@ -2,19 +2,19 @@ $background-color: #f4f7f9;
 $active-background-color: white;
 $bold-font-color: black;
 $normal-font-color: #83949f;
+$light-font-color: #d3d1d1;
 $border-color: #dedede;
 $red-color: #e3482c;
 $green-color: #1abc9c;
 
-$lg-font-size: 1.2em;
-$md-font-size: 1em;
-$sm-font-size: 0.8em;
+$lg-font-size: 1.7em;
+$md-font-size: 1.3em;
+$sm-font-size: 1em;
 $xs-font-size: 0.75em;
-$xl-font-size: 1.7em;
+$xl-font-size: 1.9em;
 
 
 $std-width: 70px;
-
 
 
 
@@ -22,9 +22,38 @@ $std-width: 70px;
   border-right: 2px solid $active-background-color;
 }
 
-@mixin custom-search-bar {
-  .input-group {
-    border-bottom: 2px solid $active-background-color;
+@mixin stock-page{
+
+    height: 100vh;
+    margin-left: $std-width;
+    overflow: hidden;
+
+    .container-fluid{
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+
+    @include custom-top-bar();
+
+
+
+}
+
+
+@mixin custom-top-bar {
+
+    .top-bar{
+        border-bottom: 1px solid $border-color;
+        width: 100%;
+    }
+
+    .search{
+      max-width: 50%;
+
+      .input-group{
+        height: $std-width;
+      }
+    }
 
     .input-group-addon{
       background-color: $background-color;
@@ -34,7 +63,7 @@ $std-width: 70px;
     input{
       background-color: $background-color;
       color: $normal-font-color;
-      font-size: $lg-font-size ;
+      font-size: $sm-font-size ;
       border: none;
       height: inherit;
       box-shadow: none;
@@ -42,13 +71,42 @@ $std-width: 70px;
     }
 
     ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-      color: $normal-font-color;
+      color: $light-font-color;
     }
     ::-moz-placeholder { /* Mozilla Firefox 19+ */
-      color: $normal-font-color;
+      color: $light-font-color;
     }
     ::-ms-input-placeholder { /* Microsoft Edge */
-      color: $normal-font-color;
+      color: $light-font-color;
     }
-  }
+
+    .portfolio-head-bar{
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: flex-start;
+
+      .portfolio-item{
+        min-width: 150px;
+        text-align: center;
+
+        h6 {
+          color: $normal-font-color;
+          text-transform: uppercase;
+          font-size: $xs-font-size;
+        }
+
+        h5{
+          font-weight: 300;
+          font-size: $lg-font-size;
+          color: $bold-font-color;
+
+          span {
+            font-size: $xs-font-size;
+          }
+        }
+      }
+    }
+
+
+
 }

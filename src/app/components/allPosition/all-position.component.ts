@@ -16,8 +16,24 @@ import {RobinhoodDataService} from "../../services/RobinhoodDataService";
 export class AllPositionComponent{
 
     positionList:any[] = [];
+    portfolioSummary:any[] = [];
 
     constructor(robinhoodService:RobinhoodDataService){
-      this.positionList = robinhoodService.positionList;
+        this.positionList = robinhoodService.positionList;
+
+        this.portfolioSummary = [
+            {
+                name: 'portfolio value',
+                value: '1234323.21'
+            },
+            {
+                name: 'buying power',
+                value: '1233.21'
+            },
+            {
+                name: 'withdrawable cash',
+                value: '234323.21'
+            }
+        ]
     }
 }

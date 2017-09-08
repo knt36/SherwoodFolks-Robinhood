@@ -29,6 +29,10 @@ $nav-width: $std-width;
 .navbar-fixed-left .navbar-nav > li {
   float: none;  /* Cancel default li float: left */
 
+  .active{
+    color: $green-color;
+  }
+
   a {
     width: calc(#{$nav-width} - 1px);
     height: $nav-width;
@@ -38,6 +42,7 @@ $nav-width: $std-width;
     color: $normal-font-color;
     &:focus, &:active {
       color: $green-color;
+
     }
 
     p{
@@ -46,10 +51,6 @@ $nav-width: $std-width;
   }
 
 
-}
-
-.navbar-fixed-left + .container {
-  //padding-left: 160px;
 }
 
 

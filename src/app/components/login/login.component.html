@@ -1,0 +1,23 @@
+<form>
+	<div class="top">
+		<h1>Welcome to RobinTrader</h1>
+	</div>
+
+	<div class="body">
+		<div id="login-error" class="hidden">
+			<h6>Wrong Username or Password</h6>
+			<p>*Note: We don't support reset username or password on this site. Please reset directly on Robinhood app.</p>
+
+		</div>
+		<input [(ngModel)] ="loginModel.username" placeholder="Username" type="text" required="">
+		<input [(ngModel)] ="loginModel.password" placeholder="Password" type="password" required="">
+	</div>
+
+	<button (click)="robinhoodDataService.login(loginModel.username, loginModel.password)">Submit</button>
+</form>
+
+<!--<input [(ngModel)] ="loginModel.username" type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">-->
+<!--<input [(ngModel)] ="this.loginModel.password" type="text" class="form-control" placeholder="Password" aria-describedby="basic-addon1">-->
+<!--<button (click)="this.robinhoodDataService.login(this.loginModel.username, this.loginModel.password)" type="button" class="btn btn-default" aria-label="Left Align">-->
+<!--<span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>-->
+<!--</button>-->

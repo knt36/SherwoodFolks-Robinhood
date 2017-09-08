@@ -1,35 +1,55 @@
 @import './styles/white-theme';
 @import '../style.scss';
 
+$nav-width: $std-width;
 
 
-/*-------- menu --------------*/
-//.menu {
-//  width: 200px;
-//  height: 100vh;
-//  float: left;
-//
-//  @include border-right();
-//
-//  .nav-btn{
-//    height: $menu-height;
-//    padding: 8px 20px;
-//    display: flex;
-//    flex-direction: column;
-//    justify-content: center;
-//    a{
-//      text-decoration: none;
-//      color: $normal-font-color;
-//      font-size: $lg-font-size;
-//    }
-//
-//    .active {
-//      color: $bold-font-color;
-//    }
-//
-//    &:hover{
-//      background-color: $active-background-color;
-//    }
-//
-//  }
-//}
+
+.navbar {
+  width: $nav-width;
+  border-right: 1px solid $border-color;
+
+}
+
+.navbar-brand {
+  background-color: $green-color;
+  width: calc(#{$nav-width} - 1px);
+  height: $nav-width;
+  padding: 0 !important;
+}
+
+.navbar-fixed-left {
+  width: $nav-width;
+  position: fixed;
+  border-radius: 0;
+  height: 100%;
+
+}
+
+.navbar-fixed-left .navbar-nav > li {
+  float: none;  /* Cancel default li float: left */
+
+  a {
+    width: calc(#{$nav-width} - 1px);
+    height: $nav-width;
+    text-align: center;
+    line-height: 1em;
+    padding: 15px 8px;
+    color: $normal-font-color;
+    &:focus, &:active {
+      color: $green-color;
+    }
+
+    p{
+      font-size: $xs-font-size;
+    }
+  }
+
+
+}
+
+.navbar-fixed-left + .container {
+  //padding-left: 160px;
+}
+
+

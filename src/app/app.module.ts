@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import {HomeComponent} from "./components/home.component";
 import {HttpModule} from "@angular/http";
-import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
 import {AllPositionComponent} from "./components/allPosition/all-position.component";
 import { AppRoutingModule } from './app-routing.module';
@@ -28,12 +27,12 @@ import {RobinhoodService} from "./services/RobinhoodService";
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
     FormsModule,
     AppRoutingModule,
-    ChartsModule
+    ChartsModule,
+    HttpModule
   ],
-  providers: [RobinhoodService, HttpClient],
+  providers: [RobinhoodService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -3,6 +3,7 @@
  */
 import {Component, OnInit} from "@angular/core";
 import {PositionList} from "../../mock";
+import {RobinhoodService} from "../../services/RobinhoodService";
 
 @Component({
     selector: 'all-position',
@@ -16,6 +17,6 @@ export class AllPositionComponent{
 
     positionList:any[] = [];
 
-    constructor(){
+    constructor(robinhoodService: RobinhoodService){
     }
 }

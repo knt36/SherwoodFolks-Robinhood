@@ -4,8 +4,8 @@
 
 
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import {ResponseLogin, ResponsePosition} from "./RobinhoodResponses";
+import {Headers, Http} from "@angular/http";
+import {reject} from "q";
 @Injectable()
 
 export class RobinhoodService{
@@ -40,7 +40,7 @@ export class RobinhoodService{
     user_employment: "user/employment/",
     user_investment_profile: "user/investment_profile/",
 
-    watchlists: 'watchlists/',
+    watchlists: 'watchlists/Default',
     positions: 'positions/',
     fundamentals: 'fundamentals/',
     sp500_up: 'midlands/movers/sp500/?direction=up',
@@ -50,8 +50,6 @@ export class RobinhoodService{
 
   _private = {
     session : {},
-    username : null,
-    password : null,
     headers : {
       'Accept': '*/*',
       'Accept-Language': 'en;q=1, fr;q=0.9, de;q=0.8, ja;q=0.7, nl;q=0.6, it;q=0.5',
@@ -61,17 +59,32 @@ export class RobinhoodService{
     },
   }
 
-  constructor(public http: HttpClient){
+  account = {
+    positions: [],
+    watchList: [],
+    information: null
+  }
+
+  constructor(public http: Http){
     this.login('kntran10', '48384d4e34Fgonehome!').then(res=>{
       console.log(res);
-      this.getPositions().then(res=>{
-        console.log(res);
+      this.getPositions().then(()=>{
+        console.log(this.account.positions);
+        this.setAccountInformation().then(()=>{
+          console.log(this.account.information);
+          this.getWatchList().then(()=>{
+            console.log(this.account.watchList);
+          })
+        })
       });
     })
   }
 
   setHeaders(){
-    const header = new HttpHeaders(this._private.headers)
+    const header = new Headers();
+    for (const h of Object.keys(this._private.headers)) {
+      header.set(h, this._private.headers[h]);
+    }
     return (header);
   }
 
@@ -81,33 +94,103 @@ export class RobinhoodService{
 
   getPositions(){
     return(new Promise((resolve,reject)=>{
-      const param = new HttpParams();
-      param.append('nonzero','true');
-      this.http.get(this._apiUrl + this._endpoints.positions, {
-        headers: this.setHeaders(),
-        params: param
+      //somehow using urlParams doesn't work? so I have to put it in manually???
+      this.http.get(this._apiUrl + this._endpoints.positions
+        +"?nonzero=true",{
+        headers: this.setHeaders()
       }).subscribe(res=>{
-        resolve(res);
+        this.account.positions = res.json().results;
+        const promises = [];
+        this.account.positions.forEach(position=>{
+          const p = this.getInstrument(position);
+          promises.push(p);
+        })
+        Promise.all(promises).then(()=>{
+          resolve(res);
+        })
+      }, error=>{
+        reject(error);
       })
     }))
   }
-  setAccount(){
+
+  resolveField(object, fieldName){
+    return(new Promise((resolve,reject)=>{
+      this.http.get(object[fieldName]).subscribe(res=>{
+        object[fieldName] = res.json();
+        resolve(res)
+      },error=>{
+        reject(error);
+      })
+    }))
+  }
+
+  getInstrument(position){
+    return(new Promise((resolve,reject)=>{
+      this.http.get(position.instrument).subscribe(res=>{
+        position.instrument = res.json();
+        this.getQuote(position.instrument).then(res2=>{
+          resolve(res2);
+        },error=>{
+          reject(error);
+        })
+      }, error=>{
+        reject(error);
+      })
+    }))
+  }
+
+  getQuote(instrument){
+    return(new Promise((resolve,reject)=>{
+      this.http.get(instrument.quote).subscribe(res=>{
+        instrument.quote = res.json();
+        resolve(res);
+      }, error=>{
+        reject(error);
+      })
+    }))
+  }
+
+  getWatchList(){
+    return(new Promise((resolve,reject)=>{
+      this.http.get(this._apiUrl + this._endpoints.watchlists,{
+        headers: this.setHeaders()
+      }).subscribe(res=>{
+        const watchList = res.json().results;
+        const promises =[]
+        watchList.forEach(watchItem =>{
+          promises.push(this.getInstrument(watchItem));
+        })
+        Promise.all(promises).then(()=>{
+          this.account.watchList = watchList;
+          resolve(res);
+        });
+      }, error=>{
+        reject(error);
+      })
+    }))
+  }
+
+  setAccountInformation(){
     return(new Promise((resolve,reject)=>{
       this.http.get(this._apiUrl + this._endpoints.accounts,{
         headers: this.setHeaders()
       }).subscribe(res=>{
-        console.log(res);
+        this.account.information = res.json().results[0];
+        resolve(res);
+      }, error=>{
+        reject(error);
       })
     }))
   }
   login(username: string, password: string){
     return(new Promise((resolve,reject)=>{
-      this.http.post<ResponseLogin>(this._apiUrl + this._endpoints.login, {
+      this.http.post(this._apiUrl + this._endpoints.login, {
         username: username,
         password: password
       }).subscribe(res=>{
-        this.addTokenToHeader(res.token);
-        resolve(res.token);
+        this.addTokenToHeader(res.json().token);
+        resolve(res);
       })
     }))
   }

@@ -21,4 +21,7 @@
 
 #position-page{
 	@include stock-page();
+  display:inline-block;
+  text-align:center;
+
 }

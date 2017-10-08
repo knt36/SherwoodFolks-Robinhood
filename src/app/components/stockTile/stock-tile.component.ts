@@ -5,15 +5,15 @@
 import {Component, Input, OnInit} from "@angular/core";
 
 @Component({
-    selector: 'position-tile',
-    templateUrl : './position-tile.component.html',
-    styleUrls: ['./position-tile.component.scss']
+    selector: 'stock-tile',
+    templateUrl : './stock-tile.component.html',
+    styleUrls: ['./stock-tile.component.scss']
 })
 
 
-export class PositionTileComponent implements OnInit{
+export class StockTileComponent implements OnInit{
 
-    @Input('position') position: any;
+    @Input('stock') position: any;
     statusIcon: string;
     color: string;
 

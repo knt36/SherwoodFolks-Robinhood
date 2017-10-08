@@ -6,20 +6,45 @@
   <!--<span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>-->
 <!--</button>-->
 
-<form>
-  <div class="top">
-    <h1>Welcome to RobinTrader</h1>
+<div class="navbar navbar-fixed-left">
+  <div class="navbar-brand" href="#"></div>
+  <ul class="nav navbar-nav">
+    <li><a href="">
+      <i class="material-icons">account_balance</i>
+      <p>Overview</p>
+    </a></li>
+    <li>
+      <a [routerLink]="['allPosition']">
+      <i class="material-icons">monetization_on</i>
+      <p>Position</p>
+    </a></li>
+    <li>
+      <a [routerLink]="['watchList']">
+      <i class="material-icons">assignment</i>
+      <p>Watchlist</p>
+    </a></li>
+    <li>
+      <a [routerLink]="['watchList']">
+        <i class="material-icons">assignment</i>
+        <p>Orders</p>
+      </a></li>
+    <li><a href="">
+      <i class="material-icons">perm_identity</i>
+      <p>About</p>
+    </a></li>
+    <li><a href="">
+      <i class="material-icons">contact_mail</i>
+      <p>Contact</p>
+    </a></li>
+  </ul>
+</div>
+
+<div id="overviewBar">
+  <div style="float:left;">
+    <h3>Total Assets: $50000</h3>
   </div>
-
-  <div class="body">
-    <div id="login-error" class="hidden">
-      <h6>Wrong Username or Password</h6>
-      <p>*Note: We don't support reset username or password on this site. Please reset directly on Robinhood app.</p>
-
-    </div>
-    <input placeholder="Username" type="text" required="">
-    <input placeholder="Password" type="password" required="">
+  <div style="float:right;">
+    <h3>Buying Power: $50000</h3>
   </div>
-
-  <button>Submit</button>
-</form>
+</div>
+<router-outlet></router-outlet>

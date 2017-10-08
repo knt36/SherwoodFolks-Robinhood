@@ -16,6 +16,7 @@
 			<input [(ngModel)] ="loginModel.password" placeholder="Password" type="password" required="">
 		</div>
 
-		<button (click)="robinhoodDataService.login(loginModel.username, loginModel.password)">Submit</button>
+		<button (click)="this.clickLogin()">Submit</button>
+
 	</form>
 </div>

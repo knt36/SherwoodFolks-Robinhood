@@ -8,7 +8,7 @@ import {RobinhoodDataService} from "../../services/RobinhoodDataService";
 @Component({
     selector: 'watch-list',
     templateUrl : './watch-list.component.html',
-    styleUrls: ['./watch-list.component.css']
+    styleUrls: ['./watch-list.component.scss']
 })
 
 

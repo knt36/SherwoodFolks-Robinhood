@@ -3,7 +3,10 @@
 
 .positionTile{
   width: 200px;
-  height: $item-height;
-  display: inline;
+  height: 200px;
   background-color: #74828d;
+  border-radius:5px;
+  display:inline-block;
+  border: solid white 1px;
+
 }

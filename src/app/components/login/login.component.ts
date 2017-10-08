@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
 import {RobinhoodDataService} from "../../services/RobinhoodDataService";
+import {Router} from "@angular/router";
+import {HomeComponent} from "../home.component";
 /**
  * Created by roy_f on 7/31/2017.
  */
@@ -18,7 +20,13 @@ export class LoginComponent {
         password: ""
     }
 
-    constructor(public robinhoodDataService: RobinhoodDataService) {
+    constructor(public router: Router, public robinhoodDataService: RobinhoodDataService) {
 
     }
+
+     public clickLogin(){
+      console.log("Logging in");
+      this.router.navigateByUrl("home");
+    }
+
 }

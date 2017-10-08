@@ -6,13 +6,15 @@ import {WatchListComponent} from "./components/watchList/watch-list.component";
 import {LoginComponent} from "./components/login/login.component";
 
 const routes: Routes = [
-  { path: '', redirectTo: '/position', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'home',
+    component: HomeComponent,
+    children: [
+      { path: 'allPosition', component: AllPositionComponent },
+      { path: 'watchList', component: WatchListComponent}
+      ]},
   { path: 'login', component: LoginComponent },
-  { path: 'position', component: AllPositionComponent },
-  { path: 'watchList', component: WatchListComponent}
 ]
-
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

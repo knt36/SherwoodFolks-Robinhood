@@ -25,3 +25,7 @@
   text-align:center;
 
 }
+
+#options{
+  @include stock-page();
+}

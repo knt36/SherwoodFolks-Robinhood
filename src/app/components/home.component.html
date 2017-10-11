@@ -9,7 +9,7 @@
 <div class="navbar navbar-fixed-left">
   <div class="navbar-brand" href="#"></div>
   <ul class="nav navbar-nav">
-    <li><a href="">
+    <li><a [routerLink]="['overview']">
       <i class="material-icons">account_balance</i>
       <p>Overview</p>
     </a></li>
@@ -37,14 +37,5 @@
       <p>Contact</p>
     </a></li>
   </ul>
-</div>
-
-<div id="overviewBar">
-  <div style="float:left;">
-    <h3>Total Assets: $50000</h3>
-  </div>
-  <div style="float:right;">
-    <h3>Buying Power: $50000</h3>
-  </div>
 </div>
 <router-outlet></router-outlet>

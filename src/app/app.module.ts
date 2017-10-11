@@ -14,9 +14,12 @@ import {ChartComponent} from "./components/chart/chart.component";
 import {LoginComponent} from "./components/login/login.component";
 import {HomeComponent} from "./components/home.component";
 import {StockTileComponent} from "./components/stockTile/stock-tile.component";
+import {BsDropdownModule} from "ngx-bootstrap";
+import {OverviewComponent} from "./components/overview/overview.component";
 
 @NgModule({
   declarations: [
+      OverviewComponent,
       AppComponent,
       HomeComponent,
       AllPositionComponent,
@@ -28,6 +31,7 @@ import {StockTileComponent} from "./components/stockTile/stock-tile.component";
 
   ],
   imports: [
+      BsDropdownModule.forRoot(),
       BrowserModule,
       HttpClientModule,
       FormsModule,

@@ -1,0 +1,45 @@
+@import '../../styles/dark-theme';
+@import '../../../style';
+
+#overviewPage{
+  @include stock-page();
+
+}
+
+#stocks{
+  background-color:darkgrey;
+  border-radius: 5px;
+  border:white 1px solid;
+}
+
+#watchList{
+  background-color:darkgrey;
+  border-radius: 5px;
+  border:white 1px solid;
+}
+
+#orders{
+  width:100%;
+  position:fixed;
+  background-color:seagreen;
+  height:100vh;
+  overflow-y:scroll;
+}
+
+#left{
+  float:left;
+  width:80%;
+}
+
+#right{
+  float:right;
+  width:20%;
+}
+
+
+#orderField{
+  padding:0.25em;
+  background-color:black;
+  width:100%;
+  color:white;
+}

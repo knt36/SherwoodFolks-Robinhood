@@ -1,6 +1,9 @@
 @import '../styles/white-theme';
 
-
+#overviewBar{
+  position:fixed;
+  width:80%;
+}
 h1, input::-webkit-input-placeholder, button {
   font-family: 'roboto', sans-serif;
   transition: all 0.3s ease-in-out;

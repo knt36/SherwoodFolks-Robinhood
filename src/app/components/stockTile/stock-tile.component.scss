@@ -4,10 +4,16 @@
 .positionTile{
   width: 200px;
   height: 200px;
-  background-color: #74828d;
+  background-color: white;
   border-radius:5px;
+  border: solid 2px lightslategrey;
   display:inline-block;
-  border: solid white 1px;
+
+}
+
+#graph{
+  border-top: solid 3px #1abc9c;
+  border-bottom: solid 3px #1abc9c;
 
 }
 

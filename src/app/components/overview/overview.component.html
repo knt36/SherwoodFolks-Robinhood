@@ -4,9 +4,11 @@
 <div id="left">
   <div id="stocks">
     <div id="currentPositions">
-      <h3>
-        <span class="label label-primary">Positions</span>
-      </h3>
+      <div class="Label">
+        <h3><span style="padding-right:1em;" class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+          <b>Positions</b>
+        </h3>
+      </div>
       <stock-tile></stock-tile>
       <stock-tile></stock-tile>
       <stock-tile></stock-tile>
@@ -23,9 +25,11 @@
     </div>
 
     <div id="watchList">
-      <h3>
-        <span class="label label-primary">Positions</span>
-      </h3>
+      <div id="Label">
+        <h3><span style="padding-right:1em;" class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+          <b>WatchList</b>
+        </h3>
+      </div>
       <stock-tile></stock-tile>
       <stock-tile></stock-tile>
       <stock-tile></stock-tile>
@@ -43,16 +47,31 @@
   </div>
 </div>
 
-<div id="right">
-  <div id="orders">
-    <h3>
-      <span class="label label-primary">Orders</span>
-    </h3>
-    <div id="orderField">
-        <div class="row" class="container-fluid">
-          <div class="col-6">hello</div>
-        </div>
+<div class="clearfix" id="right">
+  <div class="clearfix" id="orders">
+    <div class="Label">
+      <h3><span style="padding-right:1em;" class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+        <b>Orders</b>
+      </h3>
     </div>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          1 of 2
+        </div>
+        <div class="col">
+          1 of 2
+        </div>
+      </div>
+    </div>
+    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+
+
+
 
   </div>
 

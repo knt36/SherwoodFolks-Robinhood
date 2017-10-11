@@ -7,22 +7,24 @@
 }
 
 #stocks{
-  background-color:darkgrey;
+  background-color:white;
   border-radius: 5px;
   border:white 1px solid;
 }
 
 #watchList{
-  background-color:darkgrey;
+  background-color:white;
   border-radius: 5px;
   border:white 1px solid;
 }
 
 #orders{
   width:100%;
+  display:inline-block;
   position:fixed;
-  background-color:seagreen;
+  background-color:#1abc9c;
   height:100vh;
+  overflow-x:hidden;
   overflow-y:scroll;
 }
 
@@ -34,12 +36,24 @@
 #right{
   float:right;
   width:20%;
+  border-left:solid 5px slategrey;
 }
 
 
 #orderField{
-  padding:0.25em;
   background-color:black;
-  width:100%;
   color:white;
+}
+
+.Label{
+  padding:1em;
+  background: white;
+  border-bottom: solid 2px lightslategrey;
+  border-top: solid 2px lightslategrey;
+
+}
+
+#orderEntry{
+  margin-top:0.5em;
+  background-color:whitesmoke;
 }

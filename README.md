@@ -2,6 +2,10 @@
 - For chartjs:
     + npm install ng2-charts --save
     + npm install chart.js --save
+    
+-- for sass:
+  + npm install node-sass --save-dev
+
 
 # Stock
 

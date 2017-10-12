@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {RobinhoodDataService} from "../../services/RobinhoodDataService";
 import {Router} from "@angular/router";
+import {RobinhoodService} from "../../services/RobinhoodService";
 /**
  * Created by roy_f on 7/31/2017.
  */
@@ -18,7 +18,7 @@ export class OverviewComponent {
         password: ""
     }
 
-    constructor(public router: Router) {
+    constructor(public router: Router, public rb: RobinhoodService) {
 
     }
 

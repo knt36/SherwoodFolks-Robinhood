@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {RobinhoodDataService} from "../services/RobinhoodDataService";
 import {Routes} from "@angular/router";
+
 /**
  * Created by roy_f on 7/31/2017.
  */
@@ -24,7 +24,7 @@ export class HomeComponent {
 
 
 
-  constructor(public robinhoodDataService: RobinhoodDataService) {
+  constructor() {
 
   }
 }

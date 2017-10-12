@@ -9,40 +9,16 @@
           <b>Positions</b>
         </h3>
       </div>
-      <stock-tile></stock-tile>
-      <stock-tile></stock-tile>
-      <stock-tile></stock-tile>
-      <stock-tile></stock-tile>
-      <stock-tile></stock-tile>
-      <stock-tile></stock-tile>
-      <stock-tile></stock-tile>
-      <stock-tile></stock-tile>
-      <stock-tile></stock-tile>
-      <stock-tile></stock-tile>
-      <stock-tile></stock-tile>
-      <stock-tile></stock-tile>
-      <stock-tile></stock-tile>
+      <stock-tile [stock]="s" *ngFor="let s of this.rb.account.positions"></stock-tile>
     </div>
 
     <div id="watchList">
-      <div id="Label">
+      <div class="Label">
         <h3><span style="padding-right:1em;" class="glyphicon glyphicon-comment" aria-hidden="true"></span>
           <b>WatchList</b>
         </h3>
       </div>
-      <stock-tile></stock-tile>
-      <stock-tile></stock-tile>
-      <stock-tile></stock-tile>
-      <stock-tile></stock-tile>
-      <stock-tile></stock-tile>
-      <stock-tile></stock-tile>
-      <stock-tile></stock-tile>
-      <stock-tile></stock-tile>
-      <stock-tile></stock-tile>
-      <stock-tile></stock-tile>
-      <stock-tile></stock-tile>
-      <stock-tile></stock-tile>
-      <stock-tile></stock-tile>
+      <stock-tile [stock]="s" *ngFor="let s of this.rb.account.watchList"></stock-tile>
     </div>
   </div>
 </div>

@@ -1,9 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-import { AppComponent } from './app.component';
-import {RobinhoodDataService} from "./services/RobinhoodDataService";
-import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {HomeComponent} from "./components/home.component";
+import {HttpModule} from "@angular/http";
 import {FormsModule} from "@angular/forms";
 import {AllPositionComponent} from "./components/allPosition/all-position.component";
 import { AppRoutingModule } from './app-routing.module';
@@ -11,11 +9,13 @@ import {WatchListComponent} from "./components/watchList/watch-list.component";
 import {WatchTileComponent} from "./components/watchTile/watch-tile.component";
 import { ChartsModule } from 'ng2-charts';
 import {ChartComponent} from "./components/chart/chart.component";
-import {LoginComponent} from "./components/login/login.component";
-import {HomeComponent} from "./components/home.component";
-import {StockTileComponent} from "./components/stockTile/stock-tile.component";
-import {BsDropdownModule} from "ngx-bootstrap";
 import {OverviewComponent} from "./components/overview/overview.component";
+import {RobinhoodService} from "./services/RobinhoodService";
+import {AppComponent} from "./app.component";
+import {StockTileComponent} from "./components/stockTile/stock-tile.component";
+import {LoginComponent} from "./components/login/login.component";
+import {BsDropdownModule} from "ngx-bootstrap";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -36,9 +36,10 @@ import {OverviewComponent} from "./components/overview/overview.component";
       HttpClientModule,
       FormsModule,
       AppRoutingModule,
-      ChartsModule
+      ChartsModule,
+      HttpModule
   ],
-  providers: [RobinhoodDataService, HttpClient],
+  providers: [RobinhoodService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

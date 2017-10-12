@@ -3,6 +3,7 @@
  */
 
 import {Component, Input, OnInit} from "@angular/core";
+import {Stock} from "../../services/Stock.model";
 
 @Component({
     selector: 'stock-tile',
@@ -13,18 +14,12 @@ import {Component, Input, OnInit} from "@angular/core";
 
 export class StockTileComponent implements OnInit{
 
-    @Input('stock') position: any;
+    @Input('stock') stock: Stock;
     statusIcon: string;
     color: string;
 
     ngOnInit() {
-        if(this.position.status == 'up'){
-            this.statusIcon = 'glyphicon-arrow-up';
-            this.color = 'green';
-        } else {
-            this.statusIcon = 'glyphicon-arrow-down';
-            this.color = 'red';
-        }
+
 
     }
 }

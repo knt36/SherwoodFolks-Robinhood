@@ -12,8 +12,8 @@
 				<p>*Note: We don't support reset username or password on this site. Please reset directly on Robinhood app.</p>
 
 			</div>
-			<input [(ngModel)] ="loginModel.username" placeholder="Username" type="text" required="">
-			<input [(ngModel)] ="loginModel.password" placeholder="Password" type="password" required="">
+			<input [(ngModel)] ="loginModel.username" placeholder="Username" name="username" type="text" required="">
+			<input [(ngModel)] ="loginModel.password" placeholder="Password" name="password" type="password" required="">
 		</div>
 
 		<button (click)="this.clickLogin()">Submit</button>

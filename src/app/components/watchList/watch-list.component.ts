@@ -3,7 +3,6 @@
  */
 import {Component, OnInit, Input} from "@angular/core";
 import { WatchList} from "../../mock";
-import {RobinhoodDataService} from "../../services/RobinhoodDataService";
 
 @Component({
     selector: 'watch-list',
@@ -15,8 +14,6 @@ import {RobinhoodDataService} from "../../services/RobinhoodDataService";
 export class WatchListComponent {
 
   watchList: any[];
-  constructor(robinhoodService: RobinhoodDataService){
-    this.watchList = robinhoodService.watchList;
-      console.log(this.watchList);
+  constructor(){
   }
 }

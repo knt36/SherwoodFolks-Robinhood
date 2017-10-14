@@ -5,9 +5,8 @@
 
 import {Injectable} from "@angular/core";
 import {Headers, Http} from "@angular/http";
-import {reject} from "q";
 import {Stock} from "./Stock.model";
-import {Order, OrderTimeInForce, OrderTrigger} from "./Order.model";
+import {Order, OrderTimeInForce, OrderTrigger, OrderType} from "./Order.model";
 @Injectable()
 
 export class RobinhoodService{
@@ -274,7 +273,7 @@ export class RobinhoodService{
       account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
       instrument: stock.data.instrument,
       symbol: stock.data.instrument.symbol,
-      type: Type.MARKET,
+      type: OrderType.MARKET,
       time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
       trigger: OrderTrigger.STOP,
       quantity: quantity,
@@ -290,7 +289,7 @@ export class RobinhoodService{
       account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
       instrument: stock.data.instrument,
       symbol: stock.data.instrument.symbol,
-      type: Type.LIMIT,
+      type: OrderType.LIMIT,
       time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
       trigger: OrderTrigger.STOP,
       price: price,
@@ -308,7 +307,7 @@ export class RobinhoodService{
       account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
       instrument: stock.data.instrument,
       symbol: stock.data.instrument.symbol,
-      type: Type.LIMIT,
+      type: OrderType.LIMIT,
       time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
       trigger: OrderTrigger.STOP,
       price: price,
@@ -325,7 +324,7 @@ export class RobinhoodService{
       account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
       instrument: stock.data.instrument,
       symbol: stock.data.instrument.symbol,
-      type: Type.LIMIT,
+      type: OrderType.LIMIT,
       time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
       trigger: OrderTrigger.STOP,
       price: price,
@@ -343,7 +342,7 @@ export class RobinhoodService{
       account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
       instrument: stock.data.instrument,
       symbol: stock.data.instrument.symbol,
-      type: Type.MARKET,
+      type: OrderType.MARKET,
       time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
       trigger: OrderTrigger.STOP,
       quantity: quantity,
@@ -359,7 +358,7 @@ export class RobinhoodService{
       account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
       instrument: stock.data.instrument,
       symbol: stock.data.instrument.symbol,
-      type: Type.LIMIT,
+      type: OrderType.LIMIT,
       time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
       trigger: OrderTrigger.IMMEDIATE,
       price: price,

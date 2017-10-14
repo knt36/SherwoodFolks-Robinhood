@@ -7,6 +7,7 @@ import {Injectable} from "@angular/core";
 import {Headers, Http} from "@angular/http";
 import {reject} from "q";
 import {Stock} from "./Stock.model";
+import {Order, OrderTimeInForce, OrderTrigger, TimeInForce, Type} from "./Order.model";
 @Injectable()
 
 export class RobinhoodService{
@@ -63,7 +64,8 @@ export class RobinhoodService{
   account = {
     positions: [],
     watchList: [],
-    information: null
+    information: null,
+    recentOrders: []
   }
 
   parent = this;
@@ -85,11 +87,14 @@ export class RobinhoodService{
             parent.getWatchList().then(res=>{
               console.log(parent.account.watchList);
             });
+            parent.getOrders().then(res=>{
+              console.log(parent.account.recentOrders);
+            })
           }, 4000);
           resolve();
         })
-      },()=>{
-        reject();
+      },(error)=>{
+        reject(error);
       })
     }))
   }
@@ -106,9 +111,34 @@ export class RobinhoodService{
     this._private.headers.Authorization = "Token " + token;
   }
 
+  getOrders(){
+    return(new Promise((resolve,reject)=>{
+      this.http.get(this._apiUrl + this._endpoints.orders,{
+        headers: this.setHeaders()
+      }).subscribe(res=>{
+        const orders = [];
+        res.json().results.forEach(item=>{
+          orders.push(new Order(item));
+        });
+
+        const promises = [];
+        orders.forEach(o =>{
+          const p = this.getInstrument(o.data);
+          promises.push(p);
+        })
+        Promise.all(promises).then(()=>{
+          this.account.recentOrders = orders;
+          console.log(this.account.recentOrders);
+          resolve(res);
+        })
+      }, error=>{
+        reject(error);
+      })
+    }))
+  }
+
   getPositions(){
     return(new Promise((resolve,reject)=>{
-      //somehow using urlParams doesn't work? so I have to put it in manually???
       this.http.get(this._apiUrl + this._endpoints.positions
         +"?nonzero=true",{
         headers: this.setHeaders()
@@ -119,7 +149,7 @@ export class RobinhoodService{
         });
         const promises = [];
         positions.forEach(position=>{
-          const p = this.getInstrument(position);
+          const p = this.getInstrument(position.data);
           promises.push(p);
         })
         Promise.all(promises).then(()=>{
@@ -143,11 +173,11 @@ export class RobinhoodService{
     }))
   }
 
-  getInstrument(position:Stock){
+  getInstrument(object){
     return(new Promise((resolve,reject)=>{
-      this.http.get(position.data.instrument).subscribe(res=>{
-        position.data.instrument = res.json();
-        this.getQuote(position.data.instrument).then(res2=>{
+      this.http.get(object.instrument).subscribe(res=>{
+        object.instrument = res.json();
+        this.getQuote(object.instrument).then(res2=>{
           resolve(res2);
         },error=>{
           reject(error);
@@ -180,7 +210,7 @@ export class RobinhoodService{
         });
         const promises =[]
         watchList.forEach(watchItem =>{
-          promises.push(this.getInstrument(watchItem));
+          promises.push(this.getInstrument(watchItem.data));
         })
         Promise.all(promises).then(()=>{
           this.account.watchList = watchList;
@@ -225,6 +255,120 @@ export class RobinhoodService{
         reject();
       });
     }))
+  }
+
+  cancelOrder(order:Order){
+    return(new Promise((resolve,reject)=>{
+      this.http.get(order.data.cancel).subscribe(res=>{
+        resolve(res);
+      },error=>{
+        reject(error);
+      })
+    }))
+  }
+
+  // UNTESTED TAKE CAUTION
+
+  MarketBuy(stock:Stock, quantity){
+    this.http.post(this._apiUrl + this._endpoints.orders, {
+      account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
+      instrument: stock.data.instrument,
+      symbol: stock.data.instrument.symbol,
+      type: Type.MARKET,
+      time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
+      trigger: OrderTrigger.STOP,
+      quantity: quantity,
+      side: Order.SIDES.BUY,
+      extended_hours: true,
+      override_day_trade_checks: false,
+      override_dtbp_checks: false
+    })
+  }
+
+  StopLimitBuy(stock:Stock, price, quantity, stop_price){
+    this.http.post(this._apiUrl + this._endpoints.orders, {
+      account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
+      instrument: stock.data.instrument,
+      symbol: stock.data.instrument.symbol,
+      type: Type.LIMIT,
+      time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
+      trigger: OrderTrigger.STOP,
+      price: price,
+      stop_price : stop_price,
+      quantity: quantity,
+      side: Order.SIDES.BUY,
+      extended_hours: true,
+      override_day_trade_checks: false,
+      override_dtbp_checks: false
+    })
+  }
+
+  ImmediateLimitBuy(stock:Stock, price, quantity){
+    this.http.post(this._apiUrl + this._endpoints.orders, {
+      account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
+      instrument: stock.data.instrument,
+      symbol: stock.data.instrument.symbol,
+      type: Type.LIMIT,
+      time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
+      trigger: OrderTrigger.STOP,
+      price: price,
+      quantity: quantity,
+      side: Order.SIDES.BUY,
+      extended_hours: true,
+      override_day_trade_checks: false,
+      override_dtbp_checks: false
+    })
+  }
+
+  StopLimitSell(stock:Stock, price, quantity, stop_price){
+    this.http.post(this._apiUrl + this._endpoints.orders, {
+      account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
+      instrument: stock.data.instrument,
+      symbol: stock.data.instrument.symbol,
+      type: Type.LIMIT,
+      time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
+      trigger: OrderTrigger.STOP,
+      price: price,
+      stop_price : stop_price,
+      quantity: quantity,
+      side: Order.SIDES.SELL,
+      extended_hours: true,
+      override_day_trade_checks: false,
+      override_dtbp_checks: false
+    })
+  }
+
+  MarketSell(stock:Stock, quantity){
+    this.http.post(this._apiUrl + this._endpoints.orders, {
+      account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
+      instrument: stock.data.instrument,
+      symbol: stock.data.instrument.symbol,
+      type: Type.MARKET,
+      time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
+      trigger: OrderTrigger.STOP,
+      quantity: quantity,
+      side: Order.SIDES.SELL,
+      extended_hours: true,
+      override_day_trade_checks: false,
+      override_dtbp_checks: false
+    })
+  }
+
+  ImmediateLimitSell(stock:Stock, price, quantity){
+    this.http.post(this._apiUrl + this._endpoints.orders, {
+      account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
+      instrument: stock.data.instrument,
+      symbol: stock.data.instrument.symbol,
+      type: Type.LIMIT,
+      time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
+      trigger: OrderTrigger.IMMEDIATE,
+      price: price,
+      quantity: quantity,
+      side: Order.SIDES.SELL,
+      extended_hours: true,
+      override_day_trade_checks: false,
+      override_dtbp_checks: false
+    })
   }
 
 

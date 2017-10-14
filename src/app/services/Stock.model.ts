@@ -9,6 +9,6 @@ export class Stock{
   }
 
   getCurrentPrice(){
-    return(this.data.instrument.quote.ask_price);
+    return(this.data.instrument.quote.last_trade_price);
   }
 }

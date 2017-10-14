@@ -7,7 +7,7 @@ import {Injectable} from "@angular/core";
 import {Headers, Http} from "@angular/http";
 import {reject} from "q";
 import {Stock} from "./Stock.model";
-import {Order, OrderTimeInForce, OrderTrigger, TimeInForce, Type} from "./Order.model";
+import {Order, OrderTimeInForce, OrderTrigger} from "./Order.model";
 @Injectable()
 
 export class RobinhoodService{

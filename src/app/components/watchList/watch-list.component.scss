@@ -1,0 +1,6 @@
+@import '../../styles/dark-theme';
+@import '../../../style';
+
+#watch-page {
+  @include stock-page();
+}

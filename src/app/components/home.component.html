@@ -1,8 +1,41 @@
 
 
-<input [(ngModel)] ="loginModel.username" type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
-<input [(ngModel)] ="this.loginModel.password" type="text" class="form-control" placeholder="Password" aria-describedby="basic-addon1">
-<button (click)="this.robinhoodDataService.login(this.loginModel.username, this.loginModel.password)" type="button" class="btn btn-default" aria-label="Left Align">
-  <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
-</button>
+<!--<input [(ngModel)] ="loginModel.username" type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">-->
+<!--<input [(ngModel)] ="this.loginModel.password" type="text" class="form-control" placeholder="Password" aria-describedby="basic-addon1">-->
+<!--<button (click)="this.robinhoodDataService.login(this.loginModel.username, this.loginModel.password)" type="button" class="btn btn-default" aria-label="Left Align">-->
+  <!--<span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>-->
+<!--</button>-->
 
+<div class="navbar navbar-fixed-left">
+  <div class="navbar-brand" href="#"></div>
+  <ul class="nav navbar-nav">
+    <li><a [routerLink]="['overview']">
+      <i class="material-icons">account_balance</i>
+      <p>Overview</p>
+    </a></li>
+    <li>
+      <a [routerLink]="['allPosition']">
+      <i class="material-icons">monetization_on</i>
+      <p>Position</p>
+    </a></li>
+    <li>
+      <a [routerLink]="['watchList']">
+      <i class="material-icons">assignment</i>
+      <p>Watchlist</p>
+    </a></li>
+    <li>
+      <a [routerLink]="['watchList']">
+        <i class="material-icons">assignment</i>
+        <p>Orders</p>
+      </a></li>
+    <li><a href="">
+      <i class="material-icons">perm_identity</i>
+      <p>About</p>
+    </a></li>
+    <li><a href="">
+      <i class="material-icons">contact_mail</i>
+      <p>Contact</p>
+    </a></li>
+  </ul>
+</div>
+<router-outlet></router-outlet>

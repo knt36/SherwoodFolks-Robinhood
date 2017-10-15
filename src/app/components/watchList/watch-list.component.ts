@@ -7,7 +7,7 @@ import { WatchList} from "../../mock";
 @Component({
     selector: 'watch-list',
     templateUrl : './watch-list.component.html',
-    styleUrls: ['./watch-list.component.css']
+    styleUrls: ['./watch-list.component.scss']
 })
 
 

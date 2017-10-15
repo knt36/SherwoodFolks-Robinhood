@@ -16,7 +16,9 @@ import {RobinhoodService} from "../../services/RobinhoodService";
 export class AllPositionComponent{
 
     positionList:any[] = [];
+    portfolioSummary:any[] = [];
 
-    constructor(robinhoodService: RobinhoodService){
-    }
+constructor(){
+
+}
 }

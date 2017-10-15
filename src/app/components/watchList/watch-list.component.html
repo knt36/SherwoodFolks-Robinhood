@@ -1,17 +1,14 @@
-<div class="container-fluid">
+<div style="text-align:center;">
+  <div id="watch-page" class="container-fluid">
 
-	<div id="searchWatch">
-		<div class="input-group">
-			<span class="input-group-addon" id="basic-addon1">
-				<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-			</span>
-			<input type="text" class="form-control" placeholder="Search Company" aria-describedby="basic-addon1">
-		</div>
-	</div>
+    <div>
+      <stock-tile></stock-tile>
+      <stock-tile></stock-tile>
+      <stock-tile></stock-tile>
+      <stock-tile></stock-tile>
+      <stock-tile></stock-tile>
+    </div>
 
-
-	<div id="watchList" class="flex-list">
-		<div class='flex-item' *ngFor="let watch of watchList"><watch-tile [watch]="watch"></watch-tile></div>
-	</div>
-
+  </div>
 </div>
+

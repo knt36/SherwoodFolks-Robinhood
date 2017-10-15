@@ -1,20 +1,31 @@
 @import '../../styles/dark-theme';
 @import '../../../style';
 
-.container-fluid{
-	min-height: 100vh;
+//.container-fluid{
+//	min-height: 100vh;
+//}
+//
+//#searchPositions{
+//
+//	@include custom-search-bar();
+//
+//	.input-group{
+//		height: $item-height;
+//	}
+//}
+//
+//#positionList{
+//	width: 100%;
+//	height: 100vh;
+//}
+
+#position-page{
+	@include stock-page();
+  display:inline-block;
+  text-align:center;
+
 }
 
-#searchPositions{
-
-	@include custom-search-bar();
-
-	.input-group{
-		height: $item-height;
-	}
-}
-
-#positionList{
-	width: 100%;
-	height: 100vh;
+#options{
+  @include stock-page();
 }

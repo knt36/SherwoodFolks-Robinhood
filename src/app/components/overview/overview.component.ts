@@ -12,6 +12,21 @@ import {RobinhoodService} from "../../services/RobinhoodService";
 })
 export class OverviewComponent {
     title = 'app';
+    positions = [
+        {
+            symbol: 'SQ',
+            price: 260.12,
+            gain: 'up',
+            percentChange : "+0.04 (0.12%)",
+            totalProfit: 360.23,
+            percentReturn: "+0.002 (0.04%)",
+            quantity: 23,
+            averageCost: 221.45,
+            data: []
+        }
+    ];
+
+    watchList = [];
 
     public loginModel = {
         username: "",
@@ -19,7 +34,8 @@ export class OverviewComponent {
     }
 
     constructor(public router: Router, public rb: RobinhoodService) {
-
+        // this.positions = this.rb.account.positions;
+        // this.watchList = this.rb.account.watchList;
     }
 
 

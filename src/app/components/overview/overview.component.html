@@ -1,44 +1,38 @@
 
 
 <div id="overviewPage">
-<div id="left">
+
   <div id="stocks">
+    <top-bar></top-bar>
+
     <div id="currentPositions">
-      <div class="Label">
-        <h3><span style="padding-right:1em;" class="glyphicon glyphicon-comment" aria-hidden="true"></span>
-          <b>Positions</b>
-        </h3>
-      </div>
-      <stock-tile [stock]="s" *ngFor="let s of this.rb.account.positions"></stock-tile>
+      <h5 class="section-title">
+        Positions
+      </h5>
+
+      <stock-tile [stock]="s" *ngFor="let s of this.positions"></stock-tile>
+      <!--<div class="Label">-->
+        <!--<h3><span style="padding-right:1em;" class="glyphicon glyphicon-comment" aria-hidden="true"></span>-->
+          <!--<b>Positions</b>-->
+        <!--</h3>-->
+      <!--</div>-->
+      <!--<stock-tile [stock]="s" *ngFor="let s of this.rb.account.positions"></stock-tile>-->
     </div>
 
     <div id="watchList">
-      <div class="Label">
-        <h3><span style="padding-right:1em;" class="glyphicon glyphicon-comment" aria-hidden="true"></span>
-          <b>WatchList</b>
-        </h3>
-      </div>
-      <stock-tile [stock]="s" *ngFor="let s of this.rb.account.watchList"></stock-tile>
+      <h5 class="section-title">
+        <stock-tile [stock]="s" *ngFor="let s of this.watchList"></stock-tile>
+      </h5>
+      <!--<div class="Label">-->
+        <!--<h3><span style="padding-right:1em;" class="glyphicon glyphicon-comment" aria-hidden="true"></span>-->
+          <!--<b>WatchList</b>-->
+        <!--</h3>-->
+      <!--</div>-->
+      <!--<stock-tile [stock]="s" *ngFor="let s of this.rb.account.watchList"></stock-tile>-->
     </div>
   </div>
-</div>
 
-<div class="clearfix" id="right">
-  <div class="clearfix" id="orders">
-    <div class="Label">
-      <h3><span style="padding-right:1em;" class="glyphicon glyphicon-comment" aria-hidden="true"></span>
-        <b>Orders</b>
-      </h3>
-    </div>
 
-    <div *ngFor="let o of this.rb.account?.recentOrders">
-      <b>{{o?.data?.instrument?.symbol}}</b>  {{o?.data?.quantity}} {{o?.data?.average_price}} {{o?.data?.state}}
-      <span class="glyphicon glyphicon-remove"></span>
-    </div>
-
-  </div>
-
-</div>
 
 
 

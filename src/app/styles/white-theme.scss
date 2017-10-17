@@ -17,9 +17,22 @@ $xl-font-size: 1.9em;
 $std-width: 70px;
 
 
+.up{
+    color: $green-color !important;
+}
+
+.down{
+    color: $red-color !important;
+}
 
 @mixin border-right{
   border-right: 2px solid $active-background-color;
+}
+
+@mixin flex-div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 @mixin stock-page{
@@ -32,9 +45,13 @@ $std-width: 70px;
       padding-right: 0px;
     }
 
-    @include custom-top-bar();
-
-
+    .section-title{
+        text-transform: uppercase;
+        color: $bold-font-color;
+        font-size: $md-font-size;
+        font-weight: 500;
+        margin: 15px 25px;
+    }
 
 }
 
@@ -59,6 +76,7 @@ $std-width: 70px;
       border: none;
       color: $normal-font-color;
     }
+
     input{
       background-color: $background-color;
       color: $normal-font-color;
@@ -95,9 +113,10 @@ $std-width: 70px;
         }
 
         h5{
-          font-weight: 300;
-          font-size: $lg-font-size;
+          font-weight: 500;
+          font-size: $md-font-size;
           color: $bold-font-color;
+
 
           span {
             font-size: $xs-font-size;

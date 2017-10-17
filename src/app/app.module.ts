@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import {HomeComponent} from "./components/home.component";
 import {HttpModule} from "@angular/http";
 import {FormsModule} from "@angular/forms";
-import {AllPositionComponent} from "./components/allPosition/all-position.component";
+import {AllPositionComponent} from "./components/positions/positions.component";
 import { AppRoutingModule } from './app-routing.module';
 import {WatchListComponent} from "./components/watchList/watch-list.component";
 import {WatchTileComponent} from "./components/watchTile/watch-tile.component";
@@ -16,6 +16,7 @@ import {StockTileComponent} from "./components/stockTile/stock-tile.component";
 import {LoginComponent} from "./components/login/login.component";
 import {BsDropdownModule} from "ngx-bootstrap";
 import {HttpClientModule} from "@angular/common/http";
+import {TopBarComponent} from "./components/topBar/top-bar.component";
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {HttpClientModule} from "@angular/common/http";
       WatchListComponent,
       WatchTileComponent,
       ChartComponent,
-      LoginComponent
+      LoginComponent,
+      TopBarComponent
 
   ],
   imports: [

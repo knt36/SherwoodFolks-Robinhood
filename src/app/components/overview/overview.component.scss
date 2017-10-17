@@ -5,55 +5,43 @@
   @include stock-page();
 
 }
-
-#stocks{
-  background-color:white;
-  border-radius: 5px;
-  border:white 1px solid;
-}
-
-#watchList{
-  background-color:white;
-  border-radius: 5px;
-  border:white 1px solid;
-}
-
-#orders{
-  width:100%;
-  display:inline-block;
-  position:fixed;
-  background-color:#1abc9c;
-  height:100vh;
-  overflow-x:hidden;
-  overflow-y:scroll;
-}
-
-#left{
-  float:left;
-  width:80%;
-}
-
-#right{
-  float:right;
-  width:20%;
-  border-left:solid 5px slategrey;
-}
-
-
-#orderField{
-  background-color:black;
-  color:white;
-}
-
-.Label{
-  padding:1em;
-  background: white;
-  border-bottom: solid 2px lightslategrey;
-  border-top: solid 2px lightslategrey;
-
-}
-
-#orderEntry{
-  margin-top:0.5em;
-  background-color:whitesmoke;
-}
+//
+//#stocks{
+//  background-color:white;
+//  border-radius: 5px;
+//  border:white 1px solid;
+//}
+//
+//#watchList{
+//  background-color:white;
+//  border-radius: 5px;
+//  border:white 1px solid;
+//}
+//
+//#orders{
+//  width:100%;
+//  display:inline-block;
+//  position:fixed;
+//  background-color:#1abc9c;
+//  height:100vh;
+//  overflow-x:hidden;
+//  overflow-y:scroll;
+//}
+//
+//#orderField{
+//  background-color:black;
+//  color:white;
+//}
+//
+//.Label{
+//  padding:1em;
+//  background: white;
+//  border-bottom: solid 2px lightslategrey;
+//  border-top: solid 2px lightslategrey;
+//
+//}
+//
+//#orderEntry{
+//  margin-top:0.5em;
+//  background-color:whitesmoke;
+//}

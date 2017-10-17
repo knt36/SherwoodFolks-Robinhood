@@ -18,8 +18,21 @@ export class StockTileComponent implements OnInit{
     statusIcon: string;
     color: string;
 
-    ngOnInit() {
+    public order;
 
+    orderTypes = [
+        'Market', 'Limit', 'Stop Limit', 'Stop Loss'
+    ];
+
+
+
+    ngOnInit() {
+        this.order = {
+            quantity: 0,
+            price: 234.12,
+            totalValue: 0,
+            type: this.orderTypes[0]
+        };
 
     }
 }

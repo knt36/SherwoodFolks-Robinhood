@@ -6,6 +6,7 @@ $light-font-color: #d3d1d1;
 $border-color: #dedede;
 $red-color: #e3482c;
 $green-color: #1abc9c;
+$layover-background-color: rgba(55, 55, 55, 0.8);
 
 $lg-font-size: 1.7em;
 $md-font-size: 1.3em;
@@ -29,11 +30,18 @@ $std-width: 70px;
   border-right: 2px solid $active-background-color;
 }
 
-@mixin flex-div{
+@mixin flex-div-btw{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
+
+@mixin flex-div-around{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
 
 @mixin stock-page{
 

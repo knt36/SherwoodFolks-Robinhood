@@ -4,7 +4,7 @@
     <div>
       <h4>{{this.stock.symbol}}</h4>
     </div>
-    <div>
+    <div class="graph">
       <h4>graph</h4>
     </div>
     <div>
@@ -34,7 +34,57 @@
       </div>
     </div>
   </div>
+
+
+
+  <!--Lay over quick order-->
+  <div class="layover-tile">
+  <div class="order-input">
+    <div>
+      <div class="form-group">
+        <label for="order-price">Price</label>
+        <input type="number" class="form-control" id="order-price"
+               [(ngModel)]="this.order.price" name="price">
+        <div class="border-bottom"></div>
+      </div>
+      <div class="form-group">
+        <label>Theme</label>
+        <select name="theme" class="form-control" [(ngModel)]="this.order.type">
+          <option *ngFor="let type of this.orderTypes" [ngValue]="type">{{type}}</option>
+        </select>
+        <div class="border-bottom"></div>
+      </div>
+
+    </div>
+    <div>
+      <div class="form-group">
+        <label for="order-quantity">Shares</label>
+        <input type="number" class="form-control" id="order-quantity"
+               required
+               [(ngModel)]="this.order.quantity" name="shares">
+        <div class="border-bottom"></div>
+      </div>
+      <div class="total-cost">
+        <h5>Total Cost</h5>
+        <h6><span>$ </span>{{this.order.totalValue}}</h6>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="order-button">
+    <div>
+      <button type="button" class="btn btn-default">Sell</button>
+    </div>
+    <div>
+      <button type="button" class="btn btn-success">Buy</button>
+    </div>
+  </div>
 </div>
+</div>
+
+
+
 
 
 

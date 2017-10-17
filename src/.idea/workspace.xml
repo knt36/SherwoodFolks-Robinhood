@@ -45,18 +45,6 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="stock-tile.component.ts" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/components/stockTile/stock-tile.component.ts">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="345">
-                  <caret line="24" column="1" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
-                  <folding>
-                    <element signature="n#!!doc" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="RobinhoodService.ts" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/services/RobinhoodService.ts">
               <provider selected="true" editor-type-id="text-editor">
@@ -102,40 +90,28 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="stock-tile.component.html" pinned="false" current-in-tab="false">
+          <file leaf-file-name="stock-tile.component.html" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/app/components/stockTile/stock-tile.component.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="315">
-                  <caret line="21" column="31" selection-start-line="21" selection-start-column="31" selection-end-line="21" selection-end-column="31" />
+                <state relative-caret-position="840">
+                  <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
                   <folding>
-                    <marker date="1508265601000" expanded="false" signature="1268:1304" ph="..." />
-                    <marker date="1508265601000" expanded="false" signature="1510:1553" ph="..." />
-                    <marker date="1508265601000" expanded="false" signature="1614:1637" ph="..." />
-                    <marker date="1508265601000" expanded="false" signature="1719:1731" ph="..." />
-                    <marker date="1508265601000" expanded="false" signature="2265:2275" ph="..." />
-                    <marker date="1508265601000" expanded="false" signature="2369:2379" ph="..." />
+                    <marker date="1508273071000" expanded="false" signature="2636:2672" ph="..." />
+                    <marker date="1508273071000" expanded="false" signature="2878:2921" ph="..." />
+                    <marker date="1508273071000" expanded="false" signature="2982:3005" ph="..." />
+                    <marker date="1508273071000" expanded="false" signature="3087:3099" ph="..." />
+                    <marker date="1508273071000" expanded="false" signature="3633:3643" ph="..." />
+                    <marker date="1508273071000" expanded="false" signature="3737:3747" ph="..." />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="positions.component.ts" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/components/positions/positions.component.ts">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="15">
-                  <caret line="1" column="30" selection-start-line="1" selection-start-column="30" selection-end-line="1" selection-end-column="30" />
-                  <folding>
-                    <element signature="e#39#87#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="white-theme.scss" pinned="false" current-in-tab="true">
+          <file leaf-file-name="white-theme.scss" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/styles/white-theme.scss">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="300">
-                  <caret line="111" column="35" selection-start-line="111" selection-start-column="35" selection-end-line="111" selection-end-column="35" />
+                <state relative-caret-position="330">
+                  <caret line="22" column="1" selection-start-line="22" selection-start-column="1" selection-end-line="22" selection-end-column="1" />
                   <folding />
                 </state>
               </provider>
@@ -148,9 +124,31 @@
           <file leaf-file-name="stock-tile.component.scss" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/app/components/stockTile/stock-tile.component.scss">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="540">
-                  <caret line="36" column="16" selection-start-line="36" selection-start-column="16" selection-end-line="36" selection-end-column="16" />
+                <state relative-caret-position="195">
+                  <caret line="123" column="9" selection-start-line="123" selection-start-column="9" selection-end-line="123" selection-end-column="9" />
                   <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="login.component.html" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/app/components/login/login.component.html">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="75">
+                  <caret line="5" column="43" selection-start-line="5" selection-start-column="43" selection-end-line="5" selection-end-column="43" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="stock-tile.component.ts" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/app/components/stockTile/stock-tile.component.ts">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="390">
+                  <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+                  <folding>
+                    <element signature="n#!!doc" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -185,9 +183,10 @@
         <option value="$PROJECT_DIR$/app/components/overview/overview.component.html" />
         <option value="$PROJECT_DIR$/app/components/topBar/top-bar.component.ts" />
         <option value="$PROJECT_DIR$/app/components/overview/overview.component.ts" />
-        <option value="$PROJECT_DIR$/app/components/stockTile/stock-tile.component.html" />
+        <option value="$PROJECT_DIR$/app/components/stockTile/stock-tile.component.ts" />
         <option value="$PROJECT_DIR$/app/styles/white-theme.scss" />
         <option value="$PROJECT_DIR$/app/components/stockTile/stock-tile.component.scss" />
+        <option value="$PROJECT_DIR$/app/components/stockTile/stock-tile.component.html" />
       </list>
     </option>
   </component>
@@ -315,12 +314,12 @@
       <updated>1508029803135</updated>
       <workItem from="1508029804905" duration="2740000" />
       <workItem from="1508169649405" duration="828000" />
-      <workItem from="1508258284603" duration="7629000" />
+      <workItem from="1508258284603" duration="12753000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11197000" />
+    <option name="totallyTimeSpent" value="16321000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1276" height="777" extended-state="6" />
@@ -697,6 +696,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/components/overview/overview.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="20" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/components/positions/positions.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="30" selection-start-line="1" selection-start-column="30" selection-end-line="1" selection-end-column="30" />
+          <folding>
+            <element signature="e#39#87#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/components/login/login.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="43" selection-start-line="5" selection-start-column="43" selection-end-line="5" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/components/topBar/top-bar.component.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
@@ -715,62 +742,42 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/components/stockTile/stock-tile.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="24" column="1" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
+        <state relative-caret-position="390">
+          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/components/positions/positions.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="30" selection-start-line="1" selection-start-column="30" selection-end-line="1" selection-end-column="30" />
-          <folding>
-            <element signature="e#39#87#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/components/overview/overview.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="20" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/components/stockTile/stock-tile.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="31" selection-start-line="21" selection-start-column="31" selection-end-line="21" selection-end-column="31" />
-          <folding>
-            <marker date="1508265601000" expanded="false" signature="1268:1304" ph="..." />
-            <marker date="1508265601000" expanded="false" signature="1510:1553" ph="..." />
-            <marker date="1508265601000" expanded="false" signature="1614:1637" ph="..." />
-            <marker date="1508265601000" expanded="false" signature="1719:1731" ph="..." />
-            <marker date="1508265601000" expanded="false" signature="2265:2275" ph="..." />
-            <marker date="1508265601000" expanded="false" signature="2369:2379" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/styles/white-theme.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="111" column="35" selection-start-line="111" selection-start-column="35" selection-end-line="111" selection-end-column="35" />
+        <state relative-caret-position="330">
+          <caret line="22" column="1" selection-start-line="22" selection-start-column="1" selection-end-line="22" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/components/stockTile/stock-tile.component.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="36" column="16" selection-start-line="36" selection-start-column="16" selection-end-line="36" selection-end-column="16" />
+        <state relative-caret-position="195">
+          <caret line="123" column="9" selection-start-line="123" selection-start-column="9" selection-end-line="123" selection-end-column="9" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/components/stockTile/stock-tile.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="840">
+          <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
+          <folding>
+            <marker date="1508273071000" expanded="false" signature="2636:2672" ph="..." />
+            <marker date="1508273071000" expanded="false" signature="2878:2921" ph="..." />
+            <marker date="1508273071000" expanded="false" signature="2982:3005" ph="..." />
+            <marker date="1508273071000" expanded="false" signature="3087:3099" ph="..." />
+            <marker date="1508273071000" expanded="false" signature="3633:3643" ph="..." />
+            <marker date="1508273071000" expanded="false" signature="3737:3747" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -3,7 +3,8 @@
  */
 
 import {Component, Input, OnInit} from "@angular/core";
-import {Stock} from "../../services/Stock.model";
+import {StockModule} from "../../services/Stock.model";
+import Stock = StockModule.Stock;
 
 @Component({
     selector: 'stock-tile',

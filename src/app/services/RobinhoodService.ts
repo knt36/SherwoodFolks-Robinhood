@@ -5,11 +5,21 @@
 
 import {Injectable} from "@angular/core";
 import {Headers, Http} from "@angular/http";
-import {Stock} from "./Stock.model";
-import {Order, OrderTimeInForce, OrderTrigger, OrderType} from "./Order.model";
+import {StockModule} from "./Stock.model";
+import {OrderModule} from "./Order.model";
+import Stock = StockModule.Stock;
+import OrderType = OrderModule.OrderType;
+import OrderTimeInForce = OrderModule.OrderTimeInForce;
+import OrderTrigger = OrderModule.OrderTrigger;
+import Order = OrderModule.Order;
+import Quote = StockModule.Quote;
+
 @Injectable()
 
 export class RobinhoodService{
+  public static WINDOW_STORAGE={
+    auth: "auth"
+  };
 
   public _apiUrl = 'https://api.robinhood.com/';
   public _endpoints = {
@@ -23,14 +33,14 @@ export class RobinhoodService{
     ach_deposit_schedules: "ach/deposit_schedules/",
     applications: 'applications/',
     dividends:  'dividends/',
-    edocuments: 'documents/',
+    documents: 'documents/',
     instruments:  'instruments/',
     margin_upgrade:  'margin/upgrades/',
     markets:  'markets/',
     notifications:  'notifications/',
     notifications_devices: "notifications/devices/",
     orders: 'orders/',
-    cancel_order: 'orders/',      //API expects https://api.robinhood.com/orders/{{orderId}}/cancel/
+    cancel_order: 'orders/',      // API expects https://api.robinhood.com/orders/{{orderId}}/cancel/
     password_reset: 'password_reset/request/',
     quotes: 'quotes/',
     document_requests:  'upload/document_requests/',
@@ -122,12 +132,11 @@ export class RobinhoodService{
 
         const promises = [];
         orders.forEach(o =>{
-          const p = this.getInstrument(o.data);
+          const p = this.getInstrument(o);
           promises.push(p);
         })
         Promise.all(promises).then(()=>{
           this.account.recentOrders = orders;
-          console.log(this.account.recentOrders);
           resolve(res);
         })
       }, error=>{
@@ -144,11 +153,11 @@ export class RobinhoodService{
       }).subscribe(res=>{
         const positions = [];
         res.json().results.forEach(r=>{
-          positions.push(new Stock(r));
+          positions.push(new StockModule.Stock(r));
         });
         const promises = [];
         positions.forEach(position=>{
-          const p = this.getInstrument(position.data);
+          const p = this.getInstrument(position);
           promises.push(p);
         })
         Promise.all(promises).then(()=>{
@@ -190,7 +199,8 @@ export class RobinhoodService{
   getQuote(instrument){
     return(new Promise((resolve,reject)=>{
       this.http.get(instrument.quote).subscribe(res=>{
-        instrument.quote = res.json();
+        const q:Quote = res.json();
+        instrument.quote = q;
         resolve(res);
       }, error=>{
         reject(error);
@@ -205,11 +215,11 @@ export class RobinhoodService{
       }).subscribe(res=>{
         const watchList = [];
         res.json().results.forEach(data=>{
-          watchList.push(new Stock(data));
+          watchList.push(new StockModule.Stock(data));
         });
         const promises =[]
         watchList.forEach(watchItem =>{
-          promises.push(this.getInstrument(watchItem.data));
+          promises.push(this.getInstrument(watchItem));
         })
         Promise.all(promises).then(()=>{
           this.account.watchList = watchList;
@@ -240,7 +250,10 @@ export class RobinhoodService{
         password: password
       }).subscribe(res=>{
         this.addTokenToHeader(res.json().token);
+        // window.localStorage['phone'] = phone;
         resolve(res);
+      }, error=>{
+        reject(error);
       })
     }))
   }
@@ -250,15 +263,15 @@ export class RobinhoodService{
         headers: this.setHeaders()
       }).subscribe(res=>{
         resolve(res);
-      }, ()=>{
-        reject();
+      }, (error)=>{
+        reject(error);
       });
     }))
   }
 
   cancelOrder(order:Order){
     return(new Promise((resolve,reject)=>{
-      this.http.get(order.data.cancel).subscribe(res=>{
+      this.http.get(order.cancel).subscribe(res=>{
         resolve(res);
       },error=>{
         reject(error);
@@ -271,31 +284,31 @@ export class RobinhoodService{
   MarketBuy(stock:Stock, quantity){
     this.http.post(this._apiUrl + this._endpoints.orders, {
       account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
-      instrument: stock.data.instrument,
-      symbol: stock.data.instrument.symbol,
+      instrument: stock.instrument,
+      symbol: stock.instrument.symbol,
       type: OrderType.MARKET,
       time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
       trigger: OrderTrigger.STOP,
       quantity: quantity,
-      side: Order.SIDES.BUY,
+      side: OrderModule.Sides.BUY,
       extended_hours: true,
       override_day_trade_checks: false,
       override_dtbp_checks: false
     })
   }
 
-  StopLimitBuy(stock:Stock, price, quantity, stop_price){
+  StopLimitBuy(stock:StockModule.Stock, price, quantity, stop_price){
     this.http.post(this._apiUrl + this._endpoints.orders, {
       account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
-      instrument: stock.data.instrument,
-      symbol: stock.data.instrument.symbol,
+      instrument: stock.instrument,
+      symbol: stock.instrument.symbol,
       type: OrderType.LIMIT,
       time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
       trigger: OrderTrigger.STOP,
       price: price,
       stop_price : stop_price,
       quantity: quantity,
-      side: Order.SIDES.BUY,
+      side: OrderModule.Sides.BUY,
       extended_hours: true,
       override_day_trade_checks: false,
       override_dtbp_checks: false
@@ -305,32 +318,32 @@ export class RobinhoodService{
   ImmediateLimitBuy(stock:Stock, price, quantity){
     this.http.post(this._apiUrl + this._endpoints.orders, {
       account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
-      instrument: stock.data.instrument,
-      symbol: stock.data.instrument.symbol,
+      instrument: stock.instrument,
+      symbol: stock.instrument.symbol,
       type: OrderType.LIMIT,
       time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
       trigger: OrderTrigger.STOP,
       price: price,
       quantity: quantity,
-      side: Order.SIDES.BUY,
+      side: OrderModule.Sides.BUY,
       extended_hours: true,
       override_day_trade_checks: false,
       override_dtbp_checks: false
     })
   }
 
-  StopLimitSell(stock:Stock, price, quantity, stop_price){
+  StopLimitSell(stock:StockModule.Stock, price, quantity, stop_price){
     this.http.post(this._apiUrl + this._endpoints.orders, {
       account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
-      instrument: stock.data.instrument,
-      symbol: stock.data.instrument.symbol,
+      instrument: stock.instrument,
+      symbol: stock.instrument.symbol,
       type: OrderType.LIMIT,
       time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
       trigger: OrderTrigger.STOP,
       price: price,
       stop_price : stop_price,
       quantity: quantity,
-      side: Order.SIDES.SELL,
+      side: OrderModule.Sides.SELL,
       extended_hours: true,
       override_day_trade_checks: false,
       override_dtbp_checks: false
@@ -340,13 +353,13 @@ export class RobinhoodService{
   MarketSell(stock:Stock, quantity){
     this.http.post(this._apiUrl + this._endpoints.orders, {
       account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
-      instrument: stock.data.instrument,
-      symbol: stock.data.instrument.symbol,
+      instrument: stock.instrument,
+      symbol: stock.instrument.symbol,
       type: OrderType.MARKET,
       time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
       trigger: OrderTrigger.STOP,
       quantity: quantity,
-      side: Order.SIDES.SELL,
+      side: OrderModule.Sides.SELL,
       extended_hours: true,
       override_day_trade_checks: false,
       override_dtbp_checks: false
@@ -356,19 +369,17 @@ export class RobinhoodService{
   ImmediateLimitSell(stock:Stock, price, quantity){
     this.http.post(this._apiUrl + this._endpoints.orders, {
       account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
-      instrument: stock.data.instrument,
-      symbol: stock.data.instrument.symbol,
+      instrument: stock.instrument,
+      symbol: stock.instrument.symbol,
       type: OrderType.LIMIT,
       time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
       trigger: OrderTrigger.IMMEDIATE,
       price: price,
       quantity: quantity,
-      side: Order.SIDES.SELL,
+      side: OrderModule.Sides.SELL,
       extended_hours: true,
       override_day_trade_checks: false,
       override_dtbp_checks: false
     })
   }
-
-
 }

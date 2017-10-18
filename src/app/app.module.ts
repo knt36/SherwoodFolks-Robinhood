@@ -17,6 +17,7 @@ import {LoginComponent} from "./components/login/login.component";
 import {BsDropdownModule} from "ngx-bootstrap";
 import {HttpClientModule} from "@angular/common/http";
 import {TopBarComponent} from "./components/topBar/top-bar.component";
+import {GoogleChartComponent} from "./components/chart/GoogleChartComponent";
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import {TopBarComponent} from "./components/topBar/top-bar.component";
       WatchListComponent,
       WatchTileComponent,
       ChartComponent,
+      GoogleChartComponent,
       LoginComponent,
       TopBarComponent
 

@@ -1,59 +1,55 @@
 /**
  * Created by anhle on 8/7/17.
  */
-import {Component, Input} from '@angular/core';
+import { Component, Input} from '@angular/core';
+import {GoogleChartComponent} from "./GoogleChartComponent";
+import {GraphData} from "../../services/Historical.model";
 
 @Component({
-    selector: 'chart',
-    templateUrl: './chart.component.html'
+    selector: 'line-chart',
+    templateUrl: './chart.component.html',
 })
-export class ChartComponent {
 
-    @Input('data') data:any[];
-    @Input('label') label:any[];
+export class ChartComponent extends GoogleChartComponent {
 
-    // lineChart
-    public lineChartData:Array<any> = [
-        {
-            data: [65.23, 59.99, 80.12, 810.45, 56.23, 55.12, 404.23, 810.45, 56.23, 55.12,65.23, 59.99, 80.12, 810.45, 56.23,],
-        }
-    ];
-    public lineChartLabels:Array<any> = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '20', '22', '32', '1', '2', '3', '4', '5', '6',];
-    public lineChartOptions:any = {
-        responsive: true,
-        scales: {
-            xAxes: [{
-                display: false
-            }],
-            yAxes: [{
-                display: false
-            }]
-        },
-        tooltips: {
-            position: 'average',
+    private chart: any;
+    private options: any;
+    private data:any;
 
-            caretSize: 0,
-            cornerRadius: 1,
-            bodyFontSize: 11,
-            titleFontSize: 11
-        }
+    @Input('data') historicals:GraphData;
 
-    };
-    public lineChartColors:Array<any> = [
-        { //grey
-            backgroundColor: 'rgba(148,159,177,0.2)',
-            borderColor: 'rgba(148,159,177,1)',
-            pointBackgroundColor: 'rgba(148,159,177,1)',
-            pointBorderColor: '#fff',
-            pointHoverBackgroundColor: '#fff',
-            pointHoverBorderColor: 'rgba(148,159,177,0.8)',
-            borderWidth: 1,
-            pointRadius: 2,
-            lineTension: 0
-        }
-    ];
-    public lineChartLegend:boolean = false;
-    public lineChartType:string = 'line';
+    constructor() {
+        super();
+    }
 
+    drawGraph() {
+        console.log("draw chart");
 
+        let table = this.historicals.data.map((x, i) => [i, x]);
+        table.unshift(['Time', 'Stock']);
+
+        console.log(table);
+
+        this.data = this.createDataTable(table);
+
+        console.log(this.data);
+        console.log(this.historicals.closePrice);
+
+        this.options = {
+            legend: 'none',
+            colors: ['green'],
+            lineWidth: 1,
+            hAxis: {
+                baselineColor: 'none',
+                ticks: []
+            },
+            vAxis: {
+                baselineColor: 'none',
+                ticks: []
+            }
+        };
+
+        this.chart = this.createLineChart(document.getElementById('stock-chart'));
+        this.chart.draw(this.data, this.options);
+    }
 }

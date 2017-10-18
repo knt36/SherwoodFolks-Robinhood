@@ -40,11 +40,10 @@ export class Historical{
 
 export class GraphData{
     public closePrice = null;
-    public data = null;
+    public data = [];
 
     public constructor(price){
         this.closePrice = price;
-        this.data = [];
     }
 
 };

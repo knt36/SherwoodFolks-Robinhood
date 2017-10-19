@@ -4,7 +4,6 @@
 
 
 import {Injectable} from "@angular/core";
-import {Headers, Http} from "@angular/http";
 import {StockModule} from "./Stock.model";
 import {OrderModule} from "./Order.model";
 import Stock = StockModule.Stock;
@@ -13,6 +12,7 @@ import OrderTimeInForce = OrderModule.OrderTimeInForce;
 import OrderTrigger = OrderModule.OrderTrigger;
 import Order = OrderModule.Order;
 import Quote = StockModule.Quote;
+import {Headers, Http, URLSearchParams} from "@angular/http";
 import {Historical, GraphData} from "./Historical.model";
 @Injectable()
 
@@ -411,6 +411,7 @@ export class RobinhoodService{
 
     return res;
   }
+
 
 
 }

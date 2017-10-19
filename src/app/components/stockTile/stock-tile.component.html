@@ -1,57 +1,159 @@
-<div class="positionTile">
 
-  <div style="display:block; height:2em;">
-    <div style="float:left;">
-      <h5><b>{{this.stock?.instrument?.symbol}}</b></h5>
+<div class="position-tile">
+  <div class="upper-info">
+    <div>
+      <h4>{{this?.stock?.instrument?.symbol}}</h4>
     </div>
-    <div style="float:right;">
-      <h5>Price: {{this.stock?.instrument?.quote?.last_trade_price}}</h5>
+    <div class="graph">
+      <line-chart [data]="this?.historicals"></line-chart>
+    </div>
+    <div>
+      <h3 [ngClass]="'gain'"><span>$</span>{{this?.stock?.instrument?.quote?.last_trade_price}}</h3>
+      <p>50</p>
+    </div>
+  </div>
+  <div class="lower-info">
+    <div>
+      <div class="text-left">
+        <h5>Total Profit</h5>
+        <h6><span>$</span>12</h6>
+      </div>
+      <div class="text-left">
+        <h5>Percent Return</h5>
+        <h6>51</h6>
+      </div>
+    </div>
+    <div>
+      <div class="text-left">
+        <h5>Shares</h5>
+        <h6>{{this?.stock?.quantity}}</h6>
+      </div>
+      <div class="text-left">
+        <h5>Avg cost</h5>
+        <h6><span>$</span>{{this?.stock?.average_buy_price}}</h6>
+      </div>
     </div>
   </div>
 
-  <div id="graph" style="height:90px; background-color:white;">
-    <canvas id="sparkline1" width="620" height="154" class="bmm js-chart-drawn" data-chart="spark-line" data-dataset="[[28,68,41,43,96,45,100]]" data-labels="['a','b','c','d','e','f','g']" style="width: 310px; height: 77px; display: block;">
-    </canvas>
+
+
+  <!--Lay over quick order-->
+  <div class="layover-tile">
+  <div class="order-input">
+    <div>
+      <div class="form-group">
+        <label for="order-price">Price</label>
+        <input type="number" class="form-control" id="order-price"
+               [(ngModel)]="this.order.price" name="price">
+        <div class="border-bottom"></div>
+      </div>
+      <div class="form-group">
+        <label>Order Type</label>
+        <select name="theme" class="form-control" [(ngModel)]="this.order.type">
+          <option *ngFor="let type of this.orderTypes" [ngValue]="type">{{type}}</option>
+        </select>
+        <div class="border-bottom"></div>
+      </div>
+
+    </div>
+    <div>
+      <div class="form-group">
+        <label for="order-quantity">Shares</label>
+        <input type="number" class="form-control" id="order-quantity"
+               required
+               [(ngModel)]="this.order.quantity" name="shares">
+        <div class="border-bottom"></div>
+      </div>
+      <div class="total-cost">
+        <h5>Total Cost</h5>
+        <h6><span>$ </span>{{this.order.totalValue}}</h6>
+      </div>
+    </div>
   </div>
-  <div style="width:100%; height:3em;">
-    <div style="float:left;">
 
-    </div>
-    <div style="float:right;">
-      <div>
-        <b>%gain: </b> 20
-      </div>
-      <div>
-        <b>$gain: </b> 45
-      </div>
-    </div>
-  </div>
 
-  <div style="padding:0em 1em 0em 1em; width:100%; height: 2em;">
-    <div style="float:left;">
-      <div class="btn-group" dropdown>
-        <div class="dropdown">
-          <button type="button" class="btn btn-danger">Sell</button>
-          <div class="dropdown-content">
-            <button style="width:100%" type="button" class="btn btn-danger">Market Sell</button>
-            <button style="width:100%" type="button" class="btn btn-danger">More Options</button>
-          </div>
-        </div>
-      </div>
+  <div class="order-button">
+    <div>
+      <button type="button" class="btn btn-default">Sell</button>
     </div>
-    <div style="float:right;">
-      <div class="btn-group" dropdown>
-        <div class="dropdown">
-          <button type="button" class="btn btn-success">Buy</button>
-          <div class="dropdown-content">
-            <button style="width:100%" type="button" class="btn btn-success">Market Buy</button>
-            <button style="width:100%" type="button" class="btn btn-success">More Options</button>
-          </div>
-        </div>
-      </div>
-
+    <div>
+      <button type="button" class="btn btn-success">Buy</button>
     </div>
   </div>
 </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<div class="positionTile">-->
+
+  <!--<div style="display:block; height:2em;">-->
+    <!--<div style="float:left;">-->
+      <!--<h5><b>{{this.stock?.data?.instrument?.symbol}}</b></h5>-->
+    <!--</div>-->
+    <!--<div style="float:right;">-->
+      <!--<h5>Price: {{this.stock?.getCurrentPrice()}}</h5>-->
+    <!--</div>-->
+  <!--</div>-->
+
+  <!--<div id="graph" style="height:90px; background-color:white;">-->
+    <!--<canvas id="sparkline1" width="620" height="154" class="bmm js-chart-drawn" data-chart="spark-line" data-dataset="[[28,68,41,43,96,45,100]]" data-labels="['a','b','c','d','e','f','g']" style="width: 310px; height: 77px; display: block;">-->
+    <!--</canvas>-->
+  <!--</div>-->
+  <!--<div style="width:100%; height:3em;">-->
+    <!--<div style="float:left;">-->
+
+    <!--</div>-->
+    <!--<div style="float:right;">-->
+      <!--<div>-->
+        <!--<b>%gain: </b> 20-->
+      <!--</div>-->
+      <!--<div>-->
+        <!--<b>$gain: </b> 45-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+
+  <!--<div style="padding:0em 1em 0em 1em; width:100%; height: 2em;">-->
+    <!--<div style="float:left;">-->
+      <!--<div class="btn-group" dropdown>-->
+        <!--<div class="dropdown">-->
+          <!--<button type="button" class="btn btn-danger">Sell</button>-->
+          <!--<div class="dropdown-content">-->
+            <!--<button style="width:100%" type="button" class="btn btn-danger">Market Sell</button>-->
+            <!--<button style="width:100%" type="button" class="btn btn-danger">More Options</button>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div style="float:right;">-->
+      <!--<div class="btn-group" dropdown>-->
+        <!--<div class="dropdown">-->
+          <!--<button type="button" class="btn btn-success">Buy</button>-->
+          <!--<div class="dropdown-content">-->
+            <!--<button style="width:100%" type="button" class="btn btn-success">Market Buy</button>-->
+            <!--<button style="width:100%" type="button" class="btn btn-success">More Options</button>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
 
 

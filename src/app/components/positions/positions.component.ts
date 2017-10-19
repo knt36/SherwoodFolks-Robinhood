@@ -6,9 +6,9 @@ import {PositionList} from "../../mock";
 import {RobinhoodService} from "../../services/RobinhoodService";
 
 @Component({
-    selector: 'all-position',
-    templateUrl : './all-position.component.html',
-    styleUrls: ['all-position.component.scss'],
+    selector: 'positions',
+    templateUrl : './positions.component.html',
+    styleUrls: ['positions.component.scss'],
 
 })
 

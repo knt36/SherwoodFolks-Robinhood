@@ -13,7 +13,7 @@ import OrderTimeInForce = OrderModule.OrderTimeInForce;
 import OrderTrigger = OrderModule.OrderTrigger;
 import Order = OrderModule.Order;
 import Quote = StockModule.Quote;
-
+import {Historical, GraphData} from "./Historical.model";
 @Injectable()
 
 export class RobinhoodService{
@@ -45,6 +45,7 @@ export class RobinhoodService{
     quotes: 'quotes/',
     document_requests:  'upload/document_requests/',
     user: 'user/',
+    historicals: 'quotes/historicals/',
 
     user_additional_info: "user/additional_info/",
     user_basic_info: "user/basic_info/",
@@ -382,4 +383,34 @@ export class RobinhoodService{
       override_dtbp_checks: false
     })
   }
+
+  getHistoricalsData(symbol, interval, span, bounds){
+
+    return(new Promise((resolve,reject)=>{
+      const params:URLSearchParams = new URLSearchParams();
+      if(interval) params.set(Historical.QUERY.INTERVAL, interval);
+      if(span) params.set(Historical.QUERY.SPAN, span);
+      if(bounds) params.set(Historical.QUERY.BOUND, bounds);
+
+      this.http.get(this._apiUrl + this._endpoints.historicals + symbol + "/", {
+       search: params
+      }).subscribe(res=>{
+        res = res.json();
+        const data = this.extractHistoricalData(res);
+        resolve(data);
+      }, error=>{
+        reject(error);
+      })
+    }))
+  }
+
+  extractHistoricalData(data){
+    const res = new GraphData(data[Historical.DATA.CLOSE_PRICE]);
+
+    res.data = data[Historical.DATA.DATA].map(x => x[Historical.DATA.HIGH_PRICE]);
+
+    return res;
+  }
+
+
 }

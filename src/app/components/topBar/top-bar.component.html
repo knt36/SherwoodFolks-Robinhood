@@ -1,0 +1,22 @@
+<div class="container-fluid">
+	<div class="row top-bar">
+		<div id="search-positions" class="col-sm-4 search">
+			<div class="input-group">
+					<span class="input-group-addon" id="basic-addon1">
+						<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					</span>
+				<input type="text" class="form-control" placeholder="Search stock by name" aria-describedby="basic-addon1">
+			</div>
+		</div>
+
+		<div id="portfolio-summary" class="col-sm-8 portfolio-head-bar">
+			<div class="portfolio-item" *ngFor="let item of accountSummary">
+				<h6>{{item.name}}</h6>
+				<h5 [ngClass]="item.gain"><span>$</span>{{item.value}}</h5>
+			</div>
+		</div>
+
+
+
+	</div>
+</div>

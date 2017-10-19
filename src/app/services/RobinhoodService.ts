@@ -376,16 +376,16 @@ export class RobinhoodService{
   getHistoricalsData(symbol, interval, span, bounds){
 
     return(new Promise((resolve,reject)=>{
-      let params:URLSearchParams = new URLSearchParams();
+      const params:URLSearchParams = new URLSearchParams();
       if(interval) params.set(Historical.QUERY.INTERVAL, interval);
       if(span) params.set(Historical.QUERY.SPAN, span);
       if(bounds) params.set(Historical.QUERY.BOUND, bounds);
 
-      this.http.get(this._apiUrl + this._endpoints.historicals + symbol, {
+      this.http.get(this._apiUrl + this._endpoints.historicals + symbol + "/", {
        search: params
       }).subscribe(res=>{
         res = res.json();
-        let data = this.extractHistoricalData(res);
+        const data = this.extractHistoricalData(res);
         resolve(data);
       }, error=>{
         reject(error);
@@ -394,7 +394,7 @@ export class RobinhoodService{
   }
 
   extractHistoricalData(data){
-    let res = new GraphData(data[Historical.DATA.CLOSE_PRICE]);
+    const res = new GraphData(data[Historical.DATA.CLOSE_PRICE]);
 
     res.data = data[Historical.DATA.DATA].map(x => x[Historical.DATA.HIGH_PRICE]);
 

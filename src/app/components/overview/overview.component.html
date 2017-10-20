@@ -10,7 +10,7 @@
         Positions
       </h5>
 
-      <stock-tile [stock]="s" *ngFor="let s of this.positions"></stock-tile>
+      <stock-tile [stock]="this.rb.account.positions[k]" *ngFor="let k of this.Object.keys(this.rb.account.positions)"></stock-tile>
       <!--<div class="Label">-->
         <!--<h3><span style="padding-right:1em;" class="glyphicon glyphicon-comment" aria-hidden="true"></span>-->
           <!--<b>Positions</b>-->
@@ -20,9 +20,9 @@
     </div>
 
     <div id="watchList">
-      <h5 class="section-title">
-        <stock-tile [stock]="s" *ngFor="let s of this.watchList"></stock-tile>
-      </h5>
+      <!--<h5 class="section-title">-->
+        <!--<stock-tile [stock]="this.rb.account.watchList[s]" *ngFor="let s of this.Object.keys(this.rb.account.watchList)"></stock-tile>-->
+      <!--</h5>-->
       <!--<div class="Label">-->
         <!--<h3><span style="padding-right:1em;" class="glyphicon glyphicon-comment" aria-hidden="true"></span>-->
           <!--<b>WatchList</b>-->

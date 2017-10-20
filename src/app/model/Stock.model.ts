@@ -1,3 +1,4 @@
+import {GraphData} from "./Historical.model";
 export module StockModule {
 
   export class Stock {
@@ -13,6 +14,8 @@ export module StockModule {
     instrument: Instrument;
     shares_held_for_sells: string;
     quantity: string;
+    display: Display;
+
 
     public constructor(data){
       this.shares_held_for_buys = data.shares_held_for_buys;
@@ -27,7 +30,56 @@ export module StockModule {
       this.instrument = data.instrument;
       this.shares_held_for_sells =data.shares_held_for_sells;
       this.quantity = data.quantity;
+      this.display = null;
     }
+
+    public initDisplayData(isPosition){
+        this.display = new Display();
+        this.display.symbol = this.instrument.symbol;
+        this.display.quantity = Number(this.quantity);
+        this.display.avg_cost = Number(this.average_buy_price);
+        this.display.price = Number(this.instrument.quote.last_trade_price);
+
+        const currentValue = this.display.price * this.display.quantity;
+        const prevClose = Number(this.instrument.quote.adjusted_previous_close);
+        const percentChange = (currentValue - prevClose) / prevClose;
+
+        if(isPosition){
+          const totalCost = this.display.avg_cost * this.display.quantity;
+          const profit = currentValue - totalCost;
+          const percentReturn = profit / totalCost;
+
+          this.display.total_profit = profit;
+          this.display.percent_return = percentReturn.toFixed(2).toString();
+        }
+
+        this.display.percent_change = percentChange.toFixed(2).toString();
+        this.display.gain = percentChange > 0 ? 'up' : 'down';
+    }
+
+  }
+
+
+
+  export class Display {
+    symbol : string;
+    price : number;
+    gain : string;
+    percent_change: string;
+    total_profit: number;
+    percent_return: string;
+    quantity: number;
+    avg_cost: number;
+
+    public constructor(){
+      this.avg_cost = null;
+      this.quantity = null;
+      this.gain = null;
+      this.total_profit = null;
+      this.percent_return = null;
+    }
+
+
   }
 
   export class Instrument {
@@ -93,8 +145,6 @@ export module StockModule {
       updated_at: Date;
       instrument: Instrument;
     }
-
-
 
 }
 

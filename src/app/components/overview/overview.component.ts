@@ -12,6 +12,7 @@ import {RobinhoodService} from "../../services/RobinhoodService";
 })
 export class OverviewComponent {
     title = 'app';
+    Object = null;
     positions = [
         {
             symbol: 'SQ',
@@ -36,6 +37,7 @@ export class OverviewComponent {
     constructor(public router: Router, public rb: RobinhoodService) {
         // this.positions = this.rb.account.positions;
         // this.watchList = this.rb.account.watchList;
+        this.Object = Object;
     }
 
 

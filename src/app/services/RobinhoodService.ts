@@ -4,16 +4,22 @@
 
 
 import {Injectable} from "@angular/core";
-import {StockModule} from "./Stock.model";
-import {OrderModule} from "./Order.model";
+import {StockModule} from "../model/Stock.model";
+import {OrderModule} from "../model/Order.model";
+import {Constant} from "../model/constant";
+
 import Stock = StockModule.Stock;
-import OrderType = OrderModule.OrderType;
-import OrderTimeInForce = OrderModule.OrderTimeInForce;
-import OrderTrigger = OrderModule.OrderTrigger;
 import Order = OrderModule.Order;
 import Quote = StockModule.Quote;
 import {Headers, Http, URLSearchParams} from "@angular/http";
-import {Historical, GraphData} from "./Historical.model";
+import {Historical, GraphData} from "../model/Historical.model";
+import OrderTimeInForce = Constant.OrderTimeInForce;
+import OrderType = Constant.OrderType;
+import OrderTrigger = Constant.OrderTrigger;
+import Sides = Constant.Sides;
+import STOCK = Constant.STOCK;
+import INSTRUMENT = Constant.INSTRUMENT;
+
 @Injectable()
 
 export class RobinhoodService{
@@ -72,8 +78,8 @@ export class RobinhoodService{
   }
 
   account = {
-    positions: [],
-    watchList: [],
+    positions: {},
+    watchList: {},
     information: null,
     recentOrders: []
   }
@@ -92,14 +98,16 @@ export class RobinhoodService{
           const parent = this;
           this.serviceInterval = setInterval(function(){
             parent.getPositions().then(res=>{
-              console.log(parent.account.positions);
+              //console.log(parent.account.positions);
             });
             parent.getWatchList().then(res=>{
-              console.log(parent.account.watchList);
+              //console.log(parent.account.watchList);
             });
             parent.getOrders().then(res=>{
-              console.log(parent.account.recentOrders);
+              //console.log(parent.account.recentOrders);
             })
+
+            console.log("running");
           }, 4000);
           resolve();
         })
@@ -154,7 +162,7 @@ export class RobinhoodService{
       }).subscribe(res=>{
         const positions = [];
         res.json().results.forEach(r=>{
-          positions.push(new StockModule.Stock(r));
+          positions.push(new Stock(r));
         });
         const promises = [];
         positions.forEach(position=>{
@@ -162,7 +170,8 @@ export class RobinhoodService{
           promises.push(p);
         })
         Promise.all(promises).then(()=>{
-          this.account.positions = positions;
+          //console.log(positions);
+          this.updateStock(this.account.positions, positions, true);
           resolve(res);
         })
       }, error=>{
@@ -223,7 +232,7 @@ export class RobinhoodService{
           promises.push(this.getInstrument(watchItem));
         })
         Promise.all(promises).then(()=>{
-          this.account.watchList = watchList;
+          this.updateStock(this.account.watchList, watchList, false);
           resolve(res);
         });
       }, error=>{
@@ -291,7 +300,7 @@ export class RobinhoodService{
       time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
       trigger: OrderTrigger.STOP,
       quantity: quantity,
-      side: OrderModule.Sides.BUY,
+      side: Sides.BUY,
       extended_hours: true,
       override_day_trade_checks: false,
       override_dtbp_checks: false
@@ -309,7 +318,7 @@ export class RobinhoodService{
       price: price,
       stop_price : stop_price,
       quantity: quantity,
-      side: OrderModule.Sides.BUY,
+      side: Sides.BUY,
       extended_hours: true,
       override_day_trade_checks: false,
       override_dtbp_checks: false
@@ -326,7 +335,7 @@ export class RobinhoodService{
       trigger: OrderTrigger.STOP,
       price: price,
       quantity: quantity,
-      side: OrderModule.Sides.BUY,
+      side: Sides.BUY,
       extended_hours: true,
       override_day_trade_checks: false,
       override_dtbp_checks: false
@@ -344,7 +353,7 @@ export class RobinhoodService{
       price: price,
       stop_price : stop_price,
       quantity: quantity,
-      side: OrderModule.Sides.SELL,
+      side: Sides.SELL,
       extended_hours: true,
       override_day_trade_checks: false,
       override_dtbp_checks: false
@@ -360,7 +369,7 @@ export class RobinhoodService{
       time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
       trigger: OrderTrigger.STOP,
       quantity: quantity,
-      side: OrderModule.Sides.SELL,
+      side: Sides.SELL,
       extended_hours: true,
       override_day_trade_checks: false,
       override_dtbp_checks: false
@@ -377,13 +386,22 @@ export class RobinhoodService{
       trigger: OrderTrigger.IMMEDIATE,
       price: price,
       quantity: quantity,
-      side: OrderModule.Sides.SELL,
+      side: Sides.SELL,
       extended_hours: true,
       override_day_trade_checks: false,
       override_dtbp_checks: false
     })
   }
 
+  /**
+   * function to get all the historical data of a stock
+   * should be used by the stock tile to update the graph
+   * @param symbol [required]
+   * @param interval [required] : week|day|10minute|5minute|null(all)
+   * @param span : day|week|year|5year|all
+   * @param bounds : extended|regular|trading
+   * @returns {Promise}
+   */
   getHistoricalsData(symbol, interval, span, bounds){
 
     return(new Promise((resolve,reject)=>{
@@ -404,12 +422,45 @@ export class RobinhoodService{
     }))
   }
 
+
+  /**
+   * function to extract historicals data and formmatted if for chart
+   *
+   * @param data
+   * @returns {GraphData}
+   */
   extractHistoricalData(data){
     const res = new GraphData(data[Historical.DATA.CLOSE_PRICE]);
-
     res.data = data[Historical.DATA.DATA].map(x => x[Historical.DATA.HIGH_PRICE]);
 
     return res;
+  }
+
+  /**
+   * function to update the stock list after getting updated stock info
+   * reassign new stock to the existed list
+   * delete old stock if it is not in the new list
+   * @param dict (the existed list)
+   * @param newList
+   */
+  updateStock(dict, newList, isPosition){
+    var map = {};
+    const keys = Object.keys(dict);
+
+    newList.forEach((stock:Stock) => {
+      stock.initDisplayData(isPosition);
+
+      let id = stock[STOCK.INSTRUMENT][INSTRUMENT.SYMBOL];
+      map[id] = stock;
+      dict[id] = stock;
+    });
+
+    keys.forEach(k => {
+      if(!map[k]){
+        delete dict[k];
+      }
+    });
+
   }
 
 

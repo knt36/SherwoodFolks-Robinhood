@@ -3,9 +3,9 @@
  */
 
 import {Component, Input, OnInit} from "@angular/core";
-import {StockModule} from "../../services/Stock.model";
+import {StockModule} from "../../model/Stock.model";
 import Stock = StockModule.Stock;
-import {GraphData} from "../../services/Historical.model";
+import {GraphData} from "../../model/Historical.model";
 
 @Component({
     selector: 'stock-tile',

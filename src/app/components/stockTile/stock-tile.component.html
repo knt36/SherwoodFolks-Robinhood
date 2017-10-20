@@ -8,29 +8,29 @@
       <line-chart [data]="this?.historicals"></line-chart>
     </div>
     <div>
-      <h3 [ngClass]="'gain'"><span>$</span>{{this?.stock?.instrument?.quote?.last_trade_price}}</h3>
-      <p>50</p>
+      <h3 [ngClass]="'gain'"><span>$</span>{{this?.stock?.display?.price | number : '1.2'}}</h3>
+      <p>{{this?.stock?.display?.percent_change}}</p>
     </div>
   </div>
   <div class="lower-info">
     <div>
       <div class="text-left">
         <h5>Total Profit</h5>
-        <h6><span>$</span>12</h6>
+        <h6><span>$</span>{{this?.stock?.display?.total_profit | number : '1.2'}}</h6>
       </div>
       <div class="text-left">
         <h5>Percent Return</h5>
-        <h6>51</h6>
+        <h6>{{this?.stock?.display?.percent_return}}</h6>
       </div>
     </div>
     <div>
       <div class="text-left">
         <h5>Shares</h5>
-        <h6>{{this?.stock?.quantity}}</h6>
+        <h6>{{this?.stock?.display?.quantity}}</h6>
       </div>
       <div class="text-left">
         <h5>Avg cost</h5>
-        <h6><span>$</span>{{this?.stock?.average_buy_price}}</h6>
+        <h6><span>$</span>{{this?.stock?.display?.avg_cost | number : '1.2'}}</h6>
       </div>
     </div>
   </div>
@@ -66,7 +66,7 @@
       </div>
       <div class="total-cost">
         <h5>Total Cost</h5>
-        <h6><span>$ </span>{{this.order.totalValue}}</h6>
+        <h6><span>$ </span>{{this.order.totalValue | number : '1.2'}}</h6>
       </div>
     </div>
   </div>

@@ -3,7 +3,7 @@
  */
 import { Component, Input} from '@angular/core';
 import {GoogleChartComponent} from "./GoogleChartComponent";
-import {GraphData} from "../../services/Historical.model";
+import {GraphData} from "../../model/Historical.model";
 
 @Component({
     selector: 'line-chart',

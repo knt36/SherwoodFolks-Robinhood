@@ -289,8 +289,12 @@ export class RobinhoodService{
     }))
   }
 
-  // UNTESTED TAKE CAUTION
-
+  /**
+   * All Buy functions are untested, test with caution.
+   * @param {StockModule.Stock} stock
+   * @param quantity
+   * @constructor
+   */
   MarketBuy(stock:Stock, quantity){
     this.http.post(this._apiUrl + this._endpoints.orders, {
       account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
@@ -416,6 +420,24 @@ export class RobinhoodService{
         res = res.json();
         const data = this.extractHistoricalData(res);
         resolve(data);
+      }, error=>{
+        reject(error);
+      })
+    }))
+  }
+
+  /**
+   * Takes a query string and searches for the stock, the query string does not have to be just the symbol.
+   * The query string can also contain the name of the
+   * stock and it still will be found.
+   * @param {string} query
+   * @returns {Promise<any>}
+   *
+   */
+  queryStock(query:string): Promise<any>{
+    return(new Promise((resolve,reject)=>{
+      this.http.get(this._apiUrl + this._endpoints.instruments+ "?query=" + query).subscribe(res=>{
+        resolve(res.json());
       }, error=>{
         reject(error);
       })

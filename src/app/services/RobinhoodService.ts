@@ -87,6 +87,27 @@ export class RobinhoodService{
   parent = this;
   serviceInterval = null;
   private instrumentCache = {};
+  private queryCache = {
+    stack: [],
+    cache: {},
+    MAX_SIZE: 20,
+    getCache: function(searchQuery){
+      return(this.cache[searchQuery])
+    },
+    pushCache: function(searchQuery, result){
+      if(this.cache[searchQuery]== null){
+        this.cache[searchQuery] = result;
+        this.stack.push(searchQuery);
+        this.trim();
+      }
+    },
+    trim: function(){
+      if(this.stack.length > this.MAX_SIZE){
+        const out = this.stack.splice(0,1);
+        delete this.cache[out];
+      }
+    }
+  };
 
   constructor(public http: Http){
 
@@ -447,11 +468,19 @@ export class RobinhoodService{
    */
   queryStock(query:string): Promise<any>{
     return(new Promise((resolve,reject)=>{
-      this.http.get(this._apiUrl + this._endpoints.instruments+ "?query=" + query).subscribe(res=>{
-        resolve(res.json());
-      }, error=>{
-        reject(error);
-      })
+      const cacheValue = this.queryCache.getCache(query);
+      if(cacheValue == null){
+        this.http.get(this._apiUrl + this._endpoints.instruments+ "?query=" + query).subscribe(res=>{
+          this.queryCache.pushCache(query, JSON.parse(JSON.stringify(res.json())));
+          resolve(res.json());
+        }, error=>{
+          reject(error);
+        })
+      }else{
+        resolve(cacheValue);
+      }
+
+
     }))
   }
 

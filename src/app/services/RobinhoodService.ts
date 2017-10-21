@@ -95,26 +95,35 @@ export class RobinhoodService{
     return(new Promise((resolve,reject)=>{
       this.login(username, password).then(()=>{
         this.setAccountInformation().then(()=>{
-          const parent = this;
-          this.serviceInterval = setInterval(function(){
-            parent.getPositions().then(res=>{
-              //console.log(parent.account.positions);
-            });
-            parent.getWatchList().then(res=>{
-              //console.log(parent.account.watchList);
-            });
-            parent.getOrders().then(res=>{
-              //console.log(parent.account.recentOrders);
-            })
-
-            console.log("running");
-          }, 4000);
+          this.subscribeService(5000);
           resolve();
         })
       },(error)=>{
         reject(error);
       })
     }))
+  }
+
+  subscribeService(delay){
+    var that = this;
+    var start = true;
+
+    this.serviceInterval = setInterval(function(){
+      if(start){
+        start = false;
+        let serviceList = [that.getPositions(), that.getWatchList(), that.getOrders()];
+        Promise.all(serviceList.map(p => p.catch(e => e))).then(function(res){
+          console.log("finish all promise");
+          setTimeout(function(){
+            start = true;
+          }, delay);
+        });
+      }
+    }, 1000);
+  }
+
+  unsubscribeService(){
+    clearInterval(this.serviceInterval);
   }
 
   setHeaders(){
@@ -155,6 +164,7 @@ export class RobinhoodService{
   }
 
   getPositions(){
+    console.log("get positions");
     return(new Promise((resolve,reject)=>{
       this.http.get(this._apiUrl + this._endpoints.positions
         +"?nonzero=true",{

@@ -23,17 +23,17 @@ export class ChartComponent extends GoogleChartComponent {
     }
 
     drawGraph() {
-        console.log("draw chart");
+        //console.log("draw chart");
 
         let table = this.historicals.data.map((x, i) => [i, x]);
         table.unshift(['Time', 'Stock']);
 
-        console.log(table);
+        //console.log(table);
 
         this.data = this.createDataTable(table);
 
-        console.log(this.data);
-        console.log(this.historicals.closePrice);
+        //console.log(this.data);
+        //console.log(this.historicals.closePrice);
 
         this.options = {
             legend: 'none',

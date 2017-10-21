@@ -86,6 +86,7 @@ export class RobinhoodService{
 
   parent = this;
   serviceInterval = null;
+  private instrumentCache = {};
 
   constructor(public http: Http){
 
@@ -193,16 +194,26 @@ export class RobinhoodService{
 
   getInstrument(object){
     return(new Promise((resolve,reject)=>{
-      this.http.get(object.instrument).subscribe(res=>{
-        object.instrument = res.json();
+      if(this.instrumentCache[object.instrument]){
+        object.instrument = JSON.parse(JSON.stringify(this.instrumentCache[object.instrument]));
         this.getQuote(object.instrument).then(res2=>{
           resolve(res2);
         },error=>{
           reject(error);
         })
-      }, error=>{
-        reject(error);
-      })
+      }else{
+        this.http.get(object.instrument).subscribe(res=>{
+          this.instrumentCache[object.instrument] = JSON.parse(JSON.stringify(res.json()));
+          object.instrument = res.json();
+          this.getQuote(object.instrument).then(res2=>{
+            resolve(res2);
+          },error=>{
+            reject(error);
+          })
+        }, error=>{
+          reject(error);
+        })
+      }
     }))
   }
 

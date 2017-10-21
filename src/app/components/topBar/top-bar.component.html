@@ -5,7 +5,7 @@
 					<span class="input-group-addon" id="basic-addon1">
 						<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					</span>
-				<input type="text" class="form-control" placeholder="Search stock by name" aria-describedby="basic-addon1">
+				<input [(ngModel)]="this.searchText" (ngModelChange)="this.loadSearchSuggestions(this.searchText)" type="text" class="form-control" placeholder="Search stock by name" aria-describedby="basic-addon1">
 			</div>
 		</div>
 

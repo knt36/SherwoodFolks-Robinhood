@@ -9,8 +9,11 @@ export module Constant{
 
     }
 
+
+
     export class INSTRUMENT {
         public static SYMBOL = 'symbol';
+        public static NAME = 'simple_name';
     }
 
     // Final Constants

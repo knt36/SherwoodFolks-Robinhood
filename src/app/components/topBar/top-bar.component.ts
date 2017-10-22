@@ -3,6 +3,7 @@
  */
 import {Component} from "@angular/core";
 import {RobinhoodService} from "../../services/RobinhoodService";
+import {Constant} from "../../model/constant";
 
 @Component({
     selector: 'top-bar',
@@ -14,6 +15,9 @@ import {RobinhoodService} from "../../services/RobinhoodService";
 export class TopBarComponent {
 
     public searchText = "";
+    isSearch:boolean = false;
+    searchResult:any;
+    instrument = Constant.INSTRUMENT;
 
     accountSummary = [
         {   name:"porfolio value",
@@ -34,9 +38,27 @@ export class TopBarComponent {
     }
 
     loadSearchSuggestions(searchText){
-      this.rb.queryStock(searchText).then(res=>{
-        console.log(res);
-      })
+        if(searchText !== ""){
+            this.isSearch = true;
+            this.rb.queryStock(searchText).then(res=>{
+                console.log(res);
+                this.searchResult = res.results;
+            })
+        } else {
+            this.isSearch = false;
+            this.searchResult = null;
+            console.log("search bar empty");
+        }
+
     }
+
+    isSearchNotFound(){
+        return this.isSearch && (this.searchResult == null || this.searchResult.length === 0);
+    }
+
+    addStockToWatchList(stock){
+
+    }
+
 
 }

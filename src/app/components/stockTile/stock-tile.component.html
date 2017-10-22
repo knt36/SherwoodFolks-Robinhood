@@ -5,7 +5,7 @@
       <h4>{{this?.stock?.instrument?.symbol}}</h4>
     </div>
     <div class="graph">
-      <line-chart [data]="this?.historicals"></line-chart>
+      <line-chart [symbol] = "this?.stock?.instrument?.symbol" [data]="this?.historicals"></line-chart>
     </div>
     <div>
       <h3 [ngClass]="'gain'"><span>$</span>{{this?.stock?.display?.price | number : '1.2'}}</h3>

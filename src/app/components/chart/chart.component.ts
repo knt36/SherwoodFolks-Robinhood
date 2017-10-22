@@ -17,6 +17,7 @@ export class ChartComponent extends GoogleChartComponent {
     private data:any;
 
     @Input('data') historicals:GraphData;
+    @Input('symbol') symbol:string;
 
     constructor() {
         super();
@@ -49,7 +50,7 @@ export class ChartComponent extends GoogleChartComponent {
             }
         };
 
-        this.chart = this.createLineChart(document.getElementById('stock-chart'));
+        this.chart = this.createLineChart(document.getElementById('stock-chart' + this.symbol));
         this.chart.draw(this.data, this.options);
     }
 }

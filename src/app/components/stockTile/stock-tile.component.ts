@@ -28,19 +28,23 @@ export class StockTileComponent implements OnInit{
 
     historicals:GraphData;
 
+    constructor(){
+      this.order = {
+        quantity: 0,
+        price: 234.12,
+        totalValue: 0,
+        type: this.orderTypes[0]
+      };
+
+      this.historicals = {
+        closePrice: 34.2,
+        data: [ 32.2, 35.4, 37.4, 21.4, 22.5, 26.4, 32.2, 35.4, 37.4, 21.4, 22.5, 26.4, 32.2, 35.4, 37.4, 21.4, 22.5, 26.4]
+      };
+    }
+
 
     ngOnInit() {
-        this.order = {
-            quantity: 0,
-            price: 234.12,
-            totalValue: 0,
-            type: this.orderTypes[0]
-        };
 
-        this.historicals = {
-            closePrice: 34.2,
-            data: [ 32.2, 35.4, 37.4, 21.4, 22.5, 26.4, 32.2, 35.4, 37.4, 21.4, 22.5, 26.4, 32.2, 35.4, 37.4, 21.4, 22.5, 26.4]
-        };
 
     }
 }

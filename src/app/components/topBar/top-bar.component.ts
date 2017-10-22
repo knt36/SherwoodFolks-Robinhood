@@ -2,6 +2,7 @@
  * Created by anhle on 10/14/17.
  */
 import {Component} from "@angular/core";
+import {RobinhoodService} from "../../services/RobinhoodService";
 
 @Component({
     selector: 'top-bar',
@@ -11,6 +12,8 @@ import {Component} from "@angular/core";
 
 
 export class TopBarComponent {
+
+    public searchText = "";
 
     accountSummary = [
         {   name:"porfolio value",
@@ -26,6 +29,14 @@ export class TopBarComponent {
         }
     ];
 
-    constructor(){
+    constructor(public rb:RobinhoodService){
+
     }
+
+    loadSearchSuggestions(searchText){
+      this.rb.queryStock(searchText).then(res=>{
+        console.log(res);
+      })
+    }
+
 }

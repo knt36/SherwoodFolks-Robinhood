@@ -29,9 +29,13 @@
       <p>About</p>
     </a></li>
     <li><a href="">
-      <i class="material-icons">contact_mail</i>
-      <p>Contact</p>
-    </a></li>
+    <i class="material-icons">contact_mail</i>
+    <p>Contact</p>
+  </a></li>
+  <li><a (click)="this.logout()">
+    <i class="material-icons">vpn_key</i>
+    <p>Logout</p>
+  </a></li>
   </ul>
 </div>
 <router-outlet></router-outlet>

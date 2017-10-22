@@ -10,7 +10,7 @@
 		</div>
 
 		<div id="portfolio-summary" class="col-sm-8 portfolio-head-bar">
-			<div class="portfolio-item" *ngFor="let item of accountSummary">
+			<div class="portfolio-item" *ngFor="let item of this.getPortfolioDisplay()">
 				<h6>{{item.name}}</h6>
 				<h5 [ngClass]="item.gain"><span>$</span>{{item.value}}</h5>
 			</div>

@@ -6,6 +6,7 @@
 import {Injectable} from "@angular/core";
 import {StockModule} from "../model/Stock.model";
 import {OrderModule} from "../model/Order.model";
+import {AccountModule} from "../model/Account.model";
 import {Constant} from "../model/constant";
 
 import Stock = StockModule.Stock;
@@ -19,7 +20,8 @@ import OrderTrigger = Constant.OrderTrigger;
 import Sides = Constant.Sides;
 import STOCK = Constant.STOCK;
 import INSTRUMENT = Constant.INSTRUMENT;
-
+import Account = AccountModule.Account;
+import Portfolio = AccountModule.Portfolio;
 @Injectable()
 
 export class RobinhoodService{
@@ -80,7 +82,7 @@ export class RobinhoodService{
   account = {
     positions: {},
     watchList: {},
-    information: null,
+    information: new Account(null),
     recentOrders: []
   }
 
@@ -127,13 +129,13 @@ export class RobinhoodService{
   }
 
   subscribeService(delay){
-    var that = this;
-    var start = true;
+    const that = this;
+    let start = true;
 
     this.serviceInterval = setInterval(function(){
       if(start){
         start = false;
-        let serviceList = [that.getPositions(), that.getWatchList(), that.getOrders()];
+        const serviceList = [that.setAccountInformation(),that.getPositions(), that.getWatchList(), that.getOrders()];
         Promise.all(serviceList.map(p => p.catch(e => e))).then(function(res){
           console.log("finish all promise");
           setTimeout(function(){
@@ -288,13 +290,32 @@ export class RobinhoodService{
       this.http.get(this._apiUrl + this._endpoints.accounts,{
         headers: this.setHeaders()
       }).subscribe(res=>{
-        this.account.information = res.json().results[0];
+        const account: Account = new Account(res.json().results[0]);
+        this.getPortfolioInformation(account).then(res2=>{
+          this.account.information = account;
+          resolve(res2)
+        }, error=>{
+          reject(error);
+        });
+      }, error=>{
+        reject(error);
+      })
+    }))
+  }
+  getPortfolioInformation(account:Account){
+    return(new Promise((resolve,reject)=>{
+      this.http.get(account.portfolio,{
+        headers: this.setHeaders()
+      }).subscribe(res=>{
+        const port:Portfolio = res.json();
+        account.portfolio = port;
         resolve(res);
       }, error=>{
         reject(error);
       })
     }))
   }
+
   login(username: string, password: string){
     return(new Promise((resolve,reject)=>{
       this.http.post(this._apiUrl + this._endpoints.login, {

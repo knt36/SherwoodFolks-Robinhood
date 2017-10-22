@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
 
      public clickLogin(){
       this.rh.login(this.loginModel.username, this.loginModel.password).then(res=>{
-        this.router.navigateByUrl("home");
+        this.router.navigateByUrl("home/overview");
       }, error=>{
         this.alert.title = "Error";
         this.alert.memo = error.json().non_field_errors[0];

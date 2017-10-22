@@ -21,15 +21,15 @@ export class TopBarComponent {
 
     accountSummary = [
         {   name:"porfolio value",
-            value : "37,466.18"
+            value : "loading"
         },
         {   name: "today profit",
-            value: "+3214.18 (11.5%)",
+            value: "loading",
             gain: "up"
         },
         {
             name: "buying power",
-            value: "7342.22"
+            value: "loading"
         }
     ];
 
@@ -41,13 +41,11 @@ export class TopBarComponent {
         if(searchText !== ""){
             this.isSearch = true;
             this.rb.queryStock(searchText).then(res=>{
-                console.log(res);
                 this.searchResult = res.results;
             })
         } else {
             this.isSearch = false;
             this.searchResult = null;
-            console.log("search bar empty");
         }
 
     }
@@ -56,7 +54,29 @@ export class TopBarComponent {
         return this.isSearch && (this.searchResult == null || this.searchResult.length === 0);
     }
 
-    addStockToWatchList(stock){
+    addStockToWatchList(stock){}
+
+    getPortfolioDisplay(){
+      if(this.rb.account.information== null || this.rb.account.information.portfolio == null){
+        return this.accountSummary;
+      }else{
+        return(
+          [
+            {
+              name:"porfolio value",
+              value : this.rb.account.information.portfolio.equity
+            },
+            {   name: "today profit",
+              value: this.rb.account.information.getMonetaryProfit(),
+              gain: this.rb.account.information.isGain()
+            },
+            {
+              name: "buying power",
+              value: this.rb.account.information.buying_power
+            }
+          ]
+        )
+      }
 
     }
 

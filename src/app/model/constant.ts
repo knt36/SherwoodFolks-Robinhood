@@ -9,7 +9,10 @@ export module Constant{
 
     }
 
-
+    export class COLOR {
+        public static GAIN = 'green';
+        public static LOSS = 'red';
+    }
 
     export class INSTRUMENT {
         public static SYMBOL = 'symbol';

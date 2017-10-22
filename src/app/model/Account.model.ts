@@ -1,4 +1,7 @@
-declare module AccountModule {
+import {hasOwnProperty} from "tslint/lib/utils";
+import {Constant} from "./constant";
+
+export module AccountModule {
 
   export class MarginBalances {
     day_trade_buying_power: string;
@@ -36,7 +39,7 @@ declare module AccountModule {
     deactivated: boolean;
     updated_at: Date;
     margin_balances: MarginBalances;
-    portfolio: string;
+    portfolio: any;
     cash_balances: any;
     can_downgrade_to_cash: string;
     withdrawal_halted: boolean;
@@ -60,7 +63,53 @@ declare module AccountModule {
     account_number: string;
     uncleared_deposits: string;
     unsettled_funds: string;
+
+    constructor(data){
+      for(const d in data){
+        if(data.hasOwnProperty(d)){
+          this[d] = data[d];
+        }
+      }
+    }
+
+    getMonetaryProfit(){
+      if(this.portfolio  != null){
+        return(parseFloat(this.portfolio.equity) - parseFloat(this.portfolio.equity_previous_close));
+      }else{
+        return(null);
+      }
+    }
+
+    isGain(){
+      if(this.getMonetaryProfit() >=0){
+        return Constant.COLOR.GAIN;
+      }else{
+        return Constant.COLOR.LOSS;
+      }
+    }
   }
+
+  export interface Portfolio {
+    unwithdrawable_grants: string;
+    account: string;
+    excess_maintenance_with_uncleared_deposits: string;
+    url: string;
+    excess_maintenance: string;
+    market_value: string;
+    withdrawable_amount: string;
+    last_core_market_value: string;
+    unwithdrawable_deposits: string;
+    extended_hours_equity: string;
+    excess_margin: string;
+    excess_margin_with_uncleared_deposits: string;
+    equity: string;
+    last_core_equity: string;
+    adjusted_equity_previous_close: string;
+    equity_previous_close: string;
+    start_date: string;
+    extended_hours_market_value: string;
+  }
+
 
 }
 

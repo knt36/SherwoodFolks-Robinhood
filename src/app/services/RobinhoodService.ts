@@ -137,7 +137,7 @@ export class RobinhoodService{
         start = false;
         const serviceList = [that.setAccountInformation(),that.getPositions(), that.getWatchList(), that.getOrders()];
         Promise.all(serviceList.map(p => p.catch(e => e))).then(function(res){
-          console.log("finish all promise");
+          //console.log("finish all promise");
           setTimeout(function(){
             start = true;
           }, delay);
@@ -188,12 +188,14 @@ export class RobinhoodService{
   }
 
   getPositions(){
-    console.log("get positions");
+    //console.log("get positions");
     return(new Promise((resolve,reject)=>{
       this.http.get(this._apiUrl + this._endpoints.positions
         +"?nonzero=true",{
         headers: this.setHeaders()
       }).subscribe(res=>{
+
+        // get all instruments for each stock
         const positions = [];
         res.json().results.forEach(r=>{
           positions.push(new Stock(r));
@@ -202,12 +204,16 @@ export class RobinhoodService{
         positions.forEach(position=>{
           const p = this.getInstrument(position);
           promises.push(p);
-        })
+        });
+
+        // updating new stock after getting the promises
         Promise.all(promises).then(()=>{
-          //console.log(positions);
+
           this.updateStock(this.account.positions, positions, true);
+
+
           resolve(res);
-        })
+        });
       }, error=>{
         reject(error);
       })
@@ -466,22 +472,23 @@ export class RobinhoodService{
    * @param symbol [required]
    * @param interval [required] : week|day|10minute|5minute|null(all)
    * @param span : day|week|year|5year|all
-   * @param bounds : extended|regular|trading
+   * @param bound : extended|regular|trading
    * @returns {Promise}
    */
-  getHistoricalsData(symbol, interval, span, bounds){
+  getHistoricalsData(symbol, options):Promise<GraphData>{
 
     return(new Promise((resolve,reject)=>{
       const params:URLSearchParams = new URLSearchParams();
-      if(interval) params.set(Historical.QUERY.INTERVAL, interval);
-      if(span) params.set(Historical.QUERY.SPAN, span);
-      if(bounds) params.set(Historical.QUERY.BOUND, bounds);
+      if(options.interval) params.set(Historical.QUERY.INTERVAL, options.interval);
+      if(options.span) params.set(Historical.QUERY.SPAN, options.span);
+      if(options.bound) params.set(Historical.QUERY.BOUND, options.bound);
 
       this.http.get(this._apiUrl + this._endpoints.historicals + symbol + "/", {
        search: params
       }).subscribe(res=>{
         res = res.json();
-        const data = this.extractHistoricalData(res);
+        const data = new GraphData(res);
+        console.log(data);
         resolve(data);
       }, error=>{
         reject(error);
@@ -515,20 +522,6 @@ export class RobinhoodService{
     }))
   }
 
-
-  /**
-   * function to extract historicals data and formmatted if for chart
-   *
-   * @param data
-   * @returns {GraphData}
-   */
-  extractHistoricalData(data){
-    const res = new GraphData(data[Historical.DATA.CLOSE_PRICE]);
-    res.data = data[Historical.DATA.DATA].map(x => x[Historical.DATA.HIGH_PRICE]);
-
-    return res;
-  }
-
   /**
    * function to update the stock list after getting updated stock info
    * reassign new stock to the existed list
@@ -555,6 +548,7 @@ export class RobinhoodService{
     });
 
   }
+
 
 
 

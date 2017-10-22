@@ -23,6 +23,8 @@ export module Constant{
     export class OrderType{
         public static MARKET = "market";
         public static LIMIT = "limit";
+        public static STOP_LOSS = "stop loss";
+        public static STOP_LIMIT = "stop limit";
     }
 
     export class OrderTimeInForce{
@@ -49,5 +51,23 @@ export module Constant{
     export class Sides{
         public static BUY =  "buy";
         public static SELL = "sell";
+    };
+
+    export class Graph{
+
+        public static INTERVAL = {
+            TEN_M: '10minute',
+            FIVE_M: '5minute'
+        };
+
+        public static SPAN = {
+            DAY: 'day'
+        };
+
+        public static BOUND = {
+            REGULAR: 'regular',
+            EXTENDED: 'extended'
+        };
+
     };
 }

@@ -11,7 +11,7 @@
     box-sizing: border-box;
     padding: 5px 15px 10px 15px;
     border-radius: $border-radius;
-    margin: 8px;
+    margin: 10px 15px;
 
     @include drop-shadow();
 
@@ -76,7 +76,7 @@
     height: 160px;
     border-radius: $border-radius;
     position: absolute;
-    top: -5px;
+    top: -8px;
     left: -10px;
 
     -webkit-transition: opacity 0.3s ease-in-out;

@@ -21,15 +21,15 @@ export class TopBarComponent {
 
     accountSummary = [
         {   name:"porfolio value",
-            value : "loading"
+            value : 0
         },
         {   name: "today profit",
-            value: "loading",
-            gain: "up"
+            value: 0,
+            gain: ""
         },
         {
             name: "buying power",
-            value: "loading"
+            value: 0
         }
     ];
 
@@ -63,19 +63,19 @@ export class TopBarComponent {
         return(
           [
             {
-              name:"porfolio value",
-              value : this.rb.account.information.portfolio.equity
+              name: "portfolio value",
+              value : this.rb.account.information.portfolio.equity || 0
             },
             {   name: "today profit",
-              value: this.rb.account.information.getMonetaryProfit(),
+              value: this.rb.account.information.getMonetaryProfit() || 0,
               gain: this.rb.account.information.isGain()
             },
             {
               name: "buying power",
-              value: this.rb.account.information.buying_power
+              value: this.rb.account.information.buying_power || 0
             }
           ]
-        )
+        );
       }
 
     }

@@ -17,39 +17,42 @@ export class ChartComponent extends GoogleChartComponent {
     private data:any;
 
     @Input('data') historicals:GraphData;
+    @Input('symbol') symbol:string;
 
     constructor() {
         super();
     }
 
     drawGraph() {
-        //console.log("draw chart");
 
-        let table = this.historicals.data.map((x, i) => [i, x]);
-        table.unshift(['Time', 'Stock']);
+        if(this.historicals){
+            let table = this.historicals.data.map((x, i) => [i, x]);
+            table.unshift(['Time', 'Stock']);
 
-        //console.log(table);
 
-        this.data = this.createDataTable(table);
+            this.data = this.createDataTable(table);
 
-        //console.log(this.data);
-        //console.log(this.historicals.closePrice);
 
-        this.options = {
-            legend: 'none',
-            colors: ['green'],
-            lineWidth: 1,
-            hAxis: {
-                baselineColor: 'none',
-                ticks: []
-            },
-            vAxis: {
-                baselineColor: 'none',
-                ticks: []
-            }
-        };
+            this.options = {
+                legend: 'none',
+                colors: [this.historicals.color],
+                lineWidth: 1,
+                hAxis: {
+                    baselineColor: 'none',
+                    ticks: []
+                },
+                vAxis: {
+                    //baselineColor: 'none',
+                    ticks: [this.historicals.closePrice],
+                    textPosition: 'none'
+                }
+                //chartArea: {left:0,top:0,width:'100%',height:'100%'}
 
-        this.chart = this.createLineChart(document.getElementById('stock-chart'));
-        this.chart.draw(this.data, this.options);
+            };
+
+            this.chart = this.createLineChart(document.getElementById('stock-chart' + this.symbol));
+            this.chart.draw(this.data, this.options);
+        }
+
     }
 }

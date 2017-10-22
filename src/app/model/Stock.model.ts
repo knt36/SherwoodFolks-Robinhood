@@ -73,7 +73,7 @@ export module StockModule {
         percent_return: string;
         quantity: number;
         avg_cost: number;
-          is_profit: string;
+        is_profit: string;
 
         public constructor(){
             this.avg_cost = null;

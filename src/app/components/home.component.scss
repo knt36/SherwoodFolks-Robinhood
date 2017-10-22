@@ -101,3 +101,72 @@ button {
   border: 5px solid #f4f7f9;
 
 }
+
+
+$nav-width: $std-width;
+
+
+
+.navbar {
+  width: $nav-width;
+  border-right: 1px solid $border-color;
+
+}
+
+.navbar-brand {
+  background-color: $green-color;
+  width: calc(#{$nav-width} - 1px);
+  height: $nav-width;
+  padding: 0 !important;
+}
+
+.navbar-fixed-left {
+  width: $nav-width;
+  position: fixed;
+  border-radius: 0;
+  height: 100%;
+
+
+  @media (max-width: 768px) {
+    .navbar-nav{
+      margin: 70px 0px;
+    }
+  }
+
+  
+
+
+}
+
+.navbar-fixed-left .navbar-nav > li {
+  float: none;  /* Cancel default li float: left */
+
+
+
+  .active{
+    color: $green-color;
+  }
+
+  a {
+    width: calc(#{$nav-width} - 1px);
+    height: $nav-width;
+    text-align: center;
+    line-height: 1em;
+    padding: 15px 8px;
+    color: $normal-font-color;
+    &:focus, &:active {
+      color: $green-color;
+
+    }
+
+    p{
+      font-size: $xs-font-size;
+    }
+  }
+
+
+
+}
+
+
+

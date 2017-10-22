@@ -133,6 +133,13 @@ $std-width: 70px;
       }
     }
 
+    @media (max-width: 768px) {
+        .portfolio-head-bar{
+            flex-direction: row;
+            overflow: hidden;
+        }
+    }
+
 
 
 }

@@ -44,12 +44,12 @@ export module StockModule {
 
         const currentValue = this.display.price * this.display.quantity;
         const prevClose = Number(this.instrument.quote.adjusted_previous_close);
-        const percentChange = prevClose > 0 ? (currentValue - prevClose) / prevClose : 0;
+        const percentChange = prevClose > 0 ? ((this.display.price - prevClose) / prevClose)*100 : 0;
 
         if(isPosition){
             const totalCost = this.display.avg_cost * this.display.quantity;
             const profit = currentValue - totalCost;
-            const percentReturn = totalCost > 0 ? profit / totalCost : 0;
+            const percentReturn = totalCost > 0 ? (profit / totalCost)*100 : 0;
 
             this.display.total_profit = profit;
             this.display.percent_return = percentReturn.toFixed(2).toString();

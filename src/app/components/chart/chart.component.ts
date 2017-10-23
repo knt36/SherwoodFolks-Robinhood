@@ -1,7 +1,7 @@
 /**
  * Created by anhle on 8/7/17.
  */
-import { Component, Input} from '@angular/core';
+import { Component, Input, OnChanges} from '@angular/core';
 import {GoogleChartComponent} from "./GoogleChartComponent";
 import {GraphData} from "../../model/Historical.model";
 
@@ -10,7 +10,7 @@ import {GraphData} from "../../model/Historical.model";
     templateUrl: './chart.component.html',
 })
 
-export class ChartComponent extends GoogleChartComponent {
+export class ChartComponent extends GoogleChartComponent implements OnChanges{
 
     private chart: any;
     private options: any;
@@ -25,13 +25,14 @@ export class ChartComponent extends GoogleChartComponent {
 
     drawGraph() {
 
-        if(this.historicals){
+        if(this.historicals && this.historicals.data){
             let table = this.historicals.data.map((x, i) => [i, x]);
             table.unshift(['Time', 'Stock']);
 
 
             this.data = this.createDataTable(table);
 
+            console.log('drawing the chart');
 
             this.options = {
                 legend: 'none',
@@ -42,11 +43,9 @@ export class ChartComponent extends GoogleChartComponent {
                     ticks: []
                 },
                 vAxis: {
-                    //baselineColor: 'none',
                     ticks: [this.historicals.closePrice],
                     textPosition: 'none'
                 }
-                //chartArea: {left:0,top:0,width:'100%',height:'100%'}
 
             };
 
@@ -54,5 +53,9 @@ export class ChartComponent extends GoogleChartComponent {
             this.chart.draw(this.data, this.options);
         }
 
+    }
+
+    ngOnChanges(){
+        this.drawGraph();
     }
 }

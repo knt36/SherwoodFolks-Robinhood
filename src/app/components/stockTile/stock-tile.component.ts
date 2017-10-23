@@ -51,8 +51,11 @@ export class StockTileComponent implements OnInit, OnChanges{
     }
 
     ngOnChanges(){
+        console.log('stock on change');
         const currentTime = new Date();
         if(this.historicals && currentTime > this.nextUpdateTime){
+
+            console.log('updating stock price');
 
             this.historicals.updateData(this.stock.display.price);
             this.updateTime(currentTime);
@@ -60,7 +63,8 @@ export class StockTileComponent implements OnInit, OnChanges{
     }
 
     updateTime(date:Date=null){
-        const interval = this.graphOptions.interval === Constant.Graph.INTERVAL.FIVE_M ? (5*60*1000) : 0;
+        //const interval = this.graphOptions.interval === Constant.Graph.INTERVAL.FIVE_M ? (5*60*1000) : 0;
+        const interval = this.graphOptions.interval === Constant.Graph.INTERVAL.FIVE_M ? (5000) : 0;
 
         this.lastUpdateTime = date ? date : new Date();
         this.nextUpdateTime = new Date(this.lastUpdateTime.getTime() + interval);

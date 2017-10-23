@@ -7,20 +7,20 @@
     <div class="graph">
       <line-chart [data]="this?.historicals"></line-chart>
     </div>
-    <div>
-      <h3 [ngClass]="'gain'"><span>$</span>{{this?.stock?.display?.price | number : '1.2'}}</h3>
-      <p>{{this?.stock?.display?.percent_change}}</p>
+    <div class="text-right">
+      <h3 [ngClass]="this?.stock?.display?.stock_gain"><span>$</span>{{this?.stock?.display?.price | number : '1.2'}}</h3>
+      <p>{{this?.stock?.display?.percent_change}}%</p>
     </div>
   </div>
   <div class="lower-info">
     <div>
       <div class="text-left">
         <h5>Total Profit</h5>
-        <h6><span>$</span>{{this?.stock?.display?.total_profit | number : '1.2'}}</h6>
+        <h6 [ngClass]="this?.stock?.display?.is_profit"><span>$</span>{{this?.stock?.display?.total_profit | number : '1.2'}}</h6>
       </div>
       <div class="text-left">
         <h5>Percent Return</h5>
-        <h6>{{this?.stock?.display?.percent_return}}</h6>
+        <h6>{{this?.stock?.display?.percent_return}}%</h6>
       </div>
     </div>
     <div>

@@ -10,12 +10,10 @@
 
     box-sizing: border-box;
     padding: 5px 15px 10px 15px;
-    border-radius: 5px;
+    border-radius: $border-radius;
     margin: 8px;
 
-    -webkit-box-shadow: 3px 3px 10px -1px rgba(173,168,173,1);
-    -moz-box-shadow: 3px 3px 10px -1px rgba(173,168,173,1);
-    box-shadow: 3px 3px 10px -1px rgba(173,168,173,1);
+    @include drop-shadow();
 
     span{
         font-size: $xs-font-size;
@@ -76,7 +74,7 @@
     opacity: 0;
     width: 240px;
     height: 160px;
-    border-radius: 3px;
+    border-radius: $border-radius;
     position: absolute;
     top: -5px;
     left: -10px;

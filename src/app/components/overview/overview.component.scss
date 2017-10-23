@@ -2,6 +2,7 @@
 @import '../../../style';
 
 #overviewPage{
+  min-height: 100vh;
   @include stock-page();
 
 }

@@ -6,6 +6,7 @@
 import {Injectable} from "@angular/core";
 import {StockModule} from "../model/Stock.model";
 import {OrderModule} from "../model/Order.model";
+import {AccountModule} from "../model/Account.model";
 import {Constant} from "../model/constant";
 
 import Stock = StockModule.Stock;
@@ -19,7 +20,8 @@ import OrderTrigger = Constant.OrderTrigger;
 import Sides = Constant.Sides;
 import STOCK = Constant.STOCK;
 import INSTRUMENT = Constant.INSTRUMENT;
-
+import Account = AccountModule.Account;
+import Portfolio = AccountModule.Portfolio;
 @Injectable()
 
 export class RobinhoodService{
@@ -77,49 +79,86 @@ export class RobinhoodService{
     },
   }
 
+
   account = {
     positions: {},
     watchList: {},
-    information: null,
-    recentOrders: []
-  }
+    information: new Account(null),
+    recentOrders: [],
+}
 
   parent = this;
   serviceInterval = null;
+  private instrumentCache = {};
+  private queryCache = {
+    stack: [],
+    cache: {},
+    MAX_SIZE: 20,
+    getCache: function(searchQuery){
+      return(this.cache[searchQuery])
+    },
+    pushCache: function(searchQuery, result){
+      if(this.cache[searchQuery]== null){
+        this.cache[searchQuery] = result;
+        this.stack.push(searchQuery);
+        this.trim();
+      }
+    },
+    trim: function(){
+      if(this.stack.length > this.MAX_SIZE){
+        const out = this.stack.splice(0,1);
+        delete this.cache[out];
+      }
+    }
+  };
 
   constructor(public http: Http){
-
+    const auth = window.localStorage['ROBINHOOD-AUTH'];
+    if(auth != null ) {
+      this.addTokenToHeader(auth);
+    }
   }
 
-  startService(username:string, password:string){
+  isAlreadyLoggedOn(){
+    if(this._private.headers.Authorization != null){
+      return(true);
+    }else{
+      return(false);
+    }
+  }
+
+
+  startService(){
     return(new Promise((resolve,reject)=>{
-      this.login(username, password).then(()=>{
-        this.setAccountInformation().then(()=>{
           this.subscribeService(5000);
           resolve();
-        })
-      },(error)=>{
-        reject(error);
-      })
     }))
   }
 
-  subscribeService(delay){
-    var that = this;
-    var start = true;
+  stopService(){
+    const id = this.serviceInterval;
+    clearInterval(id);
+    this.serviceInterval = null;
+  }
 
-    this.serviceInterval = setInterval(function(){
-      if(start){
-        start = false;
-        let serviceList = [that.getPositions(), that.getWatchList(), that.getOrders()];
-        Promise.all(serviceList.map(p => p.catch(e => e))).then(function(res){
-          console.log("finish all promise");
-          setTimeout(function(){
-            start = true;
-          }, delay);
-        });
-      }
-    }, 1000);
+  subscribeService(delay){
+    const that = this;
+    let start = true;
+    if(this.serviceInterval == null){
+      // Only runs new service if there isn't an existing service thread running
+      this.serviceInterval = setInterval(function(){
+        if(start){
+          start = false;
+          const serviceList = [that.setAccountInformation(),that.getPositions(), that.getWatchList(), that.getOrders()];
+          Promise.all(serviceList.map(p => p.catch(e => e))).then(function(res){
+            console.log("finish all promise");
+            setTimeout(function(){
+              start = true;
+            }, delay);
+          });
+        }
+      }, 1000);
+    }
   }
 
   unsubscribeService(){
@@ -203,16 +242,26 @@ export class RobinhoodService{
 
   getInstrument(object){
     return(new Promise((resolve,reject)=>{
-      this.http.get(object.instrument).subscribe(res=>{
-        object.instrument = res.json();
+      if(this.instrumentCache[object.instrument]){
+        object.instrument = JSON.parse(JSON.stringify(this.instrumentCache[object.instrument]));
         this.getQuote(object.instrument).then(res2=>{
           resolve(res2);
         },error=>{
           reject(error);
         })
-      }, error=>{
-        reject(error);
-      })
+      }else{
+        this.http.get(object.instrument).subscribe(res=>{
+          this.instrumentCache[object.instrument] = JSON.parse(JSON.stringify(res.json()));
+          object.instrument = res.json();
+          this.getQuote(object.instrument).then(res2=>{
+            resolve(res2);
+          },error=>{
+            reject(error);
+          })
+        }, error=>{
+          reject(error);
+        })
+      }
     }))
   }
 
@@ -256,13 +305,32 @@ export class RobinhoodService{
       this.http.get(this._apiUrl + this._endpoints.accounts,{
         headers: this.setHeaders()
       }).subscribe(res=>{
-        this.account.information = res.json().results[0];
+        const account: Account = new Account(res.json().results[0]);
+        this.getPortfolioInformation(account).then(res2=>{
+          this.account.information = account;
+          resolve(res2)
+        }, error=>{
+          reject(error);
+        });
+      }, error=>{
+        reject(error);
+      })
+    }))
+  }
+  getPortfolioInformation(account:Account){
+    return(new Promise((resolve,reject)=>{
+      this.http.get(account.portfolio,{
+        headers: this.setHeaders()
+      }).subscribe(res=>{
+        const port:Portfolio = res.json();
+        account.portfolio = port;
         resolve(res);
       }, error=>{
         reject(error);
       })
     }))
   }
+
   login(username: string, password: string){
     return(new Promise((resolve,reject)=>{
       this.http.post(this._apiUrl + this._endpoints.login, {
@@ -270,7 +338,7 @@ export class RobinhoodService{
         password: password
       }).subscribe(res=>{
         this.addTokenToHeader(res.json().token);
-        // window.localStorage['phone'] = phone;
+        window.localStorage['ROBINHOOD-AUTH'] = res.json().token;
         resolve(res);
       }, error=>{
         reject(error);
@@ -279,12 +347,18 @@ export class RobinhoodService{
   }
   logout(){
     return(new Promise((resolve,reject)=>{
-      this.http.get(this._endpoints.logout, {
+      this.stopService();
+      this.http.post(this._apiUrl + this._endpoints.logout, {
+      },{
         headers: this.setHeaders()
       }).subscribe(res=>{
+        window.localStorage.removeItem('ROBINHOOD-AUTH');
+        this._private.headers.Authorization = null;
         resolve(res);
       }, (error)=>{
-        reject(error);
+        window.localStorage.removeItem('ROBINHOOD-AUTH');
+        this._private.headers.Authorization = null;
+        resolve(error);
       });
     }))
   }
@@ -299,8 +373,12 @@ export class RobinhoodService{
     }))
   }
 
-  // UNTESTED TAKE CAUTION
-
+  /**
+   * All Buy functions are untested, test with caution.
+   * @param {StockModule.Stock} stock
+   * @param quantity
+   * @constructor
+   */
   MarketBuy(stock:Stock, quantity){
     this.http.post(this._apiUrl + this._endpoints.orders, {
       account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
@@ -429,6 +507,32 @@ export class RobinhoodService{
       }, error=>{
         reject(error);
       })
+    }))
+  }
+
+  /**
+   * Takes a query string and searches for the stock, the query string does not have to be just the symbol.
+   * The query string can also contain the name of the
+   * stock and it still will be found.
+   * @param {string} query
+   * @returns {Promise<any>}
+   *
+   */
+  queryStock(query:string): Promise<any>{
+    return(new Promise((resolve,reject)=>{
+      const cacheValue = this.queryCache.getCache(query);
+      if(cacheValue == null){
+        this.http.get(this._apiUrl + this._endpoints.instruments+ "?query=" + query).subscribe(res=>{
+          this.queryCache.pushCache(query, JSON.parse(JSON.stringify(res.json())));
+          resolve(res.json());
+        }, error=>{
+          reject(error);
+        })
+      }else{
+        resolve(cacheValue);
+      }
+
+
     }))
   }
 

@@ -15,6 +15,7 @@ export class ChartComponent extends GoogleChartComponent implements OnChanges{
     private chart: any;
     private options: any;
     private data:any;
+    private isInitialized:boolean;
 
     @Input('data') historicals:GraphData;
     @Input('symbol') symbol:string;
@@ -29,10 +30,7 @@ export class ChartComponent extends GoogleChartComponent implements OnChanges{
             let table = this.historicals.data.map((x, i) => [i, x]);
             table.unshift(['Time', 'Stock']);
 
-
             this.data = this.createDataTable(table);
-
-            console.log('drawing the chart');
 
             this.options = {
                 legend: 'none',
@@ -51,11 +49,15 @@ export class ChartComponent extends GoogleChartComponent implements OnChanges{
 
             this.chart = this.createLineChart(document.getElementById('stock-chart' + this.symbol));
             this.chart.draw(this.data, this.options);
+
+            this.isInitialized = true;
         }
 
     }
 
     ngOnChanges(){
-        this.drawGraph();
+        if(this.isInitialized){
+            this.drawGraph();
+        }
     }
 }

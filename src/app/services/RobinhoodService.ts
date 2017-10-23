@@ -508,7 +508,6 @@ export class RobinhoodService{
       }).subscribe(res=>{
         res = res.json();
         const data = new GraphData(res);
-        console.log(data);
         resolve(data);
       }, error=>{
         reject(error);

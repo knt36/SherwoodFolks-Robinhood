@@ -2,7 +2,7 @@
  * Created by anhle on 8/5/17.
  */
 
-import {Component, Input, OnInit, OnChanges} from "@angular/core";
+import {Component, Input, OnInit, OnDestroy} from "@angular/core";
 import {StockModule} from "../../model/Stock.model";
 import Stock = StockModule.Stock;
 import {GraphData} from "../../model/Historical.model";
@@ -16,7 +16,7 @@ import {Constant} from "../../model/constant";
 })
 
 
-export class StockTileComponent implements OnInit, OnChanges{
+export class StockTileComponent implements OnInit, OnDestroy{
 
     @Input('stock') stock: Stock;
 
@@ -30,8 +30,9 @@ export class StockTileComponent implements OnInit, OnChanges{
     graphOptions:any = {
         interval: Constant.Graph.INTERVAL.FIVE_M,
         span: Constant.Graph.SPAN.DAY,
-        bound: Constant.Graph.BOUND.EXTENDED
+        bound: Constant.Graph.BOUND.REGULAR
     };
+    getGraphInterval:any;
 
     constructor(public rb:RobinhoodService){
       this.order = {
@@ -41,32 +42,25 @@ export class StockTileComponent implements OnInit, OnChanges{
         type: this.orderTypes[0]
       };
 
+
     }
 
 
     ngOnInit() {
+        const graphInterval = (5*60*1000);
+
+        this.getGraphInterval = setInterval(() => {
+            this.updateGraph();
+        }, graphInterval);
+
+        this.updateGraph();
+    }
+
+    ngOnDestroy(){
+        clearInterval(this.getGraphInterval);
+    }
+
+    updateGraph(){
         this.rb.getHistoricalsData(this.stock.display.symbol, this.graphOptions).then( x => this.historicals = x);
-
-        this.updateTime();
-    }
-
-    ngOnChanges(){
-        console.log('stock on change');
-        const currentTime = new Date();
-        if(this.historicals && currentTime > this.nextUpdateTime){
-
-            console.log('updating stock price');
-
-            this.historicals.updateData(this.stock.display.price);
-            this.updateTime(currentTime);
-        }
-    }
-
-    updateTime(date:Date=null){
-        //const interval = this.graphOptions.interval === Constant.Graph.INTERVAL.FIVE_M ? (5*60*1000) : 0;
-        const interval = this.graphOptions.interval === Constant.Graph.INTERVAL.FIVE_M ? (5000) : 0;
-
-        this.lastUpdateTime = date ? date : new Date();
-        this.nextUpdateTime = new Date(this.lastUpdateTime.getTime() + interval);
     }
 }

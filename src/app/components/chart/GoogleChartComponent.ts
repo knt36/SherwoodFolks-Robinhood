@@ -24,8 +24,6 @@ export class GoogleChartComponent implements OnInit {
         google.charts.setOnLoadCallback(() => this.drawGraph());
     }
 
-
-
     drawGraph(){
     }
 
@@ -36,4 +34,7 @@ export class GoogleChartComponent implements OnInit {
     createDataTable(array:any[]):any {
         return google.visualization.arrayToDataTable(array);
     }
+
+
+
 }

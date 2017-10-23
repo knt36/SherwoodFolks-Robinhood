@@ -22,19 +22,19 @@
     <favorites_list name="src" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.25100887">
+    <splitter split-orientation="horizontal" split-proportion="0.28248587">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="RobinhoodService.ts" pinned="false" current-in-tab="true">
+          <file leaf-file-name="RobinhoodService.ts" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/services/RobinhoodService.ts">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="113">
-                  <caret line="147" column="73" selection-start-line="147" selection-start-column="73" selection-end-line="147" selection-end-column="73" />
+                <state relative-caret-position="83">
+                  <caret line="80" column="0" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
                   <folding>
                     <element signature="n#!!doc" expanded="true" />
                     <element signature="e#43#84#0" expanded="true" />
                     <element signature="e#386#447#0" expanded="true" />
-                    <marker date="1508775968000" expanded="true" signature="16571:16575" ph="{...}" />
+                    <marker date="1508778375000" expanded="true" signature="16544:16548" ph="{...}" />
                   </folding>
                 </state>
               </provider>
@@ -70,11 +70,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="stock-tile.component.ts" pinned="false" current-in-tab="false">
+          <file leaf-file-name="stock-tile.component.ts" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/app/components/stockTile/stock-tile.component.ts">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="248">
-                  <caret line="51" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+                <state relative-caret-position="383">
+                  <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
                   <folding>
                     <element signature="e#40#106#0" expanded="true" />
                     <element signature="e#194#249#0" expanded="true" />
@@ -93,18 +93,6 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="chart.component.ts" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/components/chart/chart.component.ts">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="570">
-                  <caret line="42" column="29" selection-start-line="42" selection-start-column="29" selection-end-line="42" selection-end-column="29" />
-                  <folding>
-                    <element signature="e#39#98#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
         </leaf>
       </split-first>
       <split-second>
@@ -119,19 +107,16 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="RobinhoodService.ts" pinned="false" current-in-tab="false">
+          <file leaf-file-name="RobinhoodService.ts" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/app/services/RobinhoodService.ts">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="7155">
-                  <caret line="497" column="57" selection-start-line="497" selection-start-column="57" selection-end-line="497" selection-end-column="57" />
+                <state relative-caret-position="443">
+                  <caret line="509" column="40" selection-start-line="509" selection-start-column="40" selection-end-line="509" selection-end-column="40" />
                   <folding>
                     <element signature="n#!!doc" expanded="true" />
                     <element signature="e#43#84#0" expanded="true" />
                     <element signature="e#386#447#0" expanded="true" />
-                    <marker date="1508775968000" expanded="true" signature="10131:10147" ph="{...}" />
-                    <marker date="1508775968000" expanded="true" signature="10131:10155" ph="{...}" />
-                    <marker date="1508775968000" expanded="true" signature="10131:10161" ph="{...}" />
-                    <marker date="1508775968000" expanded="true" signature="16571:16575" ph="{...}" />
+                    <marker date="1508778375000" expanded="true" signature="16544:16548" ph="{...}" />
                   </folding>
                 </state>
               </provider>
@@ -174,8 +159,8 @@
           <file leaf-file-name="GoogleChartComponent.ts" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/components/chart/GoogleChartComponent.ts">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="330">
-                  <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+                <state relative-caret-position="180">
+                  <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -191,11 +176,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Stock.model.ts" pinned="false" current-in-tab="true">
+          <file leaf-file-name="Stock.model.ts" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/model/Stock.model.ts">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="390">
-                  <caret line="50" column="52" selection-start-line="50" selection-start-column="52" selection-end-line="50" selection-end-column="52" />
+                <state relative-caret-position="150">
+                  <caret line="34" column="28" selection-start-line="34" selection-start-column="28" selection-end-line="34" selection-end-column="28" />
                   <folding>
                     <element signature="e#0#45#0" expanded="true" />
                   </folding>
@@ -210,6 +195,18 @@
                   <caret line="26" column="48" selection-start-line="26" selection-start-column="48" selection-end-line="26" selection-end-column="48" />
                   <folding>
                     <element signature="n#!!doc;n#Constant#0" expanded="false" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="chart.component.ts" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/app/components/chart/chart.component.ts">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="188">
+                  <caret line="34" column="28" selection-start-line="34" selection-start-column="28" selection-end-line="34" selection-end-column="28" />
+                  <folding>
+                    <element signature="e#39#98#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -259,11 +256,11 @@
         <option value="$PROJECT_DIR$/app/model/constant.ts" />
         <option value="$PROJECT_DIR$/app/model/Historical.model.ts" />
         <option value="$PROJECT_DIR$/app/components/stockTile/stock-tile.component.scss" />
-        <option value="$PROJECT_DIR$/app/components/chart/GoogleChartComponent.ts" />
-        <option value="$PROJECT_DIR$/app/components/stockTile/stock-tile.component.ts" />
-        <option value="$PROJECT_DIR$/app/components/chart/chart.component.ts" />
-        <option value="$PROJECT_DIR$/app/services/RobinhoodService.ts" />
         <option value="$PROJECT_DIR$/app/model/Stock.model.ts" />
+        <option value="$PROJECT_DIR$/app/components/chart/GoogleChartComponent.ts" />
+        <option value="$PROJECT_DIR$/app/components/chart/chart.component.ts" />
+        <option value="$PROJECT_DIR$/app/components/stockTile/stock-tile.component.ts" />
+        <option value="$PROJECT_DIR$/app/services/RobinhoodService.ts" />
       </list>
     </option>
   </component>
@@ -399,12 +396,12 @@
       <workItem from="1508344046913" duration="6789000" />
       <workItem from="1508454728932" duration="15546000" />
       <workItem from="1508638740974" duration="21443000" />
-      <workItem from="1508775897194" duration="398000" />
+      <workItem from="1508775897194" duration="1908000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="61803000" />
+    <option name="totallyTimeSpent" value="63313000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1239" height="777" extended-state="6" />
@@ -496,10 +493,7 @@
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#43#84#0" expanded="true" />
             <element signature="e#386#447#0" expanded="true" />
-            <marker date="1508775968000" expanded="true" signature="10131:10147" ph="{...}" />
-            <marker date="1508775968000" expanded="true" signature="10131:10155" ph="{...}" />
-            <marker date="1508775968000" expanded="true" signature="10131:10161" ph="{...}" />
-            <marker date="1508775968000" expanded="true" signature="16571:16575" ph="{...}" />
+            <marker date="1508778375000" expanded="true" signature="16544:16548" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -664,6 +658,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="19" column="23" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#40#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -787,16 +784,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/components/chart/chart.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="42" column="29" selection-start-line="42" selection-start-column="29" selection-end-line="42" selection-end-column="29" />
-          <folding>
-            <element signature="e#39#98#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/app.component.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -805,10 +792,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/model/Stock.model.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="34" column="28" selection-start-line="34" selection-start-column="28" selection-end-line="34" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/components/stockTile/stock-tile.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="51" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+        <state relative-caret-position="383">
+          <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
           <folding>
             <element signature="e#40#106#0" expanded="true" />
             <element signature="e#194#249#0" expanded="true" />
@@ -818,34 +815,31 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/components/chart/GoogleChartComponent.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+        <state relative-caret-position="180">
+          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/components/chart/chart.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="34" column="28" selection-start-line="34" selection-start-column="28" selection-end-line="34" selection-end-column="28" />
+          <folding>
+            <element signature="e#39#98#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/services/RobinhoodService.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7155">
-          <caret line="497" column="57" selection-start-line="497" selection-start-column="57" selection-end-line="497" selection-end-column="57" />
+        <state relative-caret-position="443">
+          <caret line="509" column="40" selection-start-line="509" selection-start-column="40" selection-end-line="509" selection-end-column="40" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#43#84#0" expanded="true" />
             <element signature="e#386#447#0" expanded="true" />
-            <marker date="1508775968000" expanded="true" signature="10131:10147" ph="{...}" />
-            <marker date="1508775968000" expanded="true" signature="10131:10155" ph="{...}" />
-            <marker date="1508775968000" expanded="true" signature="10131:10161" ph="{...}" />
-            <marker date="1508775968000" expanded="true" signature="16571:16575" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/model/Stock.model.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="50" column="52" selection-start-line="50" selection-start-column="52" selection-end-line="50" selection-end-column="52" />
-          <folding>
-            <element signature="e#0#45#0" expanded="true" />
+            <marker date="1508778375000" expanded="true" signature="16544:16548" ph="{...}" />
           </folding>
         </state>
       </provider>

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {HomeComponent} from "../home.component";
 import {RobinhoodService} from "../../services/RobinhoodService";
@@ -12,7 +12,7 @@ import {RobinhoodService} from "../../services/RobinhoodService";
     styleUrls: ['login.component.scss'],
 
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
     title = 'app';
 
     public loginModel = {
@@ -20,14 +20,29 @@ export class LoginComponent {
         password: ""
     }
 
+    public alert={
+      title: "",
+      memo: "",
+      show:false
+    }
+
     constructor(public router: Router, public rh: RobinhoodService) {
 
     }
 
-     public clickLogin(){
-      console.log("Logging in");
-      this.rh.startService(this.loginModel.username, this.loginModel.password).then(res=>{
+    ngOnInit() {
+      if(this.rh.isAlreadyLoggedOn()){
         this.router.navigateByUrl("home");
+      }
+    }
+
+     public clickLogin(){
+      this.rh.login(this.loginModel.username, this.loginModel.password).then(res=>{
+        this.router.navigateByUrl("home/overview");
+      }, error=>{
+        this.alert.title = "Error";
+        this.alert.memo = error.json().non_field_errors[0];
+        this.alert.show = true;
       })
     }
 

@@ -79,12 +79,13 @@ export class RobinhoodService{
     },
   }
 
+
   account = {
     positions: {},
     watchList: {},
     information: new Account(null),
-    recentOrders: []
-  }
+    recentOrders: [],
+}
 
   parent = this;
   serviceInterval = null;
@@ -112,38 +113,52 @@ export class RobinhoodService{
   };
 
   constructor(public http: Http){
-
+    const auth = window.localStorage['ROBINHOOD-AUTH'];
+    if(auth != null ) {
+      this.addTokenToHeader(auth);
+    }
   }
 
-  startService(username:string, password:string){
+  isAlreadyLoggedOn(){
+    if(this._private.headers.Authorization != null){
+      return(true);
+    }else{
+      return(false);
+    }
+  }
+
+
+  startService(){
     return(new Promise((resolve,reject)=>{
-      this.login(username, password).then(()=>{
-        this.setAccountInformation().then(()=>{
           this.subscribeService(5000);
           resolve();
-        })
-      },(error)=>{
-        reject(error);
-      })
     }))
+  }
+
+  stopService(){
+    const id = this.serviceInterval;
+    clearInterval(id);
+    this.serviceInterval = null;
   }
 
   subscribeService(delay){
     const that = this;
     let start = true;
-
-    this.serviceInterval = setInterval(function(){
-      if(start){
-        start = false;
-        const serviceList = [that.setAccountInformation(),that.getPositions(), that.getWatchList(), that.getOrders()];
-        Promise.all(serviceList.map(p => p.catch(e => e))).then(function(res){
-          console.log("finish all promise");
-          setTimeout(function(){
-            start = true;
-          }, delay);
-        });
-      }
-    }, 1000);
+    if(this.serviceInterval == null){
+      // Only runs new service if there isn't an existing service thread running
+      this.serviceInterval = setInterval(function(){
+        if(start){
+          start = false;
+          const serviceList = [that.setAccountInformation(),that.getPositions(), that.getWatchList(), that.getOrders()];
+          Promise.all(serviceList.map(p => p.catch(e => e))).then(function(res){
+            console.log("finish all promise");
+            setTimeout(function(){
+              start = true;
+            }, delay);
+          });
+        }
+      }, 1000);
+    }
   }
 
   unsubscribeService(){
@@ -323,7 +338,7 @@ export class RobinhoodService{
         password: password
       }).subscribe(res=>{
         this.addTokenToHeader(res.json().token);
-        // window.localStorage['phone'] = phone;
+        window.localStorage['ROBINHOOD-AUTH'] = res.json().token;
         resolve(res);
       }, error=>{
         reject(error);
@@ -332,12 +347,18 @@ export class RobinhoodService{
   }
   logout(){
     return(new Promise((resolve,reject)=>{
-      this.http.get(this._endpoints.logout, {
+      this.stopService();
+      this.http.post(this._apiUrl + this._endpoints.logout, {
+      },{
         headers: this.setHeaders()
       }).subscribe(res=>{
+        window.localStorage.removeItem('ROBINHOOD-AUTH');
+        this._private.headers.Authorization = null;
         resolve(res);
       }, (error)=>{
-        reject(error);
+        window.localStorage.removeItem('ROBINHOOD-AUTH');
+        this._private.headers.Authorization = null;
+        resolve(error);
       });
     }))
   }

@@ -2,22 +2,18 @@
 
 <div id="overviewPage">
 
+  <top-bar></top-bar>
   <div id="stocks">
-    <top-bar></top-bar>
-
     <div id="currentPositions">
       <h5 class="section-title">
         Positions
       </h5>
 
-      <stock-tile [stock]="this.rb.account.positions[k]" *ngFor="let k of this.Object.keys(this.rb.account.positions)"></stock-tile>
-      <!--<div class="Label">-->
-        <!--<h3><span style="padding-right:1em;" class="glyphicon glyphicon-comment" aria-hidden="true"></span>-->
-          <!--<b>Positions</b>-->
-        <!--</h3>-->
-      <!--</div>-->
-      <!--<stock-tile [stock]="s" *ngFor="let s of this.rb.account.positions"></stock-tile>-->
-    </div>
+      <div class="section-stock">
+        <stock-tile [stock]="this.rb.account.positions[k]" *ngFor="let k of this.Object.keys(this.rb.account.positions)"></stock-tile>
+
+      </div>
+      </div>
 
     <div id="watchList">
       <!--<h5 class="section-title">-->

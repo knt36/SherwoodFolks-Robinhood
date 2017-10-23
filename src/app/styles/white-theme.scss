@@ -32,6 +32,11 @@ $std-btn-height: 40px;
     display: none;
 }
 
+.container-fluid{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
 @mixin border-right{
   border-right: 2px solid $active-background-color;
 }
@@ -66,17 +71,21 @@ $std-btn-height: 40px;
     margin-left: $std-width;
     overflow: hidden;
 
-    .container-fluid{
-      padding-left: 0px;
-      padding-right: 0px;
-    }
+
 
     .section-title{
         text-transform: uppercase;
         color: $bold-font-color;
         font-size: $md-font-size;
         font-weight: 500;
-        margin: 15px 25px;
+        margin: 15px 20px;
+    }
+
+    .section-stock{
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        margin: auto 0px auto 10px;
     }
 
 }

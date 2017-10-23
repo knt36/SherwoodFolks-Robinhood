@@ -2,26 +2,45 @@
  * Created by anhle on 8/7/17.
  */
 import { Component, Input, OnChanges} from '@angular/core';
-import {GoogleChartComponent} from "./GoogleChartComponent";
 import {GraphData} from "../../model/Historical.model";
+declare var google:any;
 
 @Component({
     selector: 'line-chart',
     templateUrl: './chart.component.html',
 })
 
-export class ChartComponent extends GoogleChartComponent implements OnChanges{
+export class ChartComponent implements OnChanges{
 
     private chart: any;
     private options: any;
     private data:any;
     private isInitialized:boolean;
+    private googleLoaded:any;
 
     @Input('data') historicals:GraphData;
     @Input('symbol') symbol:string;
 
-    constructor() {
-        super();
+
+    constructor(){
+    }
+
+    ngOnInit() {
+        if(!this.googleLoaded) {
+            this.googleLoaded = true;
+            google.charts.load('current',  {packages: ['corechart', 'bar']});
+        }
+        google.charts.setOnLoadCallback(() => this.drawGraph());
+
+    }
+
+
+    createLineChart(element:any):any {
+        return new google.visualization.LineChart(element);
+    }
+
+    createDataTable(array:any[]):any {
+        return google.visualization.arrayToDataTable(array);
     }
 
     drawGraph() {
@@ -29,7 +48,6 @@ export class ChartComponent extends GoogleChartComponent implements OnChanges{
         if(this.historicals && this.historicals.data){
             let table = this.historicals.data.map((x, i) => [i, x]);
             table.unshift(['Time', 'Stock']);
-
             this.data = this.createDataTable(table);
 
             this.options = {
@@ -50,14 +68,13 @@ export class ChartComponent extends GoogleChartComponent implements OnChanges{
             this.chart = this.createLineChart(document.getElementById('stock-chart' + this.symbol));
             this.chart.draw(this.data, this.options);
 
-            this.isInitialized = true;
         }
 
     }
 
     ngOnChanges(){
-        if(this.isInitialized){
-            this.drawGraph();
+        if(this.googleLoaded){
+            google.charts.setOnLoadCallback(() => this.drawGraph());
         }
     }
 }

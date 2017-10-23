@@ -45,8 +45,8 @@ export class StockTileComponent implements OnInit, OnDestroy{
 
     }
 
-
     ngOnInit() {
+        // change this variable as later we allow users to choose their own settings
         const graphInterval = (5*60*1000);
 
         this.getGraphInterval = setInterval(() => {
@@ -61,6 +61,8 @@ export class StockTileComponent implements OnInit, OnDestroy{
     }
 
     updateGraph(){
-        this.rb.getHistoricalsData(this.stock.display.symbol, this.graphOptions).then( x => this.historicals = x);
+        this.rb.getHistoricalsData(this.stock.display.symbol, this.graphOptions).then( x => {
+            this.historicals = x;
+        });
     }
 }

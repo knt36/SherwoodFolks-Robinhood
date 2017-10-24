@@ -56,7 +56,7 @@ export class RobinhoodService{
     user: 'user/',
     historicals: 'quotes/historicals/',
     add_watchlist: 'watchlists/Default/bulk_add/',
-    delete_watchlist: '/watchlists/Default',
+    delete_watchlist: '/watchlists/Default/',
 
     user_additional_info: "user/additional_info/",
     user_basic_info: "user/basic_info/",
@@ -76,7 +76,7 @@ export class RobinhoodService{
     headers : {
       'Accept': '*/*',
       'Accept-Language': 'en;q=1, fr;q=0.9, de;q=0.8, ja;q=0.7, nl;q=0.6, it;q=0.5',
-      'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+      'Content-Type': 'application/json',
       'X-Robinhood-API-Version': '1.152.0',
       'Authorization' : null
     },
@@ -576,10 +576,10 @@ export class RobinhoodService{
 
   }
 
-  addStockToWatchList(stock:Instrument){
+  addStockToWatchList(item:Instrument){
     return(new Promise((resolve,reject)=>{
       this.http.post(this._apiUrl + this._endpoints.add_watchlist, {
-        symbols: stock.symbol
+        symbols: item.symbol
       },{
         headers: this.setHeaders(),
 
@@ -591,10 +591,10 @@ export class RobinhoodService{
     }));
   }
 
-  removeStockFromWatchList(stock:Instrument){
+  removeStockFromWatchList(item:Instrument){
 
     return(new Promise((resolve,reject)=>{
-      this.http.delete(this._apiUrl + this._endpoints.delete_watchlist + stock.id,{
+      this.http.delete(this._apiUrl + this._endpoints.delete_watchlist + item.id,{
         headers: this.setHeaders()
       }).subscribe(res=>{
         resolve(res);

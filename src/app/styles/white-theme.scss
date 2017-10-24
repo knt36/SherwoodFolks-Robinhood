@@ -139,9 +139,11 @@ $std-btn-height: 40px;
 
     #search-list{
         background-color: $active-background-color;
-        width: calc(100% - 30px);
+        width: 100%;
         min-width: 250px;
         position: absolute;
+        top: 40px;
+        left: 0px;
         z-index: 10;
         display: none;
         margin-top: 5px;
@@ -179,7 +181,7 @@ $std-btn-height: 40px;
         @include flex-col-center();
     }
 
-    .search-box:focus-within + #search-list {
+    .search-box:focus-within  #search-list {
         display: block;
     }
 

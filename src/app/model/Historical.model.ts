@@ -36,7 +36,7 @@ export class Historical{
     public static DATA = {
         CLOSE_PRICE : 'previous_close_price',
         DATA : 'historicals',
-        HIGH_PRICE: 'high_price'
+        PRICE: 'close_price'
     };
 };
 
@@ -47,7 +47,7 @@ export class GraphData{
 
     public constructor(data){
         this.closePrice = Number(data[Historical.DATA.CLOSE_PRICE]);
-        this.data = data[Historical.DATA.DATA].map(x => Number(x[Historical.DATA.HIGH_PRICE]));
+        this.data = data[Historical.DATA.DATA].map(x => Number(x[Historical.DATA.PRICE]));
         this.updateColor();
     }
 

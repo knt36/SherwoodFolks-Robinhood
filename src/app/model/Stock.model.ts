@@ -2,8 +2,13 @@ import {GraphData} from "./Historical.model";
 import {Constant} from "./constant";
 
 export module StockModule {
+   export class StockType{
+     public static POSITION = "POSITION";
+     public static WATCHLIST = "WATCHLIST";
+   }
 
     export class Stock {
+        TYPE: StockType;
         shares_held_for_stock_grants: string;
         account: string;
         intraday_quantity: string;
@@ -19,7 +24,7 @@ export module StockModule {
         display: Display;
 
 
-    public constructor(data){
+    public constructor(data, type:StockType){
         this.shares_held_for_buys = data.shares_held_for_buys;
         this.account= data.account;
         this.intraday_quantity= data.intraday_quantity;
@@ -33,20 +38,21 @@ export module StockModule {
         this.shares_held_for_sells =data.shares_held_for_sells;
         this.quantity = data.quantity;
         this.display = null;
+        this.TYPE = type;
     }
 
-    public initDisplayData(isPosition){
+    public initDisplayData(lastSoldPrice, lastQuantitySold){
         this.display = new Display();
         this.display.symbol = this.instrument.symbol;
-        this.display.quantity = Number(this.quantity);
-        this.display.avg_cost = Number(this.average_buy_price);
+        this.display.quantity = this.quantity!=null? Number(this.quantity): 0;
+        this.display.avg_cost = this.average_buy_price!= null ? Number(this.average_buy_price) : 0;
         this.display.price = Number(this.instrument.quote.last_trade_price);
 
         const currentValue = this.display.price * this.display.quantity;
         const prevClose = Number(this.instrument.quote.adjusted_previous_close);
         const percentChange = prevClose > 0 ? ((this.display.price - prevClose) / prevClose)*100 : 0;
 
-        if(isPosition){
+        if(this.TYPE === StockType.POSITION){
             const totalCost = this.display.avg_cost * this.display.quantity;
             const profit = currentValue - totalCost;
             const percentReturn = totalCost > 0 ? (profit / totalCost)*100 : 0;
@@ -54,15 +60,16 @@ export module StockModule {
             this.display.total_profit = profit;
             this.display.percent_return = percentReturn.toFixed(2).toString();
             this.display.is_profit = this.display.total_profit > 0 ? Constant.COLOR.GAIN : Constant.COLOR.LOSS;
+        }else if(this.TYPE===StockType.WATCHLIST){
+            this.display.percent_return = "0";
+            this.display.total_profit = 0;
         }
+
 
         this.display.percent_change = percentChange.toFixed(2).toString();
         this.display.stock_gain = percentChange > 0 ? Constant.COLOR.GAIN : Constant.COLOR.LOSS;
     }
-
     }
-
-
 
     export class Display {
         symbol : string;

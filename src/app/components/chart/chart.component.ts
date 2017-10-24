@@ -17,6 +17,7 @@ export class ChartComponent implements OnChanges{
     private data:any;
     private isInitialized:boolean;
     private googleLoaded:any;
+    public idRandom = Math.random();
 
     @Input('data') historicals:GraphData;
     @Input('symbol') symbol:string;
@@ -65,7 +66,7 @@ export class ChartComponent implements OnChanges{
 
             };
 
-            this.chart = this.createLineChart(document.getElementById('stock-chart' + this.symbol));
+            this.chart = this.createLineChart(document.getElementById('stock-chart' + this.symbol + this.idRandom));
             this.chart.draw(this.data, this.options);
 
         }

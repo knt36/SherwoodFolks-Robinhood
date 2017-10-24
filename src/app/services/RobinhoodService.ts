@@ -23,6 +23,7 @@ import INSTRUMENT = Constant.INSTRUMENT;
 import Account = AccountModule.Account;
 import Portfolio = AccountModule.Portfolio;
 import Instrument = StockModule.Instrument;
+import StockType = StockModule.StockType;
 @Injectable()
 
 export class RobinhoodService{
@@ -157,7 +158,14 @@ export class RobinhoodService{
       this.serviceInterval = setInterval(function(){
         if(start){
           start = false;
-          const serviceList = [that.setAccountInformation(),that.getPositions(), that.getWatchList(), that.getOrders()];
+          const serviceList = [that.setAccountInformation(),that.getOrders().then((res)=>{
+            const promises = [];
+            promises.push(that.getPositions());
+            promises.push(that.getWatchList());
+            Promise.all(promises).then(()=>{
+              return(res);
+            })
+          })];
           Promise.all(serviceList.map(p => p.catch(e => e))).then(function(res){
             setTimeout(function(){
               start = true;
@@ -220,7 +228,7 @@ export class RobinhoodService{
         // get all instruments for each stock
         const positions = [];
         res.json().results.forEach(r=>{
-          positions.push(new Stock(r));
+          positions.push(new Stock(r, StockType.POSITION));
         });
         const promises = [];
         positions.forEach(position=>{
@@ -231,7 +239,7 @@ export class RobinhoodService{
         // updating new stock after getting the promises
         Promise.all(promises).then(()=>{
 
-          this.updateStock(this.account.positions, positions, true);
+          this.updateStock(this.account.positions, positions);
 
 
           resolve(res);
@@ -297,14 +305,14 @@ export class RobinhoodService{
       }).subscribe(res=>{
         const watchList = [];
         res.json().results.forEach(data=>{
-          watchList.push(new StockModule.Stock(data));
+          watchList.push(new StockModule.Stock(data, StockType.WATCHLIST));
         });
         const promises =[]
         watchList.forEach(watchItem =>{
           promises.push(this.getInstrument(watchItem));
         })
         Promise.all(promises).then(()=>{
-          this.updateStock(this.account.watchList, watchList, false);
+          this.updateStock(this.account.watchList, watchList);
           resolve(res);
         });
       }, error=>{
@@ -688,12 +696,12 @@ export class RobinhoodService{
    * @param dict (the existed list)
    * @param newList
    */
-  updateStock(dict, newList, isPosition){
+  updateStock(dict, newList){
     var map = {};
     const keys = Object.keys(dict);
 
     newList.forEach((stock:Stock) => {
-      stock.initDisplayData(isPosition);
+      stock.initDisplayData(null, null);
 
       let id = stock[STOCK.INSTRUMENT][INSTRUMENT.SYMBOL];
       map[id] = stock;

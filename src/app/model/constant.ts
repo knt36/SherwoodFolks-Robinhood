@@ -4,6 +4,12 @@
 export module Constant{
 
 
+    export class QUERY_ACTION {
+        public static INPOSITION = 'none';
+        public static WATCHING = 'unwatch';
+        public static UNWATCH = 'watch';
+    }
+
     export class STOCK {
         public static INSTRUMENT = 'instrument';
 

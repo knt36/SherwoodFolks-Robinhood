@@ -22,6 +22,7 @@ import STOCK = Constant.STOCK;
 import INSTRUMENT = Constant.INSTRUMENT;
 import Account = AccountModule.Account;
 import Portfolio = AccountModule.Portfolio;
+import Instrument = StockModule.Instrument;
 @Injectable()
 
 export class RobinhoodService{
@@ -54,6 +55,8 @@ export class RobinhoodService{
     document_requests:  'upload/document_requests/',
     user: 'user/',
     historicals: 'quotes/historicals/',
+    add_watchlist: 'watchlists/Default/bulk_add/',
+    delete_watchlist: '/watchlists/Default',
 
     user_additional_info: "user/additional_info/",
     user_basic_info: "user/basic_info/",
@@ -80,6 +83,11 @@ export class RobinhoodService{
   }
 
 
+  /**
+   *
+   * @type positions: { [symbol] : [stock] }
+   * @type watchList: { [symbol] : [stock] }
+   */
   account = {
     positions: {},
     watchList: {},
@@ -565,6 +573,35 @@ export class RobinhoodService{
         delete dict[k];
       }
     });
+
+  }
+
+  addStockToWatchList(stock:Instrument){
+    return(new Promise((resolve,reject)=>{
+      this.http.post(this._apiUrl + this._endpoints.add_watchlist, {
+        symbols: stock.symbol
+      },{
+        headers: this.setHeaders(),
+
+      }).subscribe(res=>{
+        resolve(res);
+      }, (error)=>{
+        resolve(error);
+      });
+    }));
+  }
+
+  removeStockFromWatchList(stock:Instrument){
+
+    return(new Promise((resolve,reject)=>{
+      this.http.delete(this._apiUrl + this._endpoints.delete_watchlist + stock.id,{
+        headers: this.setHeaders()
+      }).subscribe(res=>{
+        resolve(res);
+      }, (error)=>{
+        resolve(error);
+      });
+    }));
 
   }
 

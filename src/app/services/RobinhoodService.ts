@@ -392,106 +392,238 @@ export class RobinhoodService{
    * @param quantity
    * @constructor
    */
-  MarketBuy(stock:Stock, quantity){
-    this.http.post(this._apiUrl + this._endpoints.orders, {
-      account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
-      instrument: stock.instrument,
-      symbol: stock.instrument.symbol,
-      type: OrderType.MARKET,
-      time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
-      trigger: OrderTrigger.STOP,
-      quantity: quantity,
-      side: Sides.BUY,
-      extended_hours: true,
-      override_day_trade_checks: false,
-      override_dtbp_checks: false
-    })
+  MarketBuy(stock:Stock,price, quantity){
+    return(new Promise((resolve,reject)=>{
+      this.http.post(this._apiUrl + this._endpoints.orders, {
+        account: this.account.information.url,
+        instrument: stock.instrument.url,
+        symbol: stock.instrument.symbol,
+        type: OrderType.MARKET,
+        time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
+        trigger: OrderTrigger.IMMEDIATE,
+        quantity: quantity,
+        side: Sides.BUY,
+        extended_hours: true,
+        override_day_trade_checks: false,
+        override_dtbp_checks: false,
+        price: price
+      }, {
+        headers: this.setHeaders()
+      }).subscribe(res=>{
+        resolve(res);
+      },error=>{
+        reject(error);
+      })
+    }))
   }
 
+  /**
+   * UNTESTED!!!!!
+   * May not support this since there isn't enough space yet on the interface......
+   * @param {StockModule.Stock} stock
+   * @param price
+   * @param quantity
+   * @param stop_price
+   * @constructor
+   */
   StopLimitBuy(stock:StockModule.Stock, price, quantity, stop_price){
-    this.http.post(this._apiUrl + this._endpoints.orders, {
-      account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
-      instrument: stock.instrument,
-      symbol: stock.instrument.symbol,
-      type: OrderType.LIMIT,
-      time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
-      trigger: OrderTrigger.STOP,
-      price: price,
-      stop_price : stop_price,
-      quantity: quantity,
-      side: Sides.BUY,
-      extended_hours: true,
-      override_day_trade_checks: false,
-      override_dtbp_checks: false
-    })
+    return(new Promise(((resolve, reject) =>{
+      this.http.post(this._apiUrl + this._endpoints.orders, {
+        account: this.account.information.url,
+        instrument: stock.instrument.url,
+        symbol: stock.instrument.symbol,
+        type: OrderType.LIMIT,
+        time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
+        trigger: OrderTrigger.STOP,
+        price: price,
+        stop_price : stop_price,
+        quantity: quantity,
+        side: Sides.BUY,
+        extended_hours: true,
+        override_day_trade_checks: false,
+        override_dtbp_checks: false
+      },{
+        headers:this.setHeaders()
+      }).subscribe(res=>{
+        resolve(res);
+      },error =>{
+        reject(error)
+      })
+    })))
+  }
+
+  /**
+   * DOES NOT EXECUTE IN EXTENDED HOURS EVER
+   * @param {StockModule.Stock} stock
+   * @param quantity
+   * @param stop_price
+   * @returns {Promise<any>}
+   * @constructor
+   */
+  StopLossBuy(stock:StockModule.Stock, quantity, stop_price){
+    return(new Promise(((resolve, reject) =>{
+      this.http.post(this._apiUrl + this._endpoints.orders, {
+        account: this.account.information.url,
+        instrument: stock.instrument.url,
+        symbol: stock.instrument.symbol,
+        type: OrderType.MARKET,
+        price: stop_price,
+        time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
+        trigger: OrderTrigger.STOP,
+        stop_price : stop_price,
+        quantity: quantity,
+        side: Sides.BUY,
+        extended_hours: false,
+        override_day_trade_checks: false,
+        override_dtbp_checks: false
+      }, {
+        headers:this.setHeaders()
+      }).subscribe(res=>{
+        resolve(res);
+      },error =>{
+        reject(error)
+      })
+    })))
   }
 
   ImmediateLimitBuy(stock:Stock, price, quantity){
-    this.http.post(this._apiUrl + this._endpoints.orders, {
-      account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
-      instrument: stock.instrument,
-      symbol: stock.instrument.symbol,
-      type: OrderType.LIMIT,
-      time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
-      trigger: OrderTrigger.STOP,
-      price: price,
-      quantity: quantity,
-      side: Sides.BUY,
-      extended_hours: true,
-      override_day_trade_checks: false,
-      override_dtbp_checks: false
-    })
+    return(new Promise((resolve,reject)=>{
+      this.http.post(this._apiUrl + this._endpoints.orders, {
+        account: this.account.information.url,
+        instrument: stock.instrument.url,
+        symbol: stock.instrument.symbol,
+        type: OrderType.LIMIT,
+        time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
+        trigger: OrderTrigger.IMMEDIATE,
+        price: price,
+        quantity: quantity,
+        side: Sides.BUY,
+        extended_hours: true,
+        override_day_trade_checks: false,
+        override_dtbp_checks: false
+      }, {
+        headers: this.setHeaders()
+      }).subscribe(res=>{
+        resolve(res);
+      }, error=>{
+        reject(error);
+      })
+    }))
   }
 
   StopLimitSell(stock:StockModule.Stock, price, quantity, stop_price){
-    this.http.post(this._apiUrl + this._endpoints.orders, {
-      account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
-      instrument: stock.instrument,
-      symbol: stock.instrument.symbol,
-      type: OrderType.LIMIT,
-      time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
-      trigger: OrderTrigger.STOP,
-      price: price,
-      stop_price : stop_price,
-      quantity: quantity,
-      side: Sides.SELL,
-      extended_hours: true,
-      override_day_trade_checks: false,
-      override_dtbp_checks: false
-    })
+    return(new Promise(((resolve, reject) => {
+      this.http.post(this._apiUrl + this._endpoints.orders, {
+        account: this.account.information.url,
+        instrument: stock.instrument.url,
+        symbol: stock.instrument.symbol,
+        type: OrderType.LIMIT,
+        time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
+        trigger: OrderTrigger.STOP,
+        price: price,
+        stop_price : stop_price,
+        quantity: quantity,
+        side: Sides.SELL,
+        extended_hours: true,
+        override_day_trade_checks: false,
+        override_dtbp_checks: false
+      }, {
+        headers: this.setHeaders()
+      }).subscribe(res=>{
+        resolve(res);
+      }, error=>{
+        reject(error);
+      })
+    })))
+
   }
 
-  MarketSell(stock:Stock, quantity){
-    this.http.post(this._apiUrl + this._endpoints.orders, {
-      account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
-      instrument: stock.instrument,
-      symbol: stock.instrument.symbol,
-      type: OrderType.MARKET,
-      time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
-      trigger: OrderTrigger.STOP,
-      quantity: quantity,
-      side: Sides.SELL,
-      extended_hours: true,
-      override_day_trade_checks: false,
-      override_dtbp_checks: false
-    })
+  /**
+   * In Market sells, the sell will initiate within 5% of the marketPrice entered.
+   * @param {StockModule.Stock} stock
+   * @param marketPrice
+   * @param quantity
+   * @returns {Promise<any>}
+   * @constructor
+   */
+  MarketSell(stock:Stock, marketPrice, quantity){
+    return(new Promise((resolve,reject)=>{
+      this.http.post(this._apiUrl + this._endpoints.orders, {
+        account: this.account.information.url,
+        instrument: stock.instrument.url,
+        symbol: stock.instrument.symbol,
+        type: OrderType.MARKET,
+        time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
+        trigger: OrderTrigger.IMMEDIATE,
+        quantity: quantity,
+        price: marketPrice,
+        side: Sides.SELL,
+        extended_hours: true,
+        override_day_trade_checks: false,
+        override_dtbp_checks: false
+      }).subscribe(res=>{
+        resolve(res);
+      },error=>{
+        reject(error);
+      })
+    }))
   }
 
   ImmediateLimitSell(stock:Stock, price, quantity){
-    this.http.post(this._apiUrl + this._endpoints.orders, {
-      account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
-      instrument: stock.instrument,
-      symbol: stock.instrument.symbol,
-      type: OrderType.LIMIT,
-      time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
-      trigger: OrderTrigger.IMMEDIATE,
-      price: price,
-      quantity: quantity,
-      side: Sides.SELL,
-      extended_hours: true,
-      override_day_trade_checks: false,
-      override_dtbp_checks: false
-    })
+    return new Promise(((resolve, reject) => {
+      this.http.post(this._apiUrl + this._endpoints.orders, {
+        account: this.account.information.url,
+        instrument: stock.instrument.url,
+        symbol: stock.instrument.symbol,
+        type: OrderType.LIMIT,
+        time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
+        trigger: OrderTrigger.IMMEDIATE,
+        price: price,
+        quantity: quantity,
+        side: Sides.SELL,
+        extended_hours: true,
+        override_day_trade_checks: false,
+        override_dtbp_checks: false
+      }).subscribe(res=>{
+        resolve(res);
+      },error=>{
+        reject(error);
+      })
+    }))
+  }
+
+  /**
+   * DOES NOT EXECUTE IN EXTENDED HOURS EVER
+   * @param {StockModule.Stock} stock
+   * @param quantity
+   * @param stop_price
+   * @returns {Promise<any>}
+   * @constructor
+   */
+  StopLossSell(stock:StockModule.Stock, quantity, stop_price){
+    return(new Promise(((resolve, reject) =>{
+      this.http.post(this._apiUrl + this._endpoints.orders, {
+        account: this.account.information.url,
+        instrument: stock.instrument.url,
+        symbol: stock.instrument.symbol,
+        type: OrderType.MARKET,
+        price: stop_price,
+        time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
+        trigger: OrderTrigger.STOP,
+        stop_price : stop_price,
+        quantity: quantity,
+        side: Sides.SELL,
+        extended_hours: false,
+        override_day_trade_checks: false,
+        override_dtbp_checks: false
+      }, {
+        headers:this.setHeaders()
+      }).subscribe(res=>{
+        resolve(res);
+      },error =>{
+        reject(error)
+      })
+    })))
   }
 
   /**

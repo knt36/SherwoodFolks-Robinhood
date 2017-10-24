@@ -73,30 +73,30 @@ export class TopBarComponent {
         return this.isSearch && (this.searchResult == null || this.searchResult.length === 0);
     }
 
-    toggleStock(stock){
+    toggleStock(instrument){
         console.log('click');
-        if(stock.action === Constant.QUERY_ACTION.WATCHING){
-            this.unwatchStock(stock);
+        if(instrument.action === Constant.QUERY_ACTION.WATCHING){
+            this.unwatchStock(instrument);
         } else {
-            this.watchStock(stock);
+            this.watchStock(instrument);
         }
     }
 
-    watchStock(stock){
+    watchStock(instrument){
 
         console.log('watch');
-        this.rb.addStockToWatchList(stock).then(res => {
+        this.rb.addStockToWatchList(instrument).then(res => {
             console.log('watch works');
-            stock.action = Constant.QUERY_ACTION.WATCHING;
+            instrument.action = Constant.QUERY_ACTION.WATCHING;
         });
     }
 
-    unwatchStock(stock){
+    unwatchStock(instrument){
 
         console.log('unwatch');
-        this.rb.removeStockFromWatchList(stock).then(res =>{
+        this.rb.removeStockFromWatchList(instrument).then(res =>{
             console.log('unwatch works');
-            stock.action = Constant.QUERY_ACTION.UNWATCH;
+            instrument.action = Constant.QUERY_ACTION.UNWATCH;
         });
 
     }

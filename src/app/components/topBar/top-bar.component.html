@@ -6,22 +6,22 @@
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 				</span>
 				<input id="search-input" data-toggle="dropdown" [(ngModel)]="this.searchText" (ngModelChange)="this.loadSearchSuggestions(this.searchText)" type="text" class="form-control" placeholder="Add stock to watchlist" aria-describedby="basic-addon1">
+				<div id="search-list">
+					<div class="search-item" *ngFor="let item of this.searchResult">
+						<div class="center-div">
+							<h5>{{item[instrument.SYMBOL]}}</h5>
+							<h6 *ngIf="item[instrument.NAME]">{{item[instrument.NAME]}}</h6>
+						</div>
+						<div class="center-div">
+							<button type="button" class="btn btn-default" [ngClass]="{'hidden': this.item.action === 'none'}" (click)="toggleStock(item)">{{item?.action}}</button>
+						</div>
+					</div>
+					<div *ngIf="isSearchNotFound()" class="search-item center-div">
+						<p>No result found</p>
+					</div>
+				</div>
+			</div>
 
-			</div>
-			<div id="search-list">
-				<div class="search-item" *ngFor="let item of this.searchResult">
-					<div class="center-div">
-						<h5>{{item[instrument.SYMBOL]}}</h5>
-						<h6 *ngIf="item[instrument.NAME]">{{item[instrument.NAME]}}</h6>
-					</div>
-					<div class="center-div">
-						<button type="button" class="btn btn-default" [ngClass]="{'hidden': this.item.action === 'none'}" (click)="alert(click)">{{item?.action}}</button>
-					</div>
-				</div>
-				<div *ngIf="isSearchNotFound()" class="search-item center-div">
-					<p>No result found</p>
-				</div>
-			</div>
 
 
 		</div>

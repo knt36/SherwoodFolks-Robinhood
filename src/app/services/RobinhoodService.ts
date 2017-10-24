@@ -57,7 +57,7 @@ export class RobinhoodService{
     user: 'user/',
     historicals: 'quotes/historicals/',
     add_watchlist: 'watchlists/Default/bulk_add/',
-    delete_watchlist: '/watchlists/Default',
+    delete_watchlist: '/watchlists/Default/',
 
     user_additional_info: "user/additional_info/",
     user_basic_info: "user/basic_info/",
@@ -716,10 +716,10 @@ export class RobinhoodService{
 
   }
 
-  addStockToWatchList(stock:Instrument){
+  addStockToWatchList(item:Instrument){
     return(new Promise((resolve,reject)=>{
       this.http.post(this._apiUrl + this._endpoints.add_watchlist, {
-        symbols: stock.symbol
+        symbols: item.symbol
       },{
         headers: this.setHeaders(),
 
@@ -731,10 +731,10 @@ export class RobinhoodService{
     }));
   }
 
-  removeStockFromWatchList(stock:Instrument){
+  removeStockFromWatchList(item:Instrument){
 
     return(new Promise((resolve,reject)=>{
-      this.http.delete(this._apiUrl + this._endpoints.delete_watchlist + stock.id,{
+      this.http.delete(this._apiUrl + this._endpoints.delete_watchlist + item.id,{
         headers: this.setHeaders()
       }).subscribe(res=>{
         resolve(res);

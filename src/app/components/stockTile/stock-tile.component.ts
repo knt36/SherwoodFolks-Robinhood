@@ -22,7 +22,9 @@ export class StockTileComponent implements OnInit, OnDestroy{
 
     public order;
     orderTypes = [
-        'Market', 'Limit', 'Stop Limit', 'Stop Loss'
+        'Market', 'Limit',
+      // 'Stop Limit',
+      'Stop Loss'
     ];
     historicals:GraphData;
     lastUpdateTime:Date;
@@ -35,12 +37,7 @@ export class StockTileComponent implements OnInit, OnDestroy{
     getGraphInterval:any;
 
     constructor(public rb:RobinhoodService){
-      this.order = {
-        quantity: 0,
-        price: 234.12,
-        totalValue: 0,
-        type: this.orderTypes[0]
-      };
+
 
 
     }
@@ -54,6 +51,12 @@ export class StockTileComponent implements OnInit, OnDestroy{
         }, graphInterval);
 
         this.updateGraph();
+
+      this.order = {
+        quantity: 0,
+        price: this.stock.instrument.quote.last_trade_price,
+        type: this.orderTypes[0]
+      };
     }
 
     ngOnDestroy(){
@@ -64,5 +67,20 @@ export class StockTileComponent implements OnInit, OnDestroy{
         this.rb.getHistoricalsData(this.stock.display.symbol, this.graphOptions).then( x => {
             this.historicals = x;
         });
+    }
+
+    buy(){
+      console.log(this.order);
+      if(this.order.type === "Market"){
+        this.rb.MarketBuy(this.stock, this.order.price, this.order.quantity);
+      }else if (this.order.type === "Limit"){
+        this.rb.ImmediateLimitBuy(this.stock, this.order.price, this.order.quantity);
+      }else if (this.order.type === "Stop Loss"){
+        this.rb.StopLossBuy(this.stock, this.order.quantity, this.order.price);
+      }
+    }
+
+    updatePrice(){
+      this.order.price = this.stock.instrument.quote.last_trade_price;
     }
 }

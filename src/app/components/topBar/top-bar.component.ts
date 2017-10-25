@@ -1,7 +1,7 @@
 /**
  * Created by anhle on 10/14/17.
  */
-import {Component} from "@angular/core";
+import {Component, EventEmitter, Output} from "@angular/core";
 import {RobinhoodService} from "../../services/RobinhoodService";
 import {Constant} from "../../model/constant";
 
@@ -13,8 +13,9 @@ import {Constant} from "../../model/constant";
 
 
 export class TopBarComponent {
+  @Output() public searchStringEmitter:EventEmitter<any> = new EventEmitter<any>();
 
-    public searchText = "";
+  public searchText = "";
     isSearch:boolean = false;
     searchResult:any;
     instrument = Constant.INSTRUMENT;
@@ -34,7 +35,11 @@ export class TopBarComponent {
     ];
 
     constructor(public rb:RobinhoodService){
+    }
 
+    onSearchChange(searchText:string){
+      this.searchStringEmitter.emit(this.searchText);
+      this.loadSearchSuggestions(searchText);
     }
 
     loadSearchSuggestions(searchText){

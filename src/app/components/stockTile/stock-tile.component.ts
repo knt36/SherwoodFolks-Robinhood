@@ -43,8 +43,10 @@ export class StockTileComponent implements OnInit{
     }
 
 
-
-
+    /**
+     * need to have another field to do stop limit buy
+     * TODO: add logic to stop limit buy
+     */
     buy(){
       console.log(this.order);
       if(this.order.type === "Market"){
@@ -55,6 +57,18 @@ export class StockTileComponent implements OnInit{
         this.rb.StopLossBuy(this.stock, this.order.quantity, this.order.price);
       }
     }
+
+    sell(){
+        if(this.order.type === "Market"){
+            this.rb.MarketSell(this.stock, this.order.price, this.order.quantity);
+        }else if (this.order.type === "Limit"){
+            this.rb.ImmediateLimitSell(this.stock, this.order.price, this.order.quantity);
+        }else if (this.order.type === "Stop Loss"){
+            this.rb.StopLossSell(this.stock, this.order.quantity, this.order.price);
+        }
+    }
+
+
 
     /**
      * Need to round the price to 2 decimal points or Robinhood will not take the order

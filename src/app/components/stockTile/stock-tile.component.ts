@@ -20,7 +20,7 @@ export class StockTileComponent implements OnInit{
 
     public order;
     orderTypes = [
-        'Market', 'Limit',
+        'Limit', 'Market',
       // 'Stop Limit',
       'Stop Loss'
     ];
@@ -36,7 +36,7 @@ export class StockTileComponent implements OnInit{
 
 
       this.order = {
-        quantity: 0,
+        quantity: 1,
         price: this.stock.instrument.quote.last_trade_price,
         type: this.orderTypes[0]
       };

@@ -47,9 +47,9 @@ export class ChartComponent implements OnInit, OnDestroy{
         }
         google.charts.setOnLoadCallback(() => {
             this.updateGraph();
-            // this.getGraphInterval = setInterval(() => {
-            //     this.updateGraph();
-            // }, this.graphInterval);
+            this.getGraphInterval = setInterval(() => {
+                this.updateGraph();
+            }, this.graphInterval);
         });
 
     }
@@ -97,7 +97,6 @@ export class ChartComponent implements OnInit, OnDestroy{
     }
 
     updateGraph(){
-        console.log('draw chart');
         this.rb.getHistoricalsData(this.symbol, this.graphOptions).then( x => {
             this.historicals = x;
             this.drawGraph();

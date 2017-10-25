@@ -569,6 +569,9 @@ export class RobinhoodService{
         extended_hours: true,
         override_day_trade_checks: false,
         override_dtbp_checks: false
+      },{
+        headers:this.setHeaders()
+
       }).subscribe(res=>{
         resolve(res);
       },error=>{
@@ -592,6 +595,9 @@ export class RobinhoodService{
         extended_hours: true,
         override_day_trade_checks: false,
         override_dtbp_checks: false
+      },{
+        headers:this.setHeaders()
+
       }).subscribe(res=>{
         resolve(res);
       },error=>{

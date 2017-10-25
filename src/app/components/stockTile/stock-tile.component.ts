@@ -5,9 +5,7 @@
 import {Component, Input, OnInit, OnDestroy} from "@angular/core";
 import {StockModule} from "../../model/Stock.model";
 import Stock = StockModule.Stock;
-import {GraphData} from "../../model/Historical.model";
 import {RobinhoodService} from "../../services/RobinhoodService";
-import {Constant} from "../../model/constant";
 
 @Component({
     selector: 'stock-tile',
@@ -16,7 +14,7 @@ import {Constant} from "../../model/constant";
 })
 
 
-export class StockTileComponent implements OnInit, OnDestroy{
+export class StockTileComponent implements OnInit{
 
     @Input('stock') stock: Stock;
 
@@ -26,15 +24,7 @@ export class StockTileComponent implements OnInit, OnDestroy{
       // 'Stop Limit',
       'Stop Loss'
     ];
-    historicals:GraphData;
-    lastUpdateTime:Date;
-    nextUpdateTime:Date;
-    graphOptions:any = {
-        interval: Constant.Graph.INTERVAL.FIVE_M,
-        span: Constant.Graph.SPAN.DAY,
-        bound: Constant.Graph.BOUND.REGULAR
-    };
-    getGraphInterval:any;
+
 
     constructor(public rb:RobinhoodService){
 
@@ -43,14 +33,7 @@ export class StockTileComponent implements OnInit, OnDestroy{
     }
 
     ngOnInit() {
-        // change this variable as later we allow users to choose their own settings
-        const graphInterval = (5*60*1000);
 
-        this.getGraphInterval = setInterval(() => {
-            this.updateGraph();
-        }, graphInterval);
-
-        this.updateGraph();
 
       this.order = {
         quantity: 0,
@@ -59,15 +42,8 @@ export class StockTileComponent implements OnInit, OnDestroy{
       };
     }
 
-    ngOnDestroy(){
-        clearInterval(this.getGraphInterval);
-    }
 
-    updateGraph(){
-        this.rb.getHistoricalsData(this.stock.display.symbol, this.graphOptions).then( x => {
-            this.historicals = x;
-        });
-    }
+
 
     buy(){
       console.log(this.order);

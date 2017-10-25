@@ -61,10 +61,10 @@
     &:hover {
         .layover-tile{
             opacity: 1;
-            -webkit-transition: opacity 0.3s ease-in-out;
-            -moz-transition: opacity 0.3s ease-in-out;
-            -o-transition: opacity 0.3s ease-in-out;
-            transition: opacity 0.3s ease-in-out;
+            //-webkit-transition: opacity 0.3s ease-in-out;
+            //-moz-transition: opacity 0.3s ease-in-out;
+            //-o-transition: opacity 0.3s ease-in-out;
+            //transition: opacity 0.3s ease-in-out;
         }
     }
 }
@@ -78,11 +78,11 @@
     position: absolute;
     top: -8px;
     left: -10px;
-
-    -webkit-transition: opacity 0.3s ease-in-out;
-    -moz-transition: opacity 0.3s ease-in-out;
-    -o-transition: opacity 0.3s ease-in-out;
-    transition: opacity 0.3s ease-in-out;
+    //
+    //-webkit-transition: opacity 0.3s ease-in-out;
+    //-moz-transition: opacity 0.3s ease-in-out;
+    //-o-transition: opacity 0.3s ease-in-out;
+    //transition: opacity 0.3s ease-in-out;
 
     .order-input{
         @include flex-div-btw();

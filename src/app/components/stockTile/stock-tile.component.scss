@@ -22,6 +22,10 @@
     .upper-info{
         @include flex-div-btw();
 
+        h4{
+            font-size: $sm-font-size;
+        }
+
 
         h3 {
             font-size: $md-font-size;

@@ -56,7 +56,12 @@ export class StockTileComponent implements OnInit{
       }
     }
 
+    /**
+     * Need to round the price to 2 decimal points or Robinhood will not take the order
+     * for stock with price > $1
+     */
     updatePrice(){
-      this.order.price = this.stock.instrument.quote.last_trade_price;
+      this.order.price = Number(this.stock.instrument.quote.last_trade_price).toFixed(2);
     }
+
 }

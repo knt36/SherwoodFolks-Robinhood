@@ -1,8 +1,11 @@
 /**
  * Created by anhle on 8/7/17.
  */
-import { Component, Input, OnChanges} from '@angular/core';
+import { Component, Input, OnInit, OnDestroy} from '@angular/core';
 import {GraphData} from "../../model/Historical.model";
+import {Constant} from "../../model/constant";
+import {RobinhoodService} from "../../services/RobinhoodService";
+
 declare var google:any;
 
 @Component({
@@ -10,7 +13,7 @@ declare var google:any;
     templateUrl: './chart.component.html',
 })
 
-export class ChartComponent implements OnChanges{
+export class ChartComponent implements OnInit, OnDestroy{
 
     private chart: any;
     private options: any;
@@ -18,12 +21,23 @@ export class ChartComponent implements OnChanges{
     private isInitialized:boolean;
     private googleLoaded:any;
     public idRandom = Math.random();
+    private historicals:GraphData;
+    private lastUpdateTime:Date;
+    private nextUpdateTime:Date;
+    public graphOptions:any = {
+        interval: Constant.Graph.INTERVAL.FIVE_M,
+        span: Constant.Graph.SPAN.DAY,
+        bound: Constant.Graph.BOUND.REGULAR
+    };
+    private getGraphInterval:any;
 
-    @Input('data') historicals:GraphData;
+    // change this variable as later we allow users to choose their own settings
+    private graphInterval:number = (5*60*1000);
+
     @Input('symbol') symbol:string;
 
 
-    constructor(){
+    constructor(public rb:RobinhoodService){
     }
 
     ngOnInit() {
@@ -31,8 +45,17 @@ export class ChartComponent implements OnChanges{
             this.googleLoaded = true;
             google.charts.load('current',  {packages: ['corechart', 'bar']});
         }
-        google.charts.setOnLoadCallback(() => this.drawGraph());
+        google.charts.setOnLoadCallback(() => {
+            this.updateGraph();
+            // this.getGraphInterval = setInterval(() => {
+            //     this.updateGraph();
+            // }, this.graphInterval);
+        });
 
+    }
+
+    ngOnDestroy(){
+        clearInterval(this.getGraphInterval);
     }
 
 
@@ -73,9 +96,11 @@ export class ChartComponent implements OnChanges{
 
     }
 
-    ngOnChanges(){
-        if(this.googleLoaded){
-            google.charts.setOnLoadCallback(() => this.drawGraph());
-        }
+    updateGraph(){
+        console.log('draw chart');
+        this.rb.getHistoricalsData(this.symbol, this.graphOptions).then( x => {
+            this.historicals = x;
+            this.drawGraph();
+        });
     }
 }

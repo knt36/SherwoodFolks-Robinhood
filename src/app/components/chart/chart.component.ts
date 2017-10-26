@@ -17,6 +17,8 @@ declare var google:any;
 
 export class ChartComponent implements OnInit, OnDestroy{
 
+  @ViewChild(BaseChartDirective) chartElement: BaseChartDirective;
+
   // lineChart
   public lineChartData:Array<any> = [
     {data: [], label: 'Stock'}
@@ -102,18 +104,19 @@ export class ChartComponent implements OnInit, OnDestroy{
 
 
     updateGraph(){
+        const newLineChartData = [];
+        const labels = [];
+        newLineChartData.push({
+          data: [],
+          label: "stock"
+        });
         this.rb.getHistoricalsData(this.symbol, this.graphOptions).then( x => {
-          this.lineChartData= [];
-          this.lineChartData.push({
-            data: [],
-            label: "stock"
-          })
-
           x.data.forEach(item=>{
-            this.lineChartData[0].data.push(item);
-            this.lineChartLabels.push(item);
+            newLineChartData[0].data.push(item);
+            labels.push(item);
           })
-
+          this.lineChartData = newLineChartData;
+          this.chartElement.chart.config.data.labels = labels;
         });
     }
 }

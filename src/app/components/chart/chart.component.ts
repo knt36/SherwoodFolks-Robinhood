@@ -1,10 +1,12 @@
 /**
  * Created by anhle on 8/7/17.
  */
-import { Component, Input, OnInit, OnDestroy} from '@angular/core';
+import {Component, Input, OnInit, OnDestroy, ViewChild, ChangeDetectorRef} from '@angular/core';
 import {GraphData} from "../../model/Historical.model";
 import {Constant} from "../../model/constant";
 import {RobinhoodService} from "../../services/RobinhoodService";
+import {BaseChartDirective} from "ng2-charts";
+
 
 declare var google:any;
 
@@ -15,15 +17,52 @@ declare var google:any;
 
 export class ChartComponent implements OnInit, OnDestroy{
 
-    private chart: any;
-    private options: any;
-    private data:any;
-    private isInitialized:boolean;
-    private googleLoaded:any;
-    public idRandom = Math.random();
-    private historicals:GraphData;
-    private lastUpdateTime:Date;
-    private nextUpdateTime:Date;
+  // lineChart
+  public lineChartData:Array<any> = [
+    {data: [], label: 'Stock'}
+  ];
+  public lineChartOptions:any = {
+    legend:{
+      display:false
+    },
+    scales:
+      {
+        xAxes: [{
+          display: false,
+
+        }],
+        yAxes:[{
+          display:false
+        }]
+      },
+    elements:
+      {
+        point:
+          {
+            display:false,
+            radius: 0.5,
+            hitRadius: 0.5,
+            hoverRadius: 12,
+            hoverBorderWidth: 2
+          }
+      },
+    responsive: true,
+    animation:false,
+    maintainAspectRatio: false
+  };
+  public lineChartColors:Array<any> = [
+    { // grey
+      backgroundColor: 'rgba(148,159,177,0.2)',
+      borderColor: 'rgba(148,159,177,1)',
+      pointBackgroundColor: 'rgba(148,159,177,1)',
+    }
+  ];
+
+  public lineChartLabels:Array<any> = [];
+
+  public lineChartLegend:boolean = true;
+  public lineChartType:string = "line";
+
     public graphOptions:any = {
         interval: Constant.Graph.INTERVAL.FIVE_M,
         span: Constant.Graph.SPAN.DAY,
@@ -37,21 +76,15 @@ export class ChartComponent implements OnInit, OnDestroy{
     @Input('symbol') symbol:string;
 
 
-    constructor(public rb:RobinhoodService){
+    constructor(public rb:RobinhoodService, public c: ChangeDetectorRef){
+
     }
 
     ngOnInit() {
-        if(!this.googleLoaded) {
-            this.googleLoaded = true;
-            google.charts.load('current',  {packages: ['corechart', 'bar']});
-        }
-        google.charts.setOnLoadCallback(() => {
+        this.updateGraph();
+        this.getGraphInterval = setInterval(() => {
             this.updateGraph();
-            this.getGraphInterval = setInterval(() => {
-                this.updateGraph();
-            }, this.graphInterval);
-        });
-
+        }, this.graphInterval);
     }
 
     ngOnDestroy(){
@@ -67,39 +100,20 @@ export class ChartComponent implements OnInit, OnDestroy{
         return google.visualization.arrayToDataTable(array);
     }
 
-    drawGraph() {
-
-        if(this.historicals && this.historicals.data){
-            let table = this.historicals.data.map((x, i) => [i, x]);
-            table.unshift(['Time', 'Stock']);
-            this.data = this.createDataTable(table);
-
-            this.options = {
-                legend: 'none',
-                colors: [this.historicals.color],
-                lineWidth: 1,
-                hAxis: {
-                    baselineColor: 'none',
-                    ticks: []
-                },
-                vAxis: {
-                    ticks: [this.historicals.closePrice],
-                    textPosition: 'none'
-                }
-
-            };
-
-            this.chart = this.createLineChart(document.getElementById('stock-chart' + this.symbol + this.idRandom));
-            this.chart.draw(this.data, this.options);
-
-        }
-
-    }
 
     updateGraph(){
         this.rb.getHistoricalsData(this.symbol, this.graphOptions).then( x => {
-            this.historicals = x;
-            this.drawGraph();
+          this.lineChartData= [];
+          this.lineChartData.push({
+            data: [],
+            label: "stock"
+          })
+
+          x.data.forEach(item=>{
+            this.lineChartData[0].data.push(item);
+            this.lineChartLabels.push(item);
+          })
+
         });
     }
 }

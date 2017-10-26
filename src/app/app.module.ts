@@ -39,7 +39,8 @@ import {TopBarComponent} from "./components/topBar/top-bar.component";
       FormsModule,
       AppRoutingModule,
       ChartsModule,
-      HttpModule
+      HttpModule,
+      ChartsModule
   ],
   providers: [RobinhoodService],
   bootstrap: [AppComponent]

@@ -158,14 +158,7 @@ export class RobinhoodService{
       this.serviceInterval = setInterval(function(){
         if(start){
           start = false;
-          const serviceList = [that.setAccountInformation(),that.getOrders().then((res)=>{
-            const promises = [];
-            promises.push(that.getPositions());
-            promises.push(that.getWatchList());
-            Promise.all(promises).then(()=>{
-              return(res);
-            })
-          })];
+          const serviceList = [that.setAccountInformation(),that.getPositions(),that.getWatchList(), that.getOrders()];
           Promise.all(serviceList.map(p => p.catch(e => e))).then(function(res){
             setTimeout(function(){
               start = true;
@@ -238,7 +231,14 @@ export class RobinhoodService{
 
         // updating new stock after getting the promises
         Promise.all(promises).then(()=>{
-
+          // add orders to the stock
+          positions.forEach(position=>{
+            this.account.recentOrders.forEach(order=>{
+              if(position.instrument.symbol === order.instrument.symbol){
+                position.orders.push(order);
+              }
+            })
+          })
           this.updateStock(this.account.positions, positions);
 
 
@@ -311,7 +311,16 @@ export class RobinhoodService{
         watchList.forEach(watchItem =>{
           promises.push(this.getInstrument(watchItem));
         })
+
         Promise.all(promises).then(()=>{
+          // add orders to the stock
+          watchList.forEach(watch=>{
+            this.account.recentOrders.forEach(order=>{
+              if(watch.instrument.symbol === order.instrument.symbol){
+                watch.orders.push(order);
+              }
+            })
+          })
           this.updateStock(this.account.watchList, watchList);
           resolve(res);
         });
@@ -705,9 +714,10 @@ export class RobinhoodService{
   updateStock(dict, newList){
     var map = {};
     const keys = Object.keys(dict);
+    const orderDic = {};
 
     newList.forEach((stock:Stock) => {
-      stock.initDisplayData(null, null);
+      stock.initDisplayData();
 
       let id = stock[STOCK.INSTRUMENT][INSTRUMENT.SYMBOL];
       map[id] = stock;

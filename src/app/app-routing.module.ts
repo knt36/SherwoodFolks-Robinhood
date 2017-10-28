@@ -5,6 +5,7 @@ import {AllPositionComponent} from "./components/positions/positions.component";
 import {WatchListComponent} from "./components/watchList/watch-list.component";
 import {LoginComponent} from "./components/login/login.component";
 import {OverviewComponent} from "./components/overview/overview.component";
+import {ContactComponent} from "./components/contact/contact.component";
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -13,8 +14,9 @@ const routes: Routes = [
     children: [
       { path: 'overview', component: OverviewComponent },
       { path: 'positions', component: AllPositionComponent },
-      { path: 'watchList', component: WatchListComponent}
-      ]},
+      { path: 'watchList', component: WatchListComponent},
+      { path: 'contact', component: ContactComponent}
+    ]},
   { path: 'login', component: LoginComponent },
 ]
 

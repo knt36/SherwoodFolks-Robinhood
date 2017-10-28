@@ -17,6 +17,7 @@ import {LoginComponent} from "./components/login/login.component";
 import {BsDropdownModule} from "ngx-bootstrap";
 import {HttpClientModule} from "@angular/common/http";
 import {TopBarComponent} from "./components/topBar/top-bar.component";
+import {ContactComponent} from "./components/contact/contact.component";
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {TopBarComponent} from "./components/topBar/top-bar.component";
       WatchTileComponent,
       ChartComponent,
       LoginComponent,
-      TopBarComponent
+      TopBarComponent,
+      ContactComponent
 
   ],
   imports: [

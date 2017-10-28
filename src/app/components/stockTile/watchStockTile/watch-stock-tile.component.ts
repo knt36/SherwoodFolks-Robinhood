@@ -7,6 +7,7 @@ import Stock = StockModule.Stock;
 import {DecimalPipe} from "@angular/common";
 import {RobinhoodService} from "../../../services/RobinhoodService";
 import {StockModule} from "../../../model/Stock.model";
+import {Constant} from "../../../model/constant";
 
 @Component({
   selector: 'watch-stock-tile',
@@ -92,7 +93,7 @@ export class WatchStockTileComponent implements OnInit, OnChanges{
     this.display.dailyPercentChangeClass = this.stock!= null? this.stock.display.stock_gain: "loading";
 
     this.display.text1.info = missedProfit!=null? "$" + missedProfit: "none";
-    this.display.text1.class = this.stock!=null? this.stock.display.is_profit: "loading";
+    this.display.text1.class = missedProfit!=null?(Number.parseFloat(missedProfit)<0?Constant.COLOR.GAIN:Constant.COLOR.LOSS):null;
 
     this.display.text2.info = soldPricePercentDiff != null? "%" + soldPricePercentDiff: "none";
     this.display.text3.info = lastOrder != null? parseInt(lastOrder.cumulative_quantity,10) + "": "none";

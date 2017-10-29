@@ -223,7 +223,10 @@ export class RobinhoodService{
         // get all instruments for each stock
         const positions = [];
         res.json().results.forEach(r=>{
-          positions.push(new Stock(r, StockType.POSITION));
+          const s:Stock = new Stock(r, StockType.POSITION);
+          if(Number.parseInt(s.quantity)>0){
+            positions.push(s);
+          }
         });
         const promises = [];
         positions.forEach(position=>{

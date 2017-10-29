@@ -23,8 +23,8 @@
 
             <div class="section-stock">
           <span *ngFor="let k of this.Object.keys(this.rb.account.watchList)">
-              <stock-tile *ngIf="this.filterName=='' || k.toLowerCase().includes(this.filterName) || this.rb.account.watchList[k]?.instrument?.name.toLowerCase().includes(this.filterName)"
-                          [stock]="this.rb.account.watchList[k]"></stock-tile>
+              <watch-stock-tile *ngIf="this.filterName=='' || k.toLowerCase().includes(this.filterName) || this.rb.account.watchList[k]?.instrument?.name.toLowerCase().includes(this.filterName)"
+                          [stock]="this.rb.account.watchList[k]"></watch-stock-tile>
           </span>
             </div>
           </div>

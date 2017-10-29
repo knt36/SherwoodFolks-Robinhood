@@ -19,6 +19,8 @@ import {HttpClientModule} from "@angular/common/http";
 import {TopBarComponent} from "./components/topBar/top-bar.component";
 import {ContactComponent} from "./components/contact/contact.component";
 import {OrderPanelComponent} from "./components/pendingPanel/order-panel.component";
+import {DecimalPipe} from "@angular/common";
+import {WatchStockTileComponent} from "./components/stockTile/watchStockTile/watch-stock-tile.component";
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import {OrderPanelComponent} from "./components/pendingPanel/order-panel.compone
       LoginComponent,
       TopBarComponent,
       ContactComponent,
-      OrderPanelComponent
+      OrderPanelComponent,
+      WatchStockTileComponent
 
   ],
   imports: [
@@ -46,7 +49,7 @@ import {OrderPanelComponent} from "./components/pendingPanel/order-panel.compone
       HttpModule,
       ChartsModule
   ],
-  providers: [RobinhoodService],
+  providers: [RobinhoodService, DecimalPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

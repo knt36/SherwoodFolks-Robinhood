@@ -1,0 +1,53 @@
+@import "../../styles/white-theme";
+
+.panel{
+  background-color: $active-background-color;
+  min-height: 100vh;
+  width: 200px;
+  height: 100%;
+
+  .order{
+    background-color: $active-background-color;
+    margin: 0px 10px;
+    border-bottom: 1px solid $hover-background-color;
+    padding: 0px 8px;
+    position: relative;
+    height: 60px;
+
+    @include flex-div-btw();
+
+    h6{
+      color: $normal-font-color;
+    }
+
+    &:hover{
+      .cancel-overlay{
+        opacity: 1;
+
+      }
+    }
+
+    .cancel-overlay{
+      position: absolute;
+      top: 0px;
+      left: -10px;
+      width: 200px;
+      height: 60px;
+      background-color: $layover-background-color;
+      opacity: 0;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      button{
+        height: 40px;
+      }
+
+    }
+  }
+
+  .section-title{
+    margin: 8px;
+  }
+}

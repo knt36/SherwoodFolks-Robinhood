@@ -1,34 +1,44 @@
-
-
-<div id="overviewPage">
+<div id="overviewPage" class="container-fluid">
   <top-bar (searchStringEmitter) = "this.onSearchStringEmitter($event)" ></top-bar>
-  <div class="container-fluid">
-    <div class="item" id="stocks">
-      <div id="currentPositions">
-        <h5 class="section-title">
-          Positions
-        </h5>
+  <div class="overview-content">
+      <div class="container-fluid" id="stocks-panel" [ngClass]="{'has-sidebar' : this.hidePanel == true}">
+        <div class="item" id="stocks">
+          <div id="currentPositions">
+            <h5 class="section-title">
+              Positions
+            </h5>
 
-        <div class="section-stock">
+            <div class="section-stock">
           <span *ngFor="let k of this.Object.keys(this.rb.account.positions)">
             <stock-tile *ngIf="this.filterName=='' || k.toLowerCase().includes(this.filterName) || this.rb.account.positions[k]?.instrument?.name.toLowerCase().includes(this.filterName)"
                         [stock]="this.rb.account.positions[k]"></stock-tile>
           </span>
-        </div>
-      </div>
+            </div>
+          </div>
 
-      <div id="watchList">
-        <h5 class="section-title">
-          WatchList
-        </h5>
+          <div id="watchList">
+            <h5 class="section-title">
+              WatchList
+            </h5>
 
-        <div class="section-stock">
+            <div class="section-stock">
           <span *ngFor="let k of this.Object.keys(this.rb.account.watchList)">
               <stock-tile *ngIf="this.filterName=='' || k.toLowerCase().includes(this.filterName) || this.rb.account.watchList[k]?.instrument?.name.toLowerCase().includes(this.filterName)"
                           [stock]="this.rb.account.watchList[k]"></stock-tile>
           </span>
+            </div>
+          </div>
         </div>
+
+        <button (click)="togglePanel()" title="toggle order panel" class="btn toggle-panel-btn">
+          <span class="glyphicon glyphicon-list-alt"></span>
+        </button>
       </div>
-    </div>
+
+
+      <div [ngClass]="{'hidden' : this.hidePanel == true}" id="order-panel">
+        <order-panel></order-panel>
+      </div>
+
   </div>
 </div>

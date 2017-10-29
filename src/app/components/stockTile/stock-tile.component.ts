@@ -2,7 +2,7 @@
  * Created by anhle on 8/5/17.
  */
 
-import {Component, Input, OnInit, OnDestroy} from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
 import {StockModule} from "../../model/Stock.model";
 import Stock = StockModule.Stock;
 import {RobinhoodService} from "../../services/RobinhoodService";

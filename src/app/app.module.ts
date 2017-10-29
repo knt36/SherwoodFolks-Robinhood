@@ -18,6 +18,7 @@ import {BsDropdownModule} from "ngx-bootstrap";
 import {HttpClientModule} from "@angular/common/http";
 import {TopBarComponent} from "./components/topBar/top-bar.component";
 import {ContactComponent} from "./components/contact/contact.component";
+import {OrderPanelComponent} from "./components/pendingPanel/order-panel.component";
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import {ContactComponent} from "./components/contact/contact.component";
       ChartComponent,
       LoginComponent,
       TopBarComponent,
-      ContactComponent
+      ContactComponent,
+      OrderPanelComponent
 
   ],
   imports: [

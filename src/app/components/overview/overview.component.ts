@@ -11,7 +11,6 @@ import {RobinhoodService} from "../../services/RobinhoodService";
 
 })
 export class OverviewComponent {
-    title = 'app';
     Object = null;
     positions = [
         {
@@ -34,6 +33,8 @@ export class OverviewComponent {
         password: ""
     }
 
+    private hidePanel:boolean = false;
+
     constructor(public router: Router, public rb: RobinhoodService) {
         // this.positions = this.rb.account.positions;
         // this.watchList = this.rb.account.watchList;
@@ -44,5 +45,8 @@ export class OverviewComponent {
       this.filterName = event.toLowerCase().trim();
     }
 
+    togglePanel(){
+      this.hidePanel = !this.hidePanel;
+    }
 
 }

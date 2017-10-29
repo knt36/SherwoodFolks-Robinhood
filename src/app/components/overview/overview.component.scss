@@ -5,44 +5,38 @@
   min-height: 100vh;
   @include stock-page();
 
+  .overview-content{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  #stocks-panel{
+    position: relative;
+    transition: width 0.3s ease;
+    width: 100%;
+
+    .toggle-panel-btn{
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: $layover-background-color;
+      color: white;
+      font-size: 15px;
+
+      &:hover{
+        background-color: $green-color;
+      }
+    }
+  }
+
+  #order-panel{
+    transition: width 0.3s ease;
+    padding-left: 0px;
+  }
+
+  #stocks-panel .has-sidebar{
+    min-width: calc(100% - 200px);
+  }
+
 }
-//
-//#stocks{
-//  background-color:white;
-//  border-radius: 5px;
-//  border:white 1px solid;
-//}
-//
-//#watchList{
-//  background-color:white;
-//  border-radius: 5px;
-//  border:white 1px solid;
-//}
-//
-//#orders{
-//  width:100%;
-//  display:inline-block;
-//  position:fixed;
-//  background-color:#1abc9c;
-//  height:100vh;
-//  overflow-x:hidden;
-//  overflow-y:scroll;
-//}
-//
-//#orderField{
-//  background-color:black;
-//  color:white;
-//}
-//
-//.Label{
-//  padding:1em;
-//  background: white;
-//  border-bottom: solid 2px lightslategrey;
-//  border-top: solid 2px lightslategrey;
-//
-//}
-//
-//#orderEntry{
-//  margin-top:0.5em;
-//  background-color:whitesmoke;
-//}

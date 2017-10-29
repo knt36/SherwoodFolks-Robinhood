@@ -18,6 +18,11 @@ import {BsDropdownModule} from "ngx-bootstrap";
 import {HttpClientModule} from "@angular/common/http";
 import {TopBarComponent} from "./components/topBar/top-bar.component";
 import {ContactComponent} from "./components/contact/contact.component";
+import {OrderPanelComponent} from "./components/pendingPanel/order-panel.component";
+import {DecimalPipe} from "@angular/common";
+import {WatchStockTileComponent} from "./components/stockTile/watchStockTile/watch-stock-tile.component";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {SimpleNotificationsModule} from "angular2-notifications/dist";
 
 @NgModule({
   declarations: [
@@ -31,7 +36,9 @@ import {ContactComponent} from "./components/contact/contact.component";
       ChartComponent,
       LoginComponent,
       TopBarComponent,
-      ContactComponent
+      ContactComponent,
+      OrderPanelComponent,
+      WatchStockTileComponent
 
   ],
   imports: [
@@ -42,9 +49,11 @@ import {ContactComponent} from "./components/contact/contact.component";
       AppRoutingModule,
       ChartsModule,
       HttpModule,
-      ChartsModule
+      ChartsModule,
+      BrowserAnimationsModule,
+      SimpleNotificationsModule.forRoot()
   ],
-  providers: [RobinhoodService],
+  providers: [RobinhoodService, DecimalPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

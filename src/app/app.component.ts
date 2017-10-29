@@ -1,4 +1,6 @@
 import {Component, ViewEncapsulation} from '@angular/core';
+import {RobinhoodService} from "./services/RobinhoodService";
+import {NotificationsService} from "angular2-notifications/dist";
 
 @Component({
   selector: 'app-root',
@@ -8,4 +10,11 @@ import {Component, ViewEncapsulation} from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+  option = {
+    timeOut: 2000,
+    showProgressBar: true,
+    pauseOnHover: false,
+    clickToClose: false
+  }
+
 }

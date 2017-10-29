@@ -1,0 +1,41 @@
+<div class="panel">
+
+  <div id="pending-order">
+    <h5 class="section-title">pending order</h5>
+    <div *ngFor="let order of this.pendingOrder">
+      <div class="order" [ngStyle]="{'border-left-color': order.color}">
+        <div class="left text-left">
+          <h5>{{order.symbol}}</h5>
+          <h6>{{order.type}}</h6>
+        </div>
+        <div class="right text-right">
+          <h6>${{order.avg_cost}}/SHARE</h6>
+          <h6>{{order.quantity}} SHARE</h6>
+        </div>
+        <div class="cancel-overlay">
+          <button (click)="this.cancelOrder()" type="button" class="btn btn-danger">Cancel Order</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="recent-order">
+    <h5 class="section-title">recent purchase</h5>
+    <div *ngFor="let order of this.recentOrder">
+      <div class="order info-tooltip" [ngStyle]="{'border-left-color': order.color}">
+        <span class="order-status">
+          Order {{order.status}}
+        </span>
+        <div class="left text-left">
+          <h5>{{order.symbol}}</h5>
+          <h6>{{order.type}}</h6>
+        </div>
+        <div class="right text-right">
+          <h6>${{order.avg_cost}}/SHARE</h6>
+          <h6>{{order.quantity}} SHARE</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

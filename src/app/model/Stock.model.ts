@@ -1,33 +1,37 @@
 import {GraphData} from "./Historical.model";
 import {Constant} from "./constant";
+import {OrderModule} from "./Order.model";
 
 export module StockModule {
-   export class StockType{
+   import Order = OrderModule.Order;
+
+  export class StockType{
      public static POSITION = "POSITION";
      public static WATCHLIST = "WATCHLIST";
    }
 
     export class Stock {
-        TYPE: StockType;
-        shares_held_for_stock_grants: string;
-        account: string;
-        intraday_quantity: string;
-        intraday_average_buy_price: string;
-        url: string;
-        created_at: Date;
-        updated_at: Date;
-        shares_held_for_buys: string;
-        average_buy_price: string;
-        instrument: Instrument;
-        shares_held_for_sells: string;
-        quantity: string;
-        display: Display;
+      TYPE: StockType;
+      orders:Order[] = [];
+      shares_held_for_stock_grants: string;
+      account: string;
+      intraday_quantity: string;
+      intraday_average_buy_price: string;
+      url: string;
+      created_at: Date;
+      updated_at: Date;
+      shares_held_for_buys: string;
+      average_buy_price: string;
+      instrument: Instrument;
+      shares_held_for_sells: string;
+      quantity: string;
+      display: Display;
 
 
-    public constructor(data, type:StockType){
+      public constructor(data, type: StockType) {
         this.shares_held_for_buys = data.shares_held_for_buys;
-        this.account= data.account;
-        this.intraday_quantity= data.intraday_quantity;
+        this.account = data.account;
+        this.intraday_quantity = data.intraday_quantity;
         this.intraday_average_buy_price = data.intraday_average_buy_price;
         this.url = data.url;
         this.created_at = data.created_at;
@@ -35,40 +39,53 @@ export module StockModule {
         this.shares_held_for_buys = data.shares_held_for_buys;
         this.average_buy_price = data.average_buy_price;
         this.instrument = data.instrument;
-        this.shares_held_for_sells =data.shares_held_for_sells;
+        this.shares_held_for_sells = data.shares_held_for_sells;
         this.quantity = data.quantity;
         this.display = null;
         this.TYPE = type;
-    }
+      }
 
-    public initDisplayData(lastSoldPrice, lastQuantitySold){
+      public getLastSoldOrder(){
+        if(this.orders == null || this.orders.length === 0){
+          return(null);
+        }
+        for(const o in this.orders){
+          const order:Order = this.orders[o];
+          if(order.side === 'sell' && order.state === Constant.State.FILLED){
+            return(order);
+          }
+        }
+        return(null);
+      }
+
+      public initDisplayData() {
         this.display = new Display();
         this.display.symbol = this.instrument.symbol;
-        this.display.quantity = this.quantity!=null? Number(this.quantity): 0;
-        this.display.avg_cost = this.average_buy_price!= null ? Number(this.average_buy_price) : 0;
+        this.display.quantity = this.quantity != null ? Number(this.quantity) : 0;
+        this.display.avg_cost = this.average_buy_price != null ? Number(this.average_buy_price) : 0;
         this.display.price = Number(this.instrument.quote.last_trade_price);
 
         const currentValue = this.display.price * this.display.quantity;
         const prevClose = Number(this.instrument.quote.adjusted_previous_close);
-        const percentChange = prevClose > 0 ? ((this.display.price - prevClose) / prevClose)*100 : 0;
+        const percentChange = prevClose > 0 ? ((this.display.price - prevClose) / prevClose) * 100 : 0;
 
-        if(this.TYPE === StockType.POSITION){
-            const totalCost = this.display.avg_cost * this.display.quantity;
-            const profit = currentValue - totalCost;
-            const percentReturn = totalCost > 0 ? (profit / totalCost)*100 : 0;
+        if (this.TYPE === StockType.POSITION) {
+          const totalCost = this.display.avg_cost * this.display.quantity;
+          const profit = currentValue - totalCost;
+          const percentReturn = totalCost > 0 ? (profit / totalCost) * 100 : 0;
 
-            this.display.total_profit = profit;
-            this.display.percent_return = percentReturn.toFixed(2).toString();
-            this.display.is_profit = this.display.total_profit > 0 ? Constant.COLOR.GAIN : Constant.COLOR.LOSS;
-        }else if(this.TYPE===StockType.WATCHLIST){
-            this.display.percent_return = "0";
-            this.display.total_profit = 0;
+          this.display.total_profit = profit;
+          this.display.percent_return = percentReturn.toFixed(2).toString();
+          this.display.is_profit = this.display.total_profit > 0 ? Constant.COLOR.GAIN : Constant.COLOR.LOSS;
+        } else if (this.TYPE === StockType.WATCHLIST) {
+          this.display.percent_return = "0";
+          this.display.total_profit = 0;
         }
 
 
         this.display.percent_change = percentChange.toFixed(2).toString();
         this.display.stock_gain = percentChange > 0 ? Constant.COLOR.GAIN : Constant.COLOR.LOSS;
-    }
+      }
     }
 
     export class Display {

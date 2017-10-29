@@ -1,6 +1,7 @@
 $background-color: #f4f7f9;
 $active-background-color: white;
 $hover-background-color: #eee;
+$sidebar-background-color: #dddddd;
 $bold-font-color: black;
 $normal-font-color: #83949f;
 $light-font-color: #bcbaba;
@@ -19,6 +20,7 @@ $border-radius: 3px;
 $std-width: 70px;
 $std-btn-height: 40px;
 
+* {box-sizing: border-box}
 
 .green{
     color: $green-color !important;
@@ -36,6 +38,15 @@ $std-btn-height: 40px;
     padding-left: 0px;
     padding-right: 0px;
 }
+
+
+.section-title{
+  text-transform: uppercase;
+  color: $bold-font-color;
+  font-size: $sm-font-size;
+  font-weight: 500;
+}
+
 
 @mixin border-right{
   border-right: 2px solid $active-background-color;
@@ -71,16 +82,6 @@ $std-btn-height: 40px;
     margin-left: $std-width;
     overflow: hidden;
 
-
-
-    .section-title{
-        text-transform: uppercase;
-        color: $bold-font-color;
-        font-size: $md-font-size;
-        font-weight: 500;
-        margin: 15px 20px;
-    }
-
     .section-stock{
         display: flex;
         flex-wrap: wrap;
@@ -88,7 +89,11 @@ $std-btn-height: 40px;
         margin: auto 0px auto 10px;
     }
 
+    #stocks-panel .section-title{
+      margin: 15px 20px;
+    }
 }
+
 
 
 @mixin custom-top-bar {

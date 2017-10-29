@@ -2,11 +2,10 @@
 
 .panel{
   background-color: $active-background-color;
-  min-height: 100vh;
   width: 200px;
-  height: 100%;
+  @include static-scroll-y();
 
-  .order{
+  .order {
     background-color: $active-background-color;
     border-bottom: 1px $hover-background-color;
     padding: 0px 10px;
@@ -16,18 +15,17 @@
 
     @include flex-div-btw();
 
-    h6{
+    h6 {
       color: $normal-font-color;
     }
 
-    &:hover{
-      .cancel-overlay{
+    &:hover {
+      .cancel-overlay {
         opacity: 1;
-
       }
     }
 
-    .cancel-overlay{
+    .cancel-overlay {
       position: absolute;
       top: 0px;
       left: 0px;
@@ -35,20 +33,14 @@
       height: 60px;
       background-color: $layover-background-color;
       opacity: 0;
-
       display: flex;
       justify-content: center;
       align-items: center;
 
-      button{
+      button {
         height: 40px;
       }
-
     }
-
-
-
-
   }
 
   .info-tooltip{
@@ -56,10 +48,11 @@
     .order-status{
       display: none;
       position:absolute;
+      width: max-content;
       top: 50%;
-      left: -5%;
-      transform: translate(-100%, -50%);
-      padding: 8px 10px;
+      left: 50%;
+      transform: translate(-50%, 100%);
+      padding: 8px 8px;
       color: $light-font-color;
       border-radius: 5px;
       background-color: $layover-background-color;
@@ -73,19 +66,20 @@
       position: absolute;
       width: 0;
       border: 10px solid transparent;
-      border-left-color: $layover-background-color;
-      top: 25%;
-      left: 100%;
-      z-index: 2;
+      border-bottom-color: $layover-background-color;
+      top: -55%;
+      left: 40%;
+      z-index: 15;
     }
 
     &:hover .order-status, .order-status:before{
       display: inline-block;
     }
+
   }
 
   .section-title{
-    margin: 8px;
+    margin: 12px 8px;
 
     span{
       margin-left: 8px;

@@ -58,6 +58,11 @@ $std-btn-height: 40px;
     box-shadow: 3px 3px 10px -1px rgba(173,168,173,1);
 }
 
+@mixin static-scroll-y{
+  height: 100vh;
+  overflow-y: scroll;
+}
+
 @mixin flex-div-btw{
     display: flex;
     flex-direction: row;

@@ -5,7 +5,7 @@
  * Created by anhle on 8/5/17.
  */
 
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {RobinhoodService} from "../../services/RobinhoodService";
 
 @Component({
@@ -15,7 +15,7 @@ import {RobinhoodService} from "../../services/RobinhoodService";
 })
 
 
-export class OrderPanelComponent{
+export class OrderPanelComponent implements OnInit{
 
   pendingOrder = [{
     symbol: 'SQ',
@@ -49,7 +49,14 @@ export class OrderPanelComponent{
       quantity: '23',
       status: 'Canceled',
       color: 'brown'
-    },
+    },{
+      symbol: 'SQ',
+      type: 'market buy',
+      avg_cost: '32.43',
+      quantity: '23',
+      status: 'Canceled',
+      color: 'brown'
+    }
   ];
 
   legend:any = {
@@ -61,12 +68,25 @@ export class OrderPanelComponent{
     rejected : {name: "Rejected", color: "red"},
     canceled : {name: "Canceled", color: "brown"},
     failed : {name: "Failed", color: "orange"},
-  }
+  };
+
+  showPurchase:boolean = true;
+  showPendingOrder:boolean = true;
 
   constructor(public rb:RobinhoodService){
 
+  }
 
+  ngOnInit(){
+    //console.log(this.rb.account.recentOrders);
+  }
 
+  togglePendingGroup(){
+    this.showPendingOrder = !this.showPendingOrder;
+  }
+
+  togglePurchaseGroup(){
+    this.showPurchase = !this.showPurchase;
   }
 
 }

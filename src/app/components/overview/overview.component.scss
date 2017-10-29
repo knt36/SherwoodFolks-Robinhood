@@ -16,6 +16,8 @@
     transition: width 0.3s ease;
     width: 100%;
 
+    @include static-scroll-y();
+
     .toggle-panel-btn{
       position: absolute;
       top: 10px;
@@ -33,6 +35,7 @@
   #order-panel{
     transition: width 0.3s ease;
     padding-left: 0px;
+
   }
 
   #stocks-panel .has-sidebar{

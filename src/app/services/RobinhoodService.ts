@@ -203,6 +203,7 @@ export class RobinhoodService{
         })
         Promise.all(promises).then(()=>{
           this.account.recentOrders = orders;
+          console.log(orders);
           resolve(res);
         })
       }, error=>{

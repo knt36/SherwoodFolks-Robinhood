@@ -2,35 +2,35 @@
 <div class="position-tile">
   <div class="upper-info">
     <div>
-      <h4>{{this?.stock?.instrument?.symbol}}</h4>
+      <h4>{{this.display.symbol}}</h4>
     </div>
     <div class="graph">
       <line-chart [symbol] = "this?.stock?.instrument?.symbol" ></line-chart>
     </div>
     <div class="text-right">
-      <h3 [ngClass]="this?.stock?.display?.stock_gain"><span>$</span>{{this?.stock?.display?.price | number : '1.2'}}</h3>
-      <p>{{this?.stock?.display?.percent_change}}%</p>
+      <h3 [ngClass]="this.display.dailyPercentChangeClass"><span></span>{{this.display.price}}</h3>
+      <p>{{this.display.dailyPercentChange}}%</p>
     </div>
   </div>
   <div class="lower-info">
     <div>
       <div class="text-left">
-        <h5>Total Profit</h5>
-        <h6 [ngClass]="this?.stock?.display?.is_profit"><span>$</span>{{this?.stock?.display?.total_profit | number : '1.2'}}</h6>
+        <h5>{{this.display.text1.title}}</h5>
+        <h6 [ngClass]="this.display.text1.class"><span></span>{{this.display.text1.info}}</h6>
       </div>
       <div class="text-left">
-        <h5>Percent Return</h5>
-        <h6>{{this?.stock?.display?.percent_return}}%</h6>
+        <h5>{{this.display.text2.title}}</h5>
+        <h6>{{this.display.text2.info}}</h6>
       </div>
     </div>
     <div>
       <div class="text-left">
-        <h5>Shares</h5>
-        <h6>{{this?.stock?.display?.quantity}}</h6>
+        <h5>{{this.display.text3.title}}</h5>
+        <h6>{{this.display.text3.info}}</h6>
       </div>
       <div class="text-left">
-        <h5>Avg cost</h5>
-        <h6><span>$</span>{{this?.stock?.display?.avg_cost | number : '1.2'}}</h6>
+        <h5>{{this.display.text4.title}}</h5>
+        <h6><span></span>{{this.display.text4.info}}</h6>
       </div>
     </div>
   </div>
@@ -73,11 +73,12 @@
 
 
   <div class="order-button">
+
     <div>
-      <button (click)="this.sell()" type="button" class="btn btn-default">Sell</button>
+      <button (click)="this.leftButton()" type="button" class="btn btn-default">{{this.display.leftButton.label}}</button>
     </div>
     <div>
-      <button (click)="this.buy()" type="button" class="btn btn-success">Buy</button>
+      <button (click)="this.rightButton()" type="button" class="btn btn-success">{{this.display.rightButton.label}}</button>
     </div>
   </div>
 </div>

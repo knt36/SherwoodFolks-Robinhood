@@ -79,7 +79,6 @@ export class TopBarComponent {
     }
 
     toggleStock(instrument){
-        console.log('click');
         if(instrument.action === Constant.QUERY_ACTION.WATCHING){
             this.unwatchStock(instrument);
         } else {
@@ -88,18 +87,14 @@ export class TopBarComponent {
     }
 
     watchStock(instrument){
-
-        console.log('watch');
-        this.rb.addStockToWatchList(instrument).then(res => {
+       this.rb.addStockToWatchList(instrument).then(res => {
             console.log('watch works');
             instrument.action = Constant.QUERY_ACTION.WATCHING;
         });
     }
 
     unwatchStock(instrument){
-
-        console.log('unwatch');
-        this.rb.removeStockFromWatchList(instrument).then(res =>{
+       this.rb.removeStockFromWatchList(instrument).then(res =>{
             console.log('unwatch works');
             instrument.action = Constant.QUERY_ACTION.UNWATCH;
         });

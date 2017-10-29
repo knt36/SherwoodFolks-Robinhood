@@ -740,6 +740,7 @@ export class RobinhoodService{
         headers: this.setHeaders(),
 
       }).subscribe(res=>{
+        this.getWatchList();
         resolve(res);
       }, (error)=>{
         resolve(error);
@@ -748,11 +749,11 @@ export class RobinhoodService{
   }
 
   removeStockFromWatchList(item:Instrument){
-
     return(new Promise((resolve,reject)=>{
       this.http.delete(this._apiUrl + this._endpoints.delete_watchlist + item.id,{
         headers: this.setHeaders()
       }).subscribe(res=>{
+        this.getWatchList();
         resolve(res);
       }, (error)=>{
         resolve(error);

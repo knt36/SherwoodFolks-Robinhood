@@ -7,6 +7,7 @@ import {StockModule} from "../../model/Stock.model";
 import Stock = StockModule.Stock;
 import {RobinhoodService} from "../../services/RobinhoodService";
 import {DecimalPipe} from "@angular/common";
+import StockType = StockModule.StockType;
 
 @Component({
     selector: 'stock-tile',
@@ -51,11 +52,20 @@ export class StockTileComponent implements OnInit, OnChanges{
         title: "Avg Cost",
         info:"",
         class:""
+      },
+      leftButton:{
+        label:"Sell"
+      },
+      rightButton:{
+        label:"Buy"
       }
     }
 
+    public StockType = null;
+
 
     constructor(public decimalPipe: DecimalPipe,public rb:RobinhoodService){
+      this.StockType = StockType;
     }
 
     ngOnChanges(){
@@ -84,12 +94,23 @@ export class StockTileComponent implements OnInit, OnChanges{
       this.display.text4.info = this.stock!= null? "$" + this.stock.display.avg_cost: "loading";
     }
 
-    /**
-     * need to have another field to do stop limit buy
-     * TODO: add logic to stop limit buy
-     */
-    buy(){
-      console.log(this.order);
+  /**
+   * Left Button is a Sell Button
+   */
+  leftButton(){
+      if(this.order.type === "Market"){
+        this.rb.MarketSell(this.stock, this.order.price, this.order.quantity);
+      }else if (this.order.type === "Limit"){
+        this.rb.ImmediateLimitSell(this.stock, this.order.price, this.order.quantity);
+      }else if (this.order.type === "Stop Loss"){
+        this.rb.StopLossSell(this.stock, this.order.quantity, this.order.price);
+      }
+    }
+
+  /**
+   * Right Button is a Buy Button
+   */
+  rightButton(){
       if(this.order.type === "Market"){
         this.rb.MarketBuy(this.stock, this.order.price, this.order.quantity);
       }else if (this.order.type === "Limit"){
@@ -98,17 +119,6 @@ export class StockTileComponent implements OnInit, OnChanges{
         this.rb.StopLossBuy(this.stock, this.order.quantity, this.order.price);
       }
     }
-
-    sell(){
-        if(this.order.type === "Market"){
-            this.rb.MarketSell(this.stock, this.order.price, this.order.quantity);
-        }else if (this.order.type === "Limit"){
-            this.rb.ImmediateLimitSell(this.stock, this.order.price, this.order.quantity);
-        }else if (this.order.type === "Stop Loss"){
-            this.rb.StopLossSell(this.stock, this.order.quantity, this.order.price);
-        }
-    }
-
 
 
     /**

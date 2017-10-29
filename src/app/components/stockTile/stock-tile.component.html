@@ -73,11 +73,12 @@
 
 
   <div class="order-button">
+
     <div>
-      <button (click)="this.sell()" type="button" class="btn btn-default">Sell</button>
+      <button (click)="this.leftButton()" type="button" class="btn btn-default">{{this.display.leftButton.label}}</button>
     </div>
     <div>
-      <button (click)="this.buy()" type="button" class="btn btn-success">Buy</button>
+      <button (click)="this.rightButton()" type="button" class="btn btn-success">{{this.display.rightButton.label}}</button>
     </div>
   </div>
 </div>

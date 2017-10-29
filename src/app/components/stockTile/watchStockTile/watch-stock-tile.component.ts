@@ -8,6 +8,7 @@ import {DecimalPipe} from "@angular/common";
 import {RobinhoodService} from "../../../services/RobinhoodService";
 import {StockModule} from "../../../model/Stock.model";
 import {Constant} from "../../../model/constant";
+import StockType = StockModule.StockType;
 
 @Component({
   selector: 'watch-stock-tile',
@@ -52,11 +53,18 @@ export class WatchStockTileComponent implements OnInit, OnChanges{
       title: "Sold Price",
       info:"",
       class:""
+    },
+    leftButton:{
+      label:"Unwatch"
+    },
+    rightButton:{
+      label:"Buy"
     }
   }
 
-
+  public StockType = null;
   constructor(public decimalPipe: DecimalPipe,public rb:RobinhoodService){
+    this.StockType = StockType;
   }
 
   ngOnChanges(){
@@ -102,27 +110,22 @@ export class WatchStockTileComponent implements OnInit, OnChanges{
   }
 
   /**
-   * need to have another field to do stop limit buy
-   * TODO: add logic to stop limit buy
+   * Left Button is a Unwatch Button
    */
-  buy(){
-    console.log(this.order);
+  leftButton(){
+    this.rb.removeStockFromWatchList(this.stock.instrument)
+  }
+
+  /**
+   * Right Button is a Buy Button
+   */
+  rightButton(){
     if(this.order.type === "Market"){
       this.rb.MarketBuy(this.stock, this.order.price, this.order.quantity);
     }else if (this.order.type === "Limit"){
       this.rb.ImmediateLimitBuy(this.stock, this.order.price, this.order.quantity);
     }else if (this.order.type === "Stop Loss"){
       this.rb.StopLossBuy(this.stock, this.order.quantity, this.order.price);
-    }
-  }
-
-  sell(){
-    if(this.order.type === "Market"){
-      this.rb.MarketSell(this.stock, this.order.price, this.order.quantity);
-    }else if (this.order.type === "Limit"){
-      this.rb.ImmediateLimitSell(this.stock, this.order.price, this.order.quantity);
-    }else if (this.order.type === "Stop Loss"){
-      this.rb.StopLossSell(this.stock, this.order.quantity, this.order.price);
     }
   }
 

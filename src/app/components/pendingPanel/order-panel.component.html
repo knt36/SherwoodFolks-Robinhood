@@ -3,7 +3,7 @@
   <div id="pending-order">
     <h5 class="section-title">pending order</h5>
     <div *ngFor="let order of this.pendingOrder">
-      <div class="order">
+      <div class="order" [ngStyle]="{'border-left-color': order.color}">
         <div class="left text-left">
           <h5>{{order.symbol}}</h5>
           <h6>{{order.type}}</h6>
@@ -23,7 +23,10 @@
   <div id="recent-order">
     <h5 class="section-title">recent purchase</h5>
     <div *ngFor="let order of this.recentOrder">
-      <div class="order">
+      <div class="order info-tooltip" [ngStyle]="{'border-left-color': order.color}">
+        <span class="order-status">
+          Order {{order.status}}
+        </span>
         <div class="left text-left">
           <h5>{{order.symbol}}</h5>
           <h6>{{order.type}}</h6>

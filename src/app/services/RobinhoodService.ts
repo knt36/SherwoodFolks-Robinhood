@@ -24,6 +24,8 @@ import Account = AccountModule.Account;
 import Portfolio = AccountModule.Portfolio;
 import Instrument = StockModule.Instrument;
 import StockType = StockModule.StockType;
+import {NotificationsService} from "angular2-notifications/dist";
+import {Subject} from "rxjs/Subject";
 @Injectable()
 
 export class RobinhoodService{
@@ -83,7 +85,6 @@ export class RobinhoodService{
     },
   }
 
-
   /**
    *
    * @type positions: { [symbol] : [stock] }
@@ -121,7 +122,7 @@ export class RobinhoodService{
     }
   };
 
-  constructor(public http: Http){
+  constructor(public http: Http, public notify:NotificationsService){
     const auth = window.localStorage['ROBINHOOD-AUTH'];
     if(auth != null ) {
       this.addTokenToHeader(auth);
@@ -427,8 +428,11 @@ export class RobinhoodService{
       }, {
         headers: this.setHeaders()
       }).subscribe(res=>{
+        this.notify.success(Constant.Messages.SUCCESS.MARKET_BUY.Title,
+          Constant.Messages.SUCCESS.MARKET_BUY.Detail(stock.instrument.symbol,quantity,price));
         resolve(res);
       },error=>{
+        this.notify.error(Constant.Messages.ERRORS.MARKET_BUY, this.ErrorToString(error.json()))
         reject(error);
       })
     }))
@@ -462,8 +466,11 @@ export class RobinhoodService{
       },{
         headers:this.setHeaders()
       }).subscribe(res=>{
+        this.notify.success(Constant.Messages.SUCCESS.STOP_LIMIT_BUY.Title,
+          Constant.Messages.SUCCESS.STOP_LIMIT_BUY.Detail(stock.instrument.symbol,price,quantity,stop_price))
         resolve(res);
       },error =>{
+        this.notify.error(Constant.Messages.ERRORS.LIMIT_BUY, this.ErrorToString(error.json()))
         reject(error)
       })
     })))
@@ -496,8 +503,11 @@ export class RobinhoodService{
       }, {
         headers:this.setHeaders()
       }).subscribe(res=>{
+        this.notify.success(Constant.Messages.SUCCESS.STOP_LOSS_BUY.Title,
+          Constant.Messages.SUCCESS.STOP_LOSS_BUY.Detail(stock.instrument.symbol,quantity,stop_price));
         resolve(res);
       },error =>{
+        this.notify.error(Constant.Messages.ERRORS.STOP_LOSS_BUY, this.ErrorToString(error.json()))
         reject(error)
       })
     })))
@@ -521,8 +531,11 @@ export class RobinhoodService{
       }, {
         headers: this.setHeaders()
       }).subscribe(res=>{
+        this.notify.success(Constant.Messages.SUCCESS.LIMIT_BUY.Title,
+          Constant.Messages.SUCCESS.LIMIT_BUY.Detail(stock.instrument.symbol,quantity, price))
         resolve(res);
       }, error=>{
+        this.notify.error(Constant.Messages.ERRORS.LIMIT_BUY, this.ErrorToString(error.json()))
         reject(error);
       })
     }))
@@ -547,8 +560,11 @@ export class RobinhoodService{
       }, {
         headers: this.setHeaders()
       }).subscribe(res=>{
+        this.notify.success(Constant.Messages.SUCCESS.STOP_LIMIT_SELL.Title,
+          Constant.Messages.SUCCESS.STOP_LIMIT_SELL.Detail(stock.instrument.symbol,quantity,price,stop_price))
         resolve(res);
       }, error=>{
+        this.notify.error(Constant.Messages.ERRORS.LIMIT_SELL, this.ErrorToString(error.json()))
         reject(error);
       })
     })))
@@ -582,8 +598,11 @@ export class RobinhoodService{
         headers:this.setHeaders()
 
       }).subscribe(res=>{
+        this.notify.success(Constant.Messages.SUCCESS.MARKET_SELL.Title,
+          Constant.Messages.SUCCESS.MARKET_SELL.Detail(stock.instrument.symbol,quantity,marketPrice))
         resolve(res);
       },error=>{
+        this.notify.error(Constant.Messages.ERRORS.MARKET_SELL, this.ErrorToString(error.json()))
         reject(error);
       })
     }))
@@ -608,8 +627,11 @@ export class RobinhoodService{
         headers:this.setHeaders()
 
       }).subscribe(res=>{
+        this.notify.success(Constant.Messages.SUCCESS.LIMIT_SELL.Title,
+          Constant.Messages.SUCCESS.LIMIT_SELL.Detail(stock.instrument.symbol,quantity,price))
         resolve(res);
       },error=>{
+        this.notify.error(Constant.Messages.ERRORS.LIMIT_SELL, this.ErrorToString(error.json()))
         reject(error);
       })
     }))
@@ -642,11 +664,24 @@ export class RobinhoodService{
       }, {
         headers:this.setHeaders()
       }).subscribe(res=>{
+        this.notify.success(Constant.Messages.SUCCESS.STOP_LOSS_SELL.Title,
+          Constant.Messages.SUCCESS.STOP_LOSS_SELL.Detail(stock.instrument.symbol,quantity,stop_price))
         resolve(res);
       },error =>{
+        this.notify.error(Constant.Messages.ERRORS.STOP_LOSS_SELL, this.ErrorToString(error.json()))
         reject(error)
       })
     })))
+  }
+
+  ErrorToString(errorJson){
+    let s = "";
+    for(const key in errorJson){
+      if(errorJson.hasOwnProperty(key)){
+        s = s + key+ ':' + errorJson[key] + '\n';
+      }
+    }
+    return(s);
   }
 
   /**

@@ -76,4 +76,74 @@ export module Constant{
         };
 
     };
+
+    export class Messages {
+      public static ERRORS = {
+        MARKET_BUY: "Market Buy Failed",
+        LIMIT_BUY: "Limit Buy Failed",
+        STOP_LOSS_BUY: "Stop Loss Buy Failed",
+        STOP_LIMIT_BUY: "Stop Limit Buy Failed",
+
+        MARKET_SELL: "Market Sell Failed",
+        LIMIT_SELL: "Limit Sell Failed",
+        STOP_LOSS_SELL: "Stop Loss Sell Failed",
+        STOP_LIMIT_SELL: "Stop Limit Sell Failed",
+      }
+
+      public static SUCCESS = {
+        MARKET_BUY: {
+          Title: "Market Buy Placed",
+          Detail: function (symbol, quantity, price) {
+            return ("Order placed for " + quantity + " shares of " + symbol + " for $" + price + " each.");
+          }
+        },
+        LIMIT_BUY: {
+          Title: "Limit Buy Placed",
+          Detail: function (symbol, quantity, price) {
+            return ("Order placed for " + quantity + " shares of " + symbol + " for $" + price + " each or better.");
+          }
+        },
+        STOP_LOSS_BUY: {
+          Title: "Stop Loss Buy Placed",
+          Detail: function (symbol, quantity, stop_price) {
+            return ("Order placed for " + quantity + " shares of " + symbol + " when stop triggered at $" +
+              stop_price);
+          }
+        },
+        STOP_LIMIT_BUY: {
+          Title: "Stop Limit Buy Placed",
+          Detail: function (symbol, quantity, price, stop_limit) {
+            return ("Order placed for " + quantity + " shares of " + symbol + " for $" + price + " each when stop triggered at " +
+              stop_limit);
+          }
+        },
+
+        MARKET_SELL: {
+          Title: "Market Sell Placed",
+          Detail: function (symbol, quantity, price) {
+            return ("Order placed for " + quantity + " shares of " + symbol + " for $" + price + " each.");
+          }
+        },
+        LIMIT_SELL: {
+          Title: "Limit Sell Placed",
+          Detail: function (symbol, quantity, price) {
+            return ("Order placed for " + quantity + " shares of " + symbol + " for $" + price + " each or better.");
+          }
+        },
+        STOP_LOSS_SELL: {
+          Title: "Stop Loss Sell Placed",
+          Detail: function (symbol, quantity, stop_price) {
+            return ("Order placed for " + quantity + " shares of " + symbol + " when stop triggered at $" +
+              stop_price);
+          }
+        },
+        STOP_LIMIT_SELL: {
+          Title: "Stop Limit Sell Placed",
+          Detail: function (symbol, quantity , price, stop_limit) {
+            return ("Order placed for " + quantity + " shares of " + symbol + " for $" + price + " each when stop triggered at $" +
+              stop_limit);
+          }
+        }
+      }
+    }
 }

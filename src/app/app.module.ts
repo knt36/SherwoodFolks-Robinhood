@@ -21,6 +21,8 @@ import {ContactComponent} from "./components/contact/contact.component";
 import {OrderPanelComponent} from "./components/pendingPanel/order-panel.component";
 import {DecimalPipe} from "@angular/common";
 import {WatchStockTileComponent} from "./components/stockTile/watchStockTile/watch-stock-tile.component";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {SimpleNotificationsModule} from "angular2-notifications/dist";
 
 @NgModule({
   declarations: [
@@ -47,7 +49,9 @@ import {WatchStockTileComponent} from "./components/stockTile/watchStockTile/wat
       AppRoutingModule,
       ChartsModule,
       HttpModule,
-      ChartsModule
+      ChartsModule,
+      BrowserAnimationsModule,
+      SimpleNotificationsModule.forRoot()
   ],
   providers: [RobinhoodService, DecimalPipe],
   bootstrap: [AppComponent]

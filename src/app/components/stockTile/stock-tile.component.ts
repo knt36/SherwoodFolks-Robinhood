@@ -8,6 +8,7 @@ import Stock = StockModule.Stock;
 import {RobinhoodService} from "../../services/RobinhoodService";
 import {DecimalPipe} from "@angular/common";
 import StockType = StockModule.StockType;
+import {NotificationsService} from "angular2-notifications/dist";
 
 @Component({
     selector: 'stock-tile',
@@ -64,7 +65,7 @@ export class StockTileComponent implements OnInit, OnChanges{
     public StockType = null;
 
 
-    constructor(public decimalPipe: DecimalPipe,public rb:RobinhoodService){
+    constructor(public notification:NotificationsService,   public decimalPipe: DecimalPipe,public rb:RobinhoodService){
       this.StockType = StockType;
     }
 

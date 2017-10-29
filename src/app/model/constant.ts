@@ -47,7 +47,7 @@ export module Constant{
         public static QUEUED = "queued";
         public static UNCONFIRMED = "unconfirmed";
         public static CONFIRMED = "confirmed";
-        public static ARTIALLY_FILLED = "partially_filled";
+        public static PARTIALLY_FILLED = "partially_filled";
         public static FILLED = "filled";
         public static REJECTED = "rejected";
         public static CANCELED = "canceled";

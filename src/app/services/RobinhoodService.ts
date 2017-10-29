@@ -428,7 +428,7 @@ export class RobinhoodService{
       }, {
         headers: this.setHeaders()
       }).subscribe(res=>{
-        this.notify.success(Constant.Messages.SUCCESS.MARKET_BUY.Title,
+        this.notify.alert(Constant.Messages.SUCCESS.MARKET_BUY.Title,
           Constant.Messages.SUCCESS.MARKET_BUY.Detail(stock.instrument.symbol,quantity,price));
         resolve(res);
       },error=>{
@@ -466,7 +466,7 @@ export class RobinhoodService{
       },{
         headers:this.setHeaders()
       }).subscribe(res=>{
-        this.notify.success(Constant.Messages.SUCCESS.STOP_LIMIT_BUY.Title,
+        this.notify.alert(Constant.Messages.SUCCESS.STOP_LIMIT_BUY.Title,
           Constant.Messages.SUCCESS.STOP_LIMIT_BUY.Detail(stock.instrument.symbol,price,quantity,stop_price))
         resolve(res);
       },error =>{
@@ -503,7 +503,7 @@ export class RobinhoodService{
       }, {
         headers:this.setHeaders()
       }).subscribe(res=>{
-        this.notify.success(Constant.Messages.SUCCESS.STOP_LOSS_BUY.Title,
+        this.notify.alert(Constant.Messages.SUCCESS.STOP_LOSS_BUY.Title,
           Constant.Messages.SUCCESS.STOP_LOSS_BUY.Detail(stock.instrument.symbol,quantity,stop_price));
         resolve(res);
       },error =>{
@@ -531,7 +531,7 @@ export class RobinhoodService{
       }, {
         headers: this.setHeaders()
       }).subscribe(res=>{
-        this.notify.success(Constant.Messages.SUCCESS.LIMIT_BUY.Title,
+        this.notify.alert(Constant.Messages.SUCCESS.LIMIT_BUY.Title,
           Constant.Messages.SUCCESS.LIMIT_BUY.Detail(stock.instrument.symbol,quantity, price))
         resolve(res);
       }, error=>{
@@ -560,7 +560,7 @@ export class RobinhoodService{
       }, {
         headers: this.setHeaders()
       }).subscribe(res=>{
-        this.notify.success(Constant.Messages.SUCCESS.STOP_LIMIT_SELL.Title,
+        this.notify.alert(Constant.Messages.SUCCESS.STOP_LIMIT_SELL.Title,
           Constant.Messages.SUCCESS.STOP_LIMIT_SELL.Detail(stock.instrument.symbol,quantity,price,stop_price))
         resolve(res);
       }, error=>{
@@ -598,7 +598,7 @@ export class RobinhoodService{
         headers:this.setHeaders()
 
       }).subscribe(res=>{
-        this.notify.success(Constant.Messages.SUCCESS.MARKET_SELL.Title,
+        this.notify.alert(Constant.Messages.SUCCESS.MARKET_SELL.Title,
           Constant.Messages.SUCCESS.MARKET_SELL.Detail(stock.instrument.symbol,quantity,marketPrice))
         resolve(res);
       },error=>{
@@ -627,7 +627,7 @@ export class RobinhoodService{
         headers:this.setHeaders()
 
       }).subscribe(res=>{
-        this.notify.success(Constant.Messages.SUCCESS.LIMIT_SELL.Title,
+        this.notify.alert(Constant.Messages.SUCCESS.LIMIT_SELL.Title,
           Constant.Messages.SUCCESS.LIMIT_SELL.Detail(stock.instrument.symbol,quantity,price))
         resolve(res);
       },error=>{
@@ -664,7 +664,7 @@ export class RobinhoodService{
       }, {
         headers:this.setHeaders()
       }).subscribe(res=>{
-        this.notify.success(Constant.Messages.SUCCESS.STOP_LOSS_SELL.Title,
+        this.notify.alert(Constant.Messages.SUCCESS.STOP_LOSS_SELL.Title,
           Constant.Messages.SUCCESS.STOP_LOSS_SELL.Detail(stock.instrument.symbol,quantity,stop_price))
         resolve(res);
       },error =>{

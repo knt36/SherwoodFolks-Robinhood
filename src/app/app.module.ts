@@ -17,7 +17,7 @@ import {LoginComponent} from "./components/login/login.component";
 import {BsDropdownModule} from "ngx-bootstrap";
 import {HttpClientModule} from "@angular/common/http";
 import {TopBarComponent} from "./components/topBar/top-bar.component";
-import {GoogleChartComponent} from "./components/chart/GoogleChartComponent";
+import {ContactComponent} from "./components/contact/contact.component";
 
 @NgModule({
   declarations: [
@@ -29,9 +29,9 @@ import {GoogleChartComponent} from "./components/chart/GoogleChartComponent";
       WatchListComponent,
       WatchTileComponent,
       ChartComponent,
-      GoogleChartComponent,
       LoginComponent,
-      TopBarComponent
+      TopBarComponent,
+      ContactComponent
 
   ],
   imports: [
@@ -41,7 +41,8 @@ import {GoogleChartComponent} from "./components/chart/GoogleChartComponent";
       FormsModule,
       AppRoutingModule,
       ChartsModule,
-      HttpModule
+      HttpModule,
+      ChartsModule
   ],
   providers: [RobinhoodService],
   bootstrap: [AppComponent]

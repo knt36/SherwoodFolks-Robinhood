@@ -11,7 +11,7 @@
     box-sizing: border-box;
     padding: 5px 15px 10px 15px;
     border-radius: $border-radius;
-    margin: 8px;
+    margin: 8px 10px;
 
     @include drop-shadow();
 
@@ -21,6 +21,10 @@
 
     .upper-info{
         @include flex-div-btw();
+
+        h4{
+            font-size: $sm-font-size;
+        }
 
 
         h3 {
@@ -61,10 +65,10 @@
     &:hover {
         .layover-tile{
             opacity: 1;
-            -webkit-transition: opacity 0.3s ease-in-out;
-            -moz-transition: opacity 0.3s ease-in-out;
-            -o-transition: opacity 0.3s ease-in-out;
-            transition: opacity 0.3s ease-in-out;
+            //-webkit-transition: opacity 0.3s ease-in-out;
+            //-moz-transition: opacity 0.3s ease-in-out;
+            //-o-transition: opacity 0.3s ease-in-out;
+            //transition: opacity 0.3s ease-in-out;
         }
     }
 }
@@ -76,13 +80,13 @@
     height: 160px;
     border-radius: $border-radius;
     position: absolute;
-    top: -5px;
+    top: -8px;
     left: -10px;
-
-    -webkit-transition: opacity 0.3s ease-in-out;
-    -moz-transition: opacity 0.3s ease-in-out;
-    -o-transition: opacity 0.3s ease-in-out;
-    transition: opacity 0.3s ease-in-out;
+    //
+    //-webkit-transition: opacity 0.3s ease-in-out;
+    //-moz-transition: opacity 0.3s ease-in-out;
+    //-o-transition: opacity 0.3s ease-in-out;
+    //transition: opacity 0.3s ease-in-out;
 
     .order-input{
         @include flex-div-btw();

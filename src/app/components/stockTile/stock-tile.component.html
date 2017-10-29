@@ -5,7 +5,7 @@
       <h4>{{this?.stock?.instrument?.symbol}}</h4>
     </div>
     <div class="graph">
-      <line-chart [data]="this?.historicals"></line-chart>
+      <line-chart [symbol] = "this?.stock?.instrument?.symbol" ></line-chart>
     </div>
     <div class="text-right">
       <h3 [ngClass]="this?.stock?.display?.stock_gain"><span>$</span>{{this?.stock?.display?.price | number : '1.2'}}</h3>
@@ -38,13 +38,13 @@
 
 
   <!--Lay over quick order-->
-  <div class="layover-tile">
+  <div (mouseenter)="this.updatePrice()" class="layover-tile">
   <div class="order-input">
     <div>
       <div class="form-group">
         <label for="order-price">Price</label>
         <input type="number" class="form-control" id="order-price"
-               [(ngModel)]="this.order.price" name="price">
+               [(ngModel)]="this.order.price" name="price" step=".01">
         <div class="border-bottom"></div>
       </div>
       <div class="form-group">
@@ -66,7 +66,7 @@
       </div>
       <div class="total-cost">
         <h5>Total Cost</h5>
-        <h6><span>$ </span>{{this.order.totalValue | number : '1.2'}}</h6>
+        <h6><span>$ </span>{{this.order.price * this.order.quantity| number : '1.2'}}</h6>
       </div>
     </div>
   </div>
@@ -74,10 +74,10 @@
 
   <div class="order-button">
     <div>
-      <button type="button" class="btn btn-default">Sell</button>
+      <button (click)="this.sell()" type="button" class="btn btn-default">Sell</button>
     </div>
     <div>
-      <button type="button" class="btn btn-success">Buy</button>
+      <button (click)="this.buy()" type="button" class="btn btn-success">Buy</button>
     </div>
   </div>
 </div>

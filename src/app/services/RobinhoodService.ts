@@ -22,6 +22,8 @@ import STOCK = Constant.STOCK;
 import INSTRUMENT = Constant.INSTRUMENT;
 import Account = AccountModule.Account;
 import Portfolio = AccountModule.Portfolio;
+import Instrument = StockModule.Instrument;
+import StockType = StockModule.StockType;
 @Injectable()
 
 export class RobinhoodService{
@@ -54,6 +56,8 @@ export class RobinhoodService{
     document_requests:  'upload/document_requests/',
     user: 'user/',
     historicals: 'quotes/historicals/',
+    add_watchlist: 'watchlists/Default/bulk_add/',
+    delete_watchlist: '/watchlists/Default/',
 
     user_additional_info: "user/additional_info/",
     user_basic_info: "user/basic_info/",
@@ -73,13 +77,18 @@ export class RobinhoodService{
     headers : {
       'Accept': '*/*',
       'Accept-Language': 'en;q=1, fr;q=0.9, de;q=0.8, ja;q=0.7, nl;q=0.6, it;q=0.5',
-      'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+      'Content-Type': 'application/json',
       'X-Robinhood-API-Version': '1.152.0',
       'Authorization' : null
     },
   }
 
 
+  /**
+   *
+   * @type positions: { [symbol] : [stock] }
+   * @type watchList: { [symbol] : [stock] }
+   */
   account = {
     positions: {},
     watchList: {},
@@ -149,9 +158,15 @@ export class RobinhoodService{
       this.serviceInterval = setInterval(function(){
         if(start){
           start = false;
-          const serviceList = [that.setAccountInformation(),that.getPositions(), that.getWatchList(), that.getOrders()];
+          const serviceList = [that.setAccountInformation(),that.getOrders().then((res)=>{
+            const promises = [];
+            promises.push(that.getPositions());
+            promises.push(that.getWatchList());
+            Promise.all(promises).then(()=>{
+              return(res);
+            })
+          })];
           Promise.all(serviceList.map(p => p.catch(e => e))).then(function(res){
-            console.log("finish all promise");
             setTimeout(function(){
               start = true;
             }, delay);
@@ -203,26 +218,32 @@ export class RobinhoodService{
   }
 
   getPositions(){
-    console.log("get positions");
+    //console.log("get positions");
     return(new Promise((resolve,reject)=>{
       this.http.get(this._apiUrl + this._endpoints.positions
         +"?nonzero=true",{
         headers: this.setHeaders()
       }).subscribe(res=>{
+
+        // get all instruments for each stock
         const positions = [];
         res.json().results.forEach(r=>{
-          positions.push(new Stock(r));
+          positions.push(new Stock(r, StockType.POSITION));
         });
         const promises = [];
         positions.forEach(position=>{
           const p = this.getInstrument(position);
           promises.push(p);
-        })
+        });
+
+        // updating new stock after getting the promises
         Promise.all(promises).then(()=>{
-          //console.log(positions);
-          this.updateStock(this.account.positions, positions, true);
+
+          this.updateStock(this.account.positions, positions);
+
+
           resolve(res);
-        })
+        });
       }, error=>{
         reject(error);
       })
@@ -284,14 +305,14 @@ export class RobinhoodService{
       }).subscribe(res=>{
         const watchList = [];
         res.json().results.forEach(data=>{
-          watchList.push(new StockModule.Stock(data));
+          watchList.push(new StockModule.Stock(data, StockType.WATCHLIST));
         });
         const promises =[]
         watchList.forEach(watchItem =>{
           promises.push(this.getInstrument(watchItem));
         })
         Promise.all(promises).then(()=>{
-          this.updateStock(this.account.watchList, watchList, false);
+          this.updateStock(this.account.watchList, watchList);
           resolve(res);
         });
       }, error=>{
@@ -379,106 +400,244 @@ export class RobinhoodService{
    * @param quantity
    * @constructor
    */
-  MarketBuy(stock:Stock, quantity){
-    this.http.post(this._apiUrl + this._endpoints.orders, {
-      account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
-      instrument: stock.instrument,
-      symbol: stock.instrument.symbol,
-      type: OrderType.MARKET,
-      time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
-      trigger: OrderTrigger.STOP,
-      quantity: quantity,
-      side: Sides.BUY,
-      extended_hours: true,
-      override_day_trade_checks: false,
-      override_dtbp_checks: false
-    })
+  MarketBuy(stock:Stock,price, quantity){
+    return(new Promise((resolve,reject)=>{
+      this.http.post(this._apiUrl + this._endpoints.orders, {
+        account: this.account.information.url,
+        instrument: stock.instrument.url,
+        symbol: stock.instrument.symbol,
+        type: OrderType.MARKET,
+        time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
+        trigger: OrderTrigger.IMMEDIATE,
+        quantity: quantity,
+        side: Sides.BUY,
+        extended_hours: true,
+        override_day_trade_checks: false,
+        override_dtbp_checks: false,
+        price: price
+      }, {
+        headers: this.setHeaders()
+      }).subscribe(res=>{
+        resolve(res);
+      },error=>{
+        reject(error);
+      })
+    }))
   }
 
+  /**
+   * UNTESTED!!!!!
+   * May not support this since there isn't enough space yet on the interface......
+   * @param {StockModule.Stock} stock
+   * @param price
+   * @param quantity
+   * @param stop_price
+   * @constructor
+   */
   StopLimitBuy(stock:StockModule.Stock, price, quantity, stop_price){
-    this.http.post(this._apiUrl + this._endpoints.orders, {
-      account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
-      instrument: stock.instrument,
-      symbol: stock.instrument.symbol,
-      type: OrderType.LIMIT,
-      time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
-      trigger: OrderTrigger.STOP,
-      price: price,
-      stop_price : stop_price,
-      quantity: quantity,
-      side: Sides.BUY,
-      extended_hours: true,
-      override_day_trade_checks: false,
-      override_dtbp_checks: false
-    })
+    return(new Promise(((resolve, reject) =>{
+      this.http.post(this._apiUrl + this._endpoints.orders, {
+        account: this.account.information.url,
+        instrument: stock.instrument.url,
+        symbol: stock.instrument.symbol,
+        type: OrderType.LIMIT,
+        time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
+        trigger: OrderTrigger.STOP,
+        price: price,
+        stop_price : stop_price,
+        quantity: quantity,
+        side: Sides.BUY,
+        extended_hours: true,
+        override_day_trade_checks: false,
+        override_dtbp_checks: false
+      },{
+        headers:this.setHeaders()
+      }).subscribe(res=>{
+        resolve(res);
+      },error =>{
+        reject(error)
+      })
+    })))
+  }
+
+  /**
+   * DOES NOT EXECUTE IN EXTENDED HOURS EVER
+   * @param {StockModule.Stock} stock
+   * @param quantity
+   * @param stop_price
+   * @returns {Promise<any>}
+   * @constructor
+   */
+  StopLossBuy(stock:StockModule.Stock, quantity, stop_price){
+    return(new Promise(((resolve, reject) =>{
+      this.http.post(this._apiUrl + this._endpoints.orders, {
+        account: this.account.information.url,
+        instrument: stock.instrument.url,
+        symbol: stock.instrument.symbol,
+        type: OrderType.MARKET,
+        price: stop_price,
+        time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
+        trigger: OrderTrigger.STOP,
+        stop_price : stop_price,
+        quantity: quantity,
+        side: Sides.BUY,
+        extended_hours: false,
+        override_day_trade_checks: false,
+        override_dtbp_checks: false
+      }, {
+        headers:this.setHeaders()
+      }).subscribe(res=>{
+        resolve(res);
+      },error =>{
+        reject(error)
+      })
+    })))
   }
 
   ImmediateLimitBuy(stock:Stock, price, quantity){
-    this.http.post(this._apiUrl + this._endpoints.orders, {
-      account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
-      instrument: stock.instrument,
-      symbol: stock.instrument.symbol,
-      type: OrderType.LIMIT,
-      time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
-      trigger: OrderTrigger.STOP,
-      price: price,
-      quantity: quantity,
-      side: Sides.BUY,
-      extended_hours: true,
-      override_day_trade_checks: false,
-      override_dtbp_checks: false
-    })
+    return(new Promise((resolve,reject)=>{
+      this.http.post(this._apiUrl + this._endpoints.orders, {
+        account: this.account.information.url,
+        instrument: stock.instrument.url,
+        symbol: stock.instrument.symbol,
+        type: OrderType.LIMIT,
+        time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
+        trigger: OrderTrigger.IMMEDIATE,
+        price: price,
+        quantity: quantity,
+        side: Sides.BUY,
+        extended_hours: true,
+        override_day_trade_checks: false,
+        override_dtbp_checks: false
+      }, {
+        headers: this.setHeaders()
+      }).subscribe(res=>{
+        resolve(res);
+      }, error=>{
+        reject(error);
+      })
+    }))
   }
 
   StopLimitSell(stock:StockModule.Stock, price, quantity, stop_price){
-    this.http.post(this._apiUrl + this._endpoints.orders, {
-      account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
-      instrument: stock.instrument,
-      symbol: stock.instrument.symbol,
-      type: OrderType.LIMIT,
-      time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
-      trigger: OrderTrigger.STOP,
-      price: price,
-      stop_price : stop_price,
-      quantity: quantity,
-      side: Sides.SELL,
-      extended_hours: true,
-      override_day_trade_checks: false,
-      override_dtbp_checks: false
-    })
+    return(new Promise(((resolve, reject) => {
+      this.http.post(this._apiUrl + this._endpoints.orders, {
+        account: this.account.information.url,
+        instrument: stock.instrument.url,
+        symbol: stock.instrument.symbol,
+        type: OrderType.LIMIT,
+        time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
+        trigger: OrderTrigger.STOP,
+        price: price,
+        stop_price : stop_price,
+        quantity: quantity,
+        side: Sides.SELL,
+        extended_hours: true,
+        override_day_trade_checks: false,
+        override_dtbp_checks: false
+      }, {
+        headers: this.setHeaders()
+      }).subscribe(res=>{
+        resolve(res);
+      }, error=>{
+        reject(error);
+      })
+    })))
+
   }
 
-  MarketSell(stock:Stock, quantity){
-    this.http.post(this._apiUrl + this._endpoints.orders, {
-      account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
-      instrument: stock.instrument,
-      symbol: stock.instrument.symbol,
-      type: OrderType.MARKET,
-      time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
-      trigger: OrderTrigger.STOP,
-      quantity: quantity,
-      side: Sides.SELL,
-      extended_hours: true,
-      override_day_trade_checks: false,
-      override_dtbp_checks: false
-    })
+  /**
+   * In Market sells, the sell will initiate within 5% of the marketPrice entered.
+   * @param {StockModule.Stock} stock
+   * @param marketPrice
+   * @param quantity
+   * @returns {Promise<any>}
+   * @constructor
+   */
+  MarketSell(stock:Stock, marketPrice, quantity){
+    return(new Promise((resolve,reject)=>{
+      this.http.post(this._apiUrl + this._endpoints.orders, {
+        account: this.account.information.url,
+        instrument: stock.instrument.url,
+        symbol: stock.instrument.symbol,
+        type: OrderType.MARKET,
+        time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
+        trigger: OrderTrigger.IMMEDIATE,
+        quantity: quantity,
+        price: marketPrice,
+        side: Sides.SELL,
+        extended_hours: true,
+        override_day_trade_checks: false,
+        override_dtbp_checks: false
+      },{
+        headers:this.setHeaders()
+
+      }).subscribe(res=>{
+        resolve(res);
+      },error=>{
+        reject(error);
+      })
+    }))
   }
 
   ImmediateLimitSell(stock:Stock, price, quantity){
-    this.http.post(this._apiUrl + this._endpoints.orders, {
-      account: this._apiUrl + this._endpoints.accounts + this.account.information.account_number + "\/",
-      instrument: stock.instrument,
-      symbol: stock.instrument.symbol,
-      type: OrderType.LIMIT,
-      time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
-      trigger: OrderTrigger.IMMEDIATE,
-      price: price,
-      quantity: quantity,
-      side: Sides.SELL,
-      extended_hours: true,
-      override_day_trade_checks: false,
-      override_dtbp_checks: false
-    })
+    return new Promise(((resolve, reject) => {
+      this.http.post(this._apiUrl + this._endpoints.orders, {
+        account: this.account.information.url,
+        instrument: stock.instrument.url,
+        symbol: stock.instrument.symbol,
+        type: OrderType.LIMIT,
+        time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
+        trigger: OrderTrigger.IMMEDIATE,
+        price: price,
+        quantity: quantity,
+        side: Sides.SELL,
+        extended_hours: true,
+        override_day_trade_checks: false,
+        override_dtbp_checks: false
+      },{
+        headers:this.setHeaders()
+
+      }).subscribe(res=>{
+        resolve(res);
+      },error=>{
+        reject(error);
+      })
+    }))
+  }
+
+  /**
+   * DOES NOT EXECUTE IN EXTENDED HOURS EVER
+   * @param {StockModule.Stock} stock
+   * @param quantity
+   * @param stop_price
+   * @returns {Promise<any>}
+   * @constructor
+   */
+  StopLossSell(stock:StockModule.Stock, quantity, stop_price){
+    return(new Promise(((resolve, reject) =>{
+      this.http.post(this._apiUrl + this._endpoints.orders, {
+        account: this.account.information.url,
+        instrument: stock.instrument.url,
+        symbol: stock.instrument.symbol,
+        type: OrderType.MARKET,
+        price: stop_price,
+        time_in_force: OrderTimeInForce.GOOD_TILL_CANCELED,
+        trigger: OrderTrigger.STOP,
+        stop_price : stop_price,
+        quantity: quantity,
+        side: Sides.SELL,
+        extended_hours: false,
+        override_day_trade_checks: false,
+        override_dtbp_checks: false
+      }, {
+        headers:this.setHeaders()
+      }).subscribe(res=>{
+        resolve(res);
+      },error =>{
+        reject(error)
+      })
+    })))
   }
 
   /**
@@ -487,22 +646,22 @@ export class RobinhoodService{
    * @param symbol [required]
    * @param interval [required] : week|day|10minute|5minute|null(all)
    * @param span : day|week|year|5year|all
-   * @param bounds : extended|regular|trading
+   * @param bound : extended|regular|trading
    * @returns {Promise}
    */
-  getHistoricalsData(symbol, interval, span, bounds){
+  getHistoricalsData(symbol, options):Promise<GraphData>{
 
     return(new Promise((resolve,reject)=>{
       const params:URLSearchParams = new URLSearchParams();
-      if(interval) params.set(Historical.QUERY.INTERVAL, interval);
-      if(span) params.set(Historical.QUERY.SPAN, span);
-      if(bounds) params.set(Historical.QUERY.BOUND, bounds);
+      if(options.interval) params.set(Historical.QUERY.INTERVAL, options.interval);
+      if(options.span) params.set(Historical.QUERY.SPAN, options.span);
+      if(options.bound) params.set(Historical.QUERY.BOUND, options.bound);
 
       this.http.get(this._apiUrl + this._endpoints.historicals + symbol + "/", {
        search: params
       }).subscribe(res=>{
         res = res.json();
-        const data = this.extractHistoricalData(res);
+        const data = new GraphData(res);
         resolve(data);
       }, error=>{
         reject(error);
@@ -536,20 +695,6 @@ export class RobinhoodService{
     }))
   }
 
-
-  /**
-   * function to extract historicals data and formmatted if for chart
-   *
-   * @param data
-   * @returns {GraphData}
-   */
-  extractHistoricalData(data){
-    const res = new GraphData(data[Historical.DATA.CLOSE_PRICE]);
-    res.data = data[Historical.DATA.DATA].map(x => x[Historical.DATA.HIGH_PRICE]);
-
-    return res;
-  }
-
   /**
    * function to update the stock list after getting updated stock info
    * reassign new stock to the existed list
@@ -557,12 +702,12 @@ export class RobinhoodService{
    * @param dict (the existed list)
    * @param newList
    */
-  updateStock(dict, newList, isPosition){
+  updateStock(dict, newList){
     var map = {};
     const keys = Object.keys(dict);
 
     newList.forEach((stock:Stock) => {
-      stock.initDisplayData(isPosition);
+      stock.initDisplayData(null, null);
 
       let id = stock[STOCK.INSTRUMENT][INSTRUMENT.SYMBOL];
       map[id] = stock;
@@ -576,6 +721,36 @@ export class RobinhoodService{
     });
 
   }
+
+  addStockToWatchList(item:Instrument){
+    return(new Promise((resolve,reject)=>{
+      this.http.post(this._apiUrl + this._endpoints.add_watchlist, {
+        symbols: item.symbol
+      },{
+        headers: this.setHeaders(),
+
+      }).subscribe(res=>{
+        resolve(res);
+      }, (error)=>{
+        resolve(error);
+      });
+    }));
+  }
+
+  removeStockFromWatchList(item:Instrument){
+
+    return(new Promise((resolve,reject)=>{
+      this.http.delete(this._apiUrl + this._endpoints.delete_watchlist + item.id,{
+        headers: this.setHeaders()
+      }).subscribe(res=>{
+        resolve(res);
+      }, (error)=>{
+        resolve(error);
+      });
+    }));
+
+  }
+
 
 
 

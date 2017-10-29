@@ -1,5 +1,12 @@
 
 
-<div>
-	<div id="stock-chart" style="width: 80px; height: 50px"></div>
+<div style="display: block; width: 80px; height: 50px;">
+  <canvas baseChart #chart
+          [colors]="lineChartColors"
+          [datasets]="lineChartData"
+          [chartType]="lineChartType"
+          [options] = "lineChartOptions"
+          [labels]="lineChartLabels"
+
+  ></canvas>
 </div>

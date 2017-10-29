@@ -1,0 +1,48 @@
+@import '../../styles/dark-theme';
+@import '../../../style';
+
+#contactPage{
+  @include stock-page();
+}
+
+#headingTile{
+  left-margin:1em;
+  right-margin:1em;
+  padding:1em;
+  text-align:center;
+  background-color:$green-color;
+  color:white;
+  height:inherit;
+  border:white solid 1px;
+}
+
+#headingSub{
+  background-color:white;
+  border-radius:1em;
+}
+
+.question{
+  background-color:#0CC3FF;
+  padding:2em;
+  border-bottom-right-radius: 1em;
+  border-top-right-radius: 1em;
+  border-top-left-radius: 3em;
+  margin-left: 1em;
+  margin-right:5em;
+  text-align:left;
+  border:solid 1px white;
+  color:white;
+}
+
+.answer{
+  border:solid 1px white;
+  background-color:#1abc9c;
+  padding:2em;
+  border-bottom-left-radius: 1em;
+  border-top-left-radius: 1em;
+  border-top-right-radius: 3em;
+  margin-left: 5em;
+  text-align: right;
+  margin-right:1em;
+  color:white;
+}

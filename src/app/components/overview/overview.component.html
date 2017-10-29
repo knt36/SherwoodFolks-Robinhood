@@ -1,33 +1,34 @@
 
 
 <div id="overviewPage">
+  <top-bar (searchStringEmitter) = "this.onSearchStringEmitter($event)" ></top-bar>
+  <div class="container-fluid">
+    <div class="item" id="stocks">
+      <div id="currentPositions">
+        <h5 class="section-title">
+          Positions
+        </h5>
 
-  <div id="stocks">
-    <top-bar></top-bar>
+        <div class="section-stock">
+          <span *ngFor="let k of this.Object.keys(this.rb.account.positions)">
+            <stock-tile *ngIf="this.filterName=='' || k.toLowerCase().includes(this.filterName) || this.rb.account.positions[k]?.instrument?.name.toLowerCase().includes(this.filterName)"
+                        [stock]="this.rb.account.positions[k]"></stock-tile>
+          </span>
+        </div>
+      </div>
 
-    <div id="currentPositions">
-      <h5 class="section-title">
-        Positions
-      </h5>
+      <div id="watchList">
+        <h5 class="section-title">
+          WatchList
+        </h5>
 
-      <stock-tile [stock]="this.rb.account.positions[k]" *ngFor="let k of this.Object.keys(this.rb.account.positions)"></stock-tile>
-      <!--<div class="Label">-->
-        <!--<h3><span style="padding-right:1em;" class="glyphicon glyphicon-comment" aria-hidden="true"></span>-->
-          <!--<b>Positions</b>-->
-        <!--</h3>-->
-      <!--</div>-->
-      <!--<stock-tile [stock]="s" *ngFor="let s of this.rb.account.positions"></stock-tile>-->
-    </div>
-
-    <div id="watchList">
-      <!--<h5 class="section-title">-->
-        <!--<stock-tile [stock]="this.rb.account.watchList[s]" *ngFor="let s of this.Object.keys(this.rb.account.watchList)"></stock-tile>-->
-      <!--</h5>-->
+        <div class="section-stock">
+          <span *ngFor="let k of this.Object.keys(this.rb.account.watchList)">
+              <stock-tile *ngIf="this.filterName=='' || k.toLowerCase().includes(this.filterName) || this.rb.account.watchList[k]?.instrument?.name.toLowerCase().includes(this.filterName)"
+                          [stock]="this.rb.account.watchList[k]"></stock-tile>
+          </span>
+        </div>
+      </div>
     </div>
   </div>
-
-
-
-
-
 </div>

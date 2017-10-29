@@ -26,7 +26,7 @@ export class OverviewComponent {
             data: []
         }
     ];
-
+    filterName = "";
     watchList = [];
 
     public loginModel = {
@@ -38,6 +38,10 @@ export class OverviewComponent {
         // this.positions = this.rb.account.positions;
         // this.watchList = this.rb.account.watchList;
         this.Object = Object;
+    }
+
+    onSearchStringEmitter(event){
+      this.filterName = event.toLowerCase().trim();
     }
 
 

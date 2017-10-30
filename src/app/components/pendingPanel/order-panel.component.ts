@@ -5,8 +5,11 @@
  * Created by anhle on 8/5/17.
  */
 
-import {Component, OnInit} from "@angular/core";
+import {Component, OnChanges, OnInit} from "@angular/core";
 import {RobinhoodService} from "../../services/RobinhoodService";
+import {OrderModule} from "../../model/Order.model";
+import Order = OrderModule.Order;
+import {Constant} from "../../model/constant";
 
 @Component({
   selector: 'order-panel',
@@ -15,7 +18,7 @@ import {RobinhoodService} from "../../services/RobinhoodService";
 })
 
 
-export class OrderPanelComponent implements OnInit{
+export class OrderPanelComponent implements OnInit, OnChanges{
 
   pendingOrder = [{
     symbol: 'SQ',
@@ -78,7 +81,24 @@ export class OrderPanelComponent implements OnInit{
   }
 
   ngOnInit(){
-    //console.log(this.rb.account.recentOrders);
+
+  }
+
+  ngOnChanges(){
+    const orders = this.rb.account.recentOrders;
+    const pendingOrder = [];
+    const recentOrder = [];
+    orders.forEach(item =>{
+      const o:Order = item;
+      if(o.state === Constant.State.QUEUED){
+        pendingOrder.push(o);
+      }else{
+        recentOrder.push(o);
+      }
+    })
+
+    this.pendingOrder = pendingOrder;
+    this.recentOrder = recentOrder;
   }
 
   togglePendingGroup(){

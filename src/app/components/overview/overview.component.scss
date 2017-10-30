@@ -3,7 +3,6 @@
 
 #overviewPage{
   height: 100vh;
-  overflow-y: hidden;
 
   @include stock-page();
 
@@ -12,6 +11,7 @@
     flex-direction: row;
     justify-content: space-between;
   }
+
 
   #stocks-panel{
     position: relative;

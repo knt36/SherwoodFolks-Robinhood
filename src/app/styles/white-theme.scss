@@ -61,6 +61,7 @@ $std-btn-height: 40px;
 @mixin static-scroll-y{
   height: 100vh;
   overflow-y: scroll;
+  padding-bottom: 100px;
 }
 
 @mixin flex-div-btw{

@@ -77,6 +77,24 @@ export module Constant{
 
     };
 
+    export class OrderColor{
+      public static Color = {
+        queued: 'gray',
+        unconfirmed: 'gray',
+        confirmed: 'gray',
+        partially_filed: 'yellow',
+        filled: 'green',
+        rejected: 'red',
+        canceled: 'brown',
+        failed: 'orange'
+      };
+    }
+
+    export class OrderStatus {
+      public static PENDING =["queued", "unconfirmed", "confirmed", "partially_filled"];
+    }
+
+
     export class Messages {
       public static ERRORS = {
         MARKET_BUY: "Market Buy Failed",
@@ -88,6 +106,16 @@ export module Constant{
         LIMIT_SELL: "Limit Sell Failed",
         STOP_LOSS_SELL: "Stop Loss Sell Failed",
         STOP_LIMIT_SELL: "Stop Limit Sell Failed",
+        CANCEL_ORDER: "Cancel Order Action Failed"
+      };
+
+      public static PENDING = {
+        CANCEL_ORDER: {
+          Title: "Order Cancel Action Confirmation",
+          Detail: function(symbol, type){
+            return "Cancelling " + type + " for " +symbol;
+          }
+        }
       }
 
       public static SUCCESS = {
@@ -143,7 +171,14 @@ export module Constant{
             return ("Order placed for " + quantity + " shares of " + symbol + " for $" + price + " each when stop triggered at $" +
               stop_limit);
           }
+        },
+        CANCEL_ORDER: {
+          Title: "Order has been canceled",
+          Detail: function(symbol, type){
+            return type + " order placed for " + symbol + " has been canceled";
+          }
+
         }
-      }
+      };
     }
 }

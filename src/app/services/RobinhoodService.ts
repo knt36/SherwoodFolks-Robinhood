@@ -26,6 +26,7 @@ import Instrument = StockModule.Instrument;
 import StockType = StockModule.StockType;
 import {NotificationsService} from "angular2-notifications/dist";
 import {Subject} from "rxjs/Subject";
+import {Observable} from "rxjs";
 @Injectable()
 
 export class RobinhoodService{
@@ -95,6 +96,7 @@ export class RobinhoodService{
     watchList: {},
     information: new Account(null),
     recentOrders: [],
+    pendingOrders:[]
 }
 
   parent = this;
@@ -202,8 +204,7 @@ export class RobinhoodService{
           promises.push(p);
         })
         Promise.all(promises).then(()=>{
-          this.account.recentOrders = orders;
-          console.log(orders);
+          this.filterOrderList(orders);
           resolve(res);
         })
       }, error=>{
@@ -237,6 +238,8 @@ export class RobinhoodService{
         // updating new stock after getting the promises
         Promise.all(promises).then(()=>{
           // add orders to the stock
+          console.log("positions");
+          console.log(positions);
           positions.forEach(position=>{
             this.account.recentOrders.forEach(order=>{
               if(position.instrument.symbol === order.instrument.symbol){
@@ -400,9 +403,14 @@ export class RobinhoodService{
 
   cancelOrder(order:Order){
     return(new Promise((resolve,reject)=>{
-      this.http.get(order.cancel).subscribe(res=>{
+      this.http.post(order.cancel, {}, {
+        headers: this.setHeaders()
+      }).subscribe(res=>{
+        this.notify.success(Constant.Messages.SUCCESS.CANCEL_ORDER.Title,
+          Constant.Messages.SUCCESS.CANCEL_ORDER.Detail(order.display.symbol,order.display.type));
         resolve(res);
       },error=>{
+        this.notify.error(Constant.Messages.ERRORS.CANCEL_ORDER, this.ErrorToString(error.json()));
         reject(error);
       })
     }))
@@ -800,6 +808,36 @@ export class RobinhoodService{
     }));
 
   }
+
+  /**
+   * this function filter out the pending order and recent order
+   * recent order will not contain more than 10 items
+   * reset the list whenever new data comes in
+   * @param data
+   */
+  filterOrderList(data){
+    this.account.pendingOrders = [];
+    this.account.recentOrders = [];
+
+    console.log("orders ");
+    console.log(data);
+
+    for(let order of data){
+      order.initDisplayData();
+
+      if(Constant.OrderStatus.PENDING.indexOf(order.display.status) >= 0){
+        this.account.pendingOrders.push(order);
+      } else {
+        this.account.recentOrders.push(order);
+        if(this.account.recentOrders.length > 10){
+          break;
+        }
+      }
+    }
+  }
+
+
+
 
 
 

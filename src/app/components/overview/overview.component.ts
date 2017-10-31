@@ -33,7 +33,7 @@ export class OverviewComponent {
         password: ""
     }
 
-    private hidePanel:boolean = false;
+    public hidePanel:boolean = false;
 
     constructor(public router: Router, public rb: RobinhoodService) {
         // this.positions = this.rb.account.positions;

@@ -375,6 +375,8 @@ export class RobinhoodService{
       this.http.post(this._apiUrl + this._endpoints.login, {
         username: username,
         password: password
+      },{
+        headers: this.setHeaders()
       }).subscribe(res=>{
         this.addTokenToHeader(res.json().token);
         window.localStorage['ROBINHOOD-AUTH'] = res.json().token;

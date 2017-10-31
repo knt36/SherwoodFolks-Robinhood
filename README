@@ -1,0 +1,2 @@
+HOW TO BUILD
+ng build --prod --aot=false

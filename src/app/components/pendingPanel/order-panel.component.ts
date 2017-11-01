@@ -34,7 +34,7 @@ export class OrderPanelComponent{
   }
 
   cancelOrder(order){
-    this.notify.alert(Constant.Messages.PENDING.CANCEL_ORDER.Title,
+    this.notify.info(Constant.Messages.PENDING.CANCEL_ORDER.Title,
       Constant.Messages.PENDING.CANCEL_ORDER.Detail(order.display.symbol, order.display.type));
 
     this.rb.cancelOrder(order);

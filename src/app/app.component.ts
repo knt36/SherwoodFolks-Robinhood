@@ -12,9 +12,9 @@ export class AppComponent {
   title = 'app';
   option = {
     timeOut: 2000,
-    showProgressBar: true,
-    pauseOnHover: false,
-    clickToClose: false
+    showProgressBar: false,
+    pauseOnHover: true,
+    clickToClose: true
   }
 
 }

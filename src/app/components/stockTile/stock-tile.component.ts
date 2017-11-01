@@ -2,7 +2,7 @@
  * Created by anhle on 8/5/17.
  */
 
-import {Component, Input, OnInit, OnChanges} from "@angular/core";
+import {Component, Input, OnInit, OnChanges, Output, EventEmitter} from "@angular/core";
 import {StockModule} from "../../model/Stock.model";
 import Stock = StockModule.Stock;
 import {RobinhoodService} from "../../services/RobinhoodService";
@@ -20,6 +20,8 @@ import {NotificationsService} from "angular2-notifications/dist";
 export class StockTileComponent implements OnInit, OnChanges{
 
     @Input('stock') stock: Stock;
+    @Output()
+    showPanel:EventEmitter<string> = new EventEmitter();
 
     public order;
     orderTypes = [
@@ -128,6 +130,11 @@ export class StockTileComponent implements OnInit, OnChanges{
      */
     updatePrice(){
       this.order.price = Number(this.stock.instrument.quote.last_trade_price).toFixed(2);
+    }
+
+    showStockPanel(){
+      // TODO get the correct string / element to pass in
+      this.showPanel.emit(this.stock.display.symbol);
     }
 
 }

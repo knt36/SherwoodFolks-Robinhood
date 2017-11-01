@@ -47,6 +47,12 @@ $std-btn-height: 40px;
   font-weight: 500;
 }
 
+.icon-btn{
+  background-color: transparent;
+  border: none;
+  color: $light-font-color;
+  font-size: $lg-font-size;
+}
 
 @mixin border-right{
   border-right: 2px solid $active-background-color;
@@ -234,10 +240,6 @@ $std-btn-height: 40px;
             overflow-x: hidden;
         }
     }
-
-
-
-
-
-
 }
+
+

@@ -78,6 +78,7 @@ export class RobinhoodService{
   _private = {
     session : {},
     headers : {
+      'Access-Control-Allow-Origin': '*',
       'Accept': '*/*',
       'Accept-Language': 'en;q=1, fr;q=0.9, de;q=0.8, ja;q=0.7, nl;q=0.6, it;q=0.5',
       'Content-Type': 'application/json',
@@ -374,6 +375,8 @@ export class RobinhoodService{
       this.http.post(this._apiUrl + this._endpoints.login, {
         username: username,
         password: password
+      },{
+        headers: this.setHeaders()
       }).subscribe(res=>{
         this.addTokenToHeader(res.json().token);
         window.localStorage['ROBINHOOD-AUTH'] = res.json().token;

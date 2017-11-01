@@ -2,7 +2,7 @@
  * Created by anhle on 8/5/17.
  */
 
-import {Component, Input, OnInit, OnDestroy, OnChanges} from "@angular/core";
+import {Component, Input, OnInit, OnDestroy, OnChanges, Output, EventEmitter} from "@angular/core";
 import Stock = StockModule.Stock;
 import {DecimalPipe} from "@angular/common";
 import {RobinhoodService} from "../../../services/RobinhoodService";
@@ -20,6 +20,8 @@ import StockType = StockModule.StockType;
 export class WatchStockTileComponent implements OnInit, OnChanges{
 
   @Input('stock') stock: Stock;
+  @Output()
+  showPanel:EventEmitter<string> = new EventEmitter();
 
   public order;
   orderTypes = [
@@ -137,6 +139,11 @@ export class WatchStockTileComponent implements OnInit, OnChanges{
    */
   updatePrice(){
     this.order.price = Number(this.stock.instrument.quote.last_trade_price).toFixed(2);
+  }
+
+  showStockPanel(){
+    // TODO get the correct string / element to pass in
+    this.showPanel.emit(this.stock.display.symbol);
   }
 
 }

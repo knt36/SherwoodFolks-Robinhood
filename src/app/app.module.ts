@@ -22,6 +22,7 @@ import {DecimalPipe} from "@angular/common";
 import {WatchStockTileComponent} from "./components/stockTile/watchStockTile/watch-stock-tile.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {SimpleNotificationsModule} from "angular2-notifications/dist";
+import {StockPanelComponent} from "./components/stockPanel/stock-panel.component";
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import {SimpleNotificationsModule} from "angular2-notifications/dist";
       TopBarComponent,
       ContactComponent,
       OrderPanelComponent,
-      WatchStockTileComponent
+      WatchStockTileComponent,
+      StockPanelComponent
 
   ],
   imports: [

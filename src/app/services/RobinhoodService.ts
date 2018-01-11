@@ -167,7 +167,9 @@ export class RobinhoodService{
             setTimeout(function(){
               start = true;
             }, delay);
-          });
+          }).catch((error)=>{
+            console.log(error)
+          })
         }
       }, 1000);
     }
@@ -207,6 +209,8 @@ export class RobinhoodService{
         Promise.all(promises).then(()=>{
           this.filterOrderList(orders);
           resolve(res);
+        }).catch((error)=>{
+          console.log(error)
         })
       }, error=>{
         reject(error);
@@ -247,6 +251,8 @@ export class RobinhoodService{
                 position.orders.push(order);
               }
             })
+          }).catch((error)=>{
+            console.log(error)
           })
           this.updateStock(this.account.positions, positions);
 
@@ -329,6 +335,8 @@ export class RobinhoodService{
                 watch.orders.push(order);
               }
             })
+          }).catch((error)=>{
+            console.log(error)
           })
           this.updateStock(this.account.watchList, watchList);
           resolve(res);

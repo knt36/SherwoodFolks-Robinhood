@@ -251,14 +251,14 @@ export class RobinhoodService{
                 position.orders.push(order);
               }
             })
-          }).catch((error)=>{
-            console.log(error)
           })
           this.updateStock(this.account.positions, positions);
 
 
           resolve(res);
-        });
+        }).catch((error)=>{
+          console.log(error)
+        })
       }, error=>{
         reject(error);
       })
@@ -335,12 +335,12 @@ export class RobinhoodService{
                 watch.orders.push(order);
               }
             })
-          }).catch((error)=>{
-            console.log(error)
           })
           this.updateStock(this.account.watchList, watchList);
           resolve(res);
-        });
+        }).catch((error)=>{
+          console.log(error)
+        })
       }, error=>{
         reject(error);
       })
@@ -419,6 +419,7 @@ export class RobinhoodService{
       }).subscribe(res=>{
         this.notify.success(Constant.Messages.SUCCESS.CANCEL_ORDER.Title,
           Constant.Messages.SUCCESS.CANCEL_ORDER.Detail(order.display.symbol,order.display.type));
+          this.getOrders();
         resolve(res);
       },error=>{
         this.notify.error(Constant.Messages.ERRORS.CANCEL_ORDER, this.ErrorToString(error.json()));
@@ -453,6 +454,7 @@ export class RobinhoodService{
       }).subscribe(res=>{
         this.notify.success(Constant.Messages.SUCCESS.MARKET_BUY.Title,
           Constant.Messages.SUCCESS.MARKET_BUY.Detail(stock.instrument.symbol,quantity,price));
+        this.getOrders();
         resolve(res);
       },error=>{
         this.notify.error(Constant.Messages.ERRORS.MARKET_BUY, this.ErrorToString(error.json()))
@@ -491,6 +493,8 @@ export class RobinhoodService{
       }).subscribe(res=>{
         this.notify.info(Constant.Messages.SUCCESS.STOP_LIMIT_BUY.Title,
           Constant.Messages.SUCCESS.STOP_LIMIT_BUY.Detail(stock.instrument.symbol,price,quantity,stop_price))
+          this.getOrders();
+
         resolve(res);
       },error =>{
         this.notify.error(Constant.Messages.ERRORS.LIMIT_BUY, this.ErrorToString(error.json()))
@@ -528,6 +532,8 @@ export class RobinhoodService{
       }).subscribe(res=>{
         this.notify.info(Constant.Messages.SUCCESS.STOP_LOSS_BUY.Title,
           Constant.Messages.SUCCESS.STOP_LOSS_BUY.Detail(stock.instrument.symbol,quantity,stop_price));
+          this.getOrders();
+
         resolve(res);
       },error =>{
         this.notify.error(Constant.Messages.ERRORS.STOP_LOSS_BUY, this.ErrorToString(error.json()))
@@ -556,6 +562,8 @@ export class RobinhoodService{
       }).subscribe(res=>{
         this.notify.info(Constant.Messages.SUCCESS.LIMIT_BUY.Title,
           Constant.Messages.SUCCESS.LIMIT_BUY.Detail(stock.instrument.symbol,quantity, price))
+          this.getOrders();
+
         resolve(res);
       }, error=>{
         this.notify.error(Constant.Messages.ERRORS.LIMIT_BUY, this.ErrorToString(error.json()))
@@ -585,6 +593,8 @@ export class RobinhoodService{
       }).subscribe(res=>{
         this.notify.info(Constant.Messages.SUCCESS.STOP_LIMIT_SELL.Title,
           Constant.Messages.SUCCESS.STOP_LIMIT_SELL.Detail(stock.instrument.symbol,quantity,price,stop_price))
+          this.getOrders();
+
         resolve(res);
       }, error=>{
         this.notify.error(Constant.Messages.ERRORS.LIMIT_SELL, this.ErrorToString(error.json()))
@@ -623,6 +633,7 @@ export class RobinhoodService{
       }).subscribe(res=>{
         this.notify.success(Constant.Messages.SUCCESS.MARKET_SELL.Title,
           Constant.Messages.SUCCESS.MARKET_SELL.Detail(stock.instrument.symbol,quantity,marketPrice))
+          this.getOrders();
         resolve(res);
       },error=>{
         this.notify.error(Constant.Messages.ERRORS.MARKET_SELL, this.ErrorToString(error.json()))
@@ -652,6 +663,7 @@ export class RobinhoodService{
       }).subscribe(res=>{
         this.notify.success(Constant.Messages.SUCCESS.LIMIT_SELL.Title,
           Constant.Messages.SUCCESS.LIMIT_SELL.Detail(stock.instrument.symbol,quantity,price))
+        this.getOrders();
         resolve(res);
       },error=>{
         this.notify.error(Constant.Messages.ERRORS.LIMIT_SELL, this.ErrorToString(error.json()))
@@ -689,6 +701,7 @@ export class RobinhoodService{
       }).subscribe(res=>{
         this.notify.success(Constant.Messages.SUCCESS.STOP_LOSS_SELL.Title,
           Constant.Messages.SUCCESS.STOP_LOSS_SELL.Detail(stock.instrument.symbol,quantity,stop_price))
+        this.getOrders();
         resolve(res);
       },error =>{
         this.notify.error(Constant.Messages.ERRORS.STOP_LOSS_SELL, this.ErrorToString(error.json()))

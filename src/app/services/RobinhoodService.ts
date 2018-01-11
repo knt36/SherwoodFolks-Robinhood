@@ -204,7 +204,9 @@ export class RobinhoodService{
         const promises = [];
         orders.forEach(o =>{
           const p = this.getInstrument(o);
-          promises.push(p);
+          promises.push(p.catch((error)=>{
+            return(error)
+          }));
         })
         Promise.all(promises).then(()=>{
           this.filterOrderList(orders);
@@ -237,7 +239,9 @@ export class RobinhoodService{
         const promises = [];
         positions.forEach(position=>{
           const p = this.getInstrument(position);
-          promises.push(p);
+          promises.push(p.catch((error)=>{
+            return(error)
+          }));
         });
 
         // updating new stock after getting the promises
@@ -324,7 +328,9 @@ export class RobinhoodService{
         });
         const promises =[]
         watchList.forEach(watchItem =>{
-          promises.push(this.getInstrument(watchItem));
+          promises.push(this.getInstrument(watchItem).catch((error)=>{
+            return(error)
+          }));
         })
 
         Promise.all(promises).then(()=>{

@@ -1,41 +1,50 @@
 <div class="panel">
 
   <div id="pending-order">
-    <h5 class="section-title">pending order</h5>
-    <div *ngFor="let order of this.pendingOrder">
-      <div class="order" [ngStyle]="{'border-left-color': order.color}">
-        <div class="left text-left">
-          <h5>{{order.symbol}}</h5>
-          <h6>{{order.type}}</h6>
-        </div>
-        <div class="right text-right">
-          <h6>${{order.avg_cost}}/SHARE</h6>
-          <h6>{{order.quantity}} SHARE</h6>
-        </div>
-        <div class="cancel-overlay">
-          <button (click)="this.cancelOrder()" type="button" class="btn btn-danger">Cancel Order</button>
+    <h5 class="section-title">pending order
+      <span (click)="togglePendingGroup()" class="glyphicon" [ngClass]="(showPendingOrder) ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'"></span>
+    </h5>
+    <div *ngIf="this.showPendingOrder">
+      <div *ngFor="let order of this.rb.account.pendingOrders">
+        <div class="order" [ngStyle]="{'border-left-color': order.display.color}">
+          <div class="left text-left">
+            <h5>{{order.display.symbol}}</h5>
+            <h6>{{order.display.type}}</h6>
+          </div>
+          <div class="right text-right">
+            <h6>${{order.display.avg_cost}}/SHARE</h6>
+            <h6>{{order.display.quantity}} SHARE</h6>
+          </div>
+          <div class="cancel-overlay">
+            <button (click)="this.cancelOrder(order)" type="button" class="btn btn-danger">Cancel Order</button>
+          </div>
         </div>
       </div>
-
     </div>
+
   </div>
 
   <div id="recent-order">
-    <h5 class="section-title">recent purchase</h5>
-    <div *ngFor="let order of this.recentOrder">
-      <div class="order info-tooltip" [ngStyle]="{'border-left-color': order.color}">
+    <h5 class="section-title">recent purchase
+      <span (click)="togglePurchaseGroup()" class="glyphicon" [ngClass]="(showPurchase) ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'"></span>
+    </h5>
+    <div *ngIf="this.showPurchase">
+      <div *ngFor="let order of this.rb.account.recentOrders">
+        <div class="order info-tooltip" [ngStyle]="{'border-left-color': order.display.color}">
         <span class="order-status">
-          Order {{order.status}}
+          Order {{order.display.status}}
         </span>
-        <div class="left text-left">
-          <h5>{{order.symbol}}</h5>
-          <h6>{{order.type}}</h6>
-        </div>
-        <div class="right text-right">
-          <h6>${{order.avg_cost}}/SHARE</h6>
-          <h6>{{order.quantity}} SHARE</h6>
+          <div class="left text-left">
+            <h5>{{order.display.symbol}}</h5>
+            <h6>{{order.display.type}}</h6>
+          </div>
+          <div class="right text-right">
+            <h6>${{order.display.avg_cost}}/SHARE</h6>
+            <h6>{{order.display.quantity}} SHARE</h6>
+          </div>
         </div>
       </div>
     </div>
+
   </div>
 </div>

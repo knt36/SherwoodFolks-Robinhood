@@ -2,7 +2,8 @@
 @import '../../../style';
 
 #overviewPage{
-  min-height: 100vh;
+  height: 100vh;
+
   @include stock-page();
 
   .overview-content{
@@ -11,10 +12,13 @@
     justify-content: space-between;
   }
 
+
   #stocks-panel{
     position: relative;
     transition: width 0.3s ease;
     width: 100%;
+
+    @include static-scroll-y();
 
     .toggle-panel-btn{
       position: absolute;
@@ -33,10 +37,12 @@
   #order-panel{
     transition: width 0.3s ease;
     padding-left: 0px;
+
   }
 
-  #stocks-panel .has-sidebar{
-    min-width: calc(100% - 200px);
+  #stocks-panel {
+    min-width: calc(100% - 600px);
   }
+
 
 }

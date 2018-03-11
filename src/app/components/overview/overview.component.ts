@@ -12,28 +12,17 @@ import {RobinhoodService} from "../../services/RobinhoodService";
 })
 export class OverviewComponent {
     Object = null;
-    positions = [
-        {
-            symbol: 'SQ',
-            price: 260.12,
-            gain: 'up',
-            percentChange : "+0.04 (0.12%)",
-            totalProfit: 360.23,
-            percentReturn: "+0.002 (0.04%)",
-            quantity: 23,
-            averageCost: 221.45,
-            data: []
-        }
-    ];
     filterName = "";
     watchList = [];
+    selectedStock:any = null;
 
     public loginModel = {
         username: "",
         password: ""
     }
 
-    private hidePanel:boolean = false;
+    public hideOrderPanel:boolean = false;
+    public showStockPanel:boolean = false;
 
     constructor(public router: Router, public rb: RobinhoodService) {
         // this.positions = this.rb.account.positions;
@@ -45,8 +34,17 @@ export class OverviewComponent {
       this.filterName = event.toLowerCase().trim();
     }
 
-    togglePanel(){
-      this.hidePanel = !this.hidePanel;
+    toggleOrderPanel(){
+      this.hideOrderPanel = !this.hideOrderPanel;
     }
+
+    closeStockPanel(event){
+      this.showStockPanel = false;
+    }
+
+    openStockPanel(event){
+      this.showStockPanel = true;
+    }
+
 
 }

@@ -1,42 +1,46 @@
 <div id="overviewPage" class="container-fluid">
   <top-bar (searchStringEmitter) = "this.onSearchStringEmitter($event)" ></top-bar>
   <div class="overview-content">
-      <div class="container-fluid" id="stocks-panel" [ngClass]="{'has-sidebar' : this.hidePanel == true}">
+
+      <!--stock-panel-->
+      <div *ngIf="this.showStockPanel" id="stock-panel">
+        <stock-panel [stock]="this.selectedStock" (panelEvent)="this.closeStockPanel($event)"></stock-panel>
+      </div>
+      <!--stock-overview-panel-->
+      <div class="container-fluid" id="stocks-panel" >
         <div class="item" id="stocks">
           <div id="currentPositions">
             <h5 class="section-title">
               Positions
             </h5>
-
             <div class="section-stock">
-          <span *ngFor="let k of this.Object.keys(this.rb.account.positions)">
-            <stock-tile *ngIf="this.filterName=='' || k.toLowerCase().includes(this.filterName) || this.rb.account.positions[k]?.instrument?.name.toLowerCase().includes(this.filterName)"
-                        [stock]="this.rb.account.positions[k]"></stock-tile>
-          </span>
+            <span *ngFor="let k of this.Object.keys(this.rb.account.positions)">
+              <stock-tile *ngIf="this.filterName=='' || k.toLowerCase().includes(this.filterName) || this.rb.account.positions[k]?.instrument?.name.toLowerCase().includes(this.filterName)"
+                          [stock]="this.rb.account.positions[k]" (showPanel)="this.openStockPanel($event)"></stock-tile>
+            </span>
             </div>
           </div>
-
           <div id="watchList">
             <h5 class="section-title">
               WatchList
             </h5>
 
             <div class="section-stock">
-          <span *ngFor="let k of this.Object.keys(this.rb.account.watchList)">
-              <watch-stock-tile *ngIf="this.filterName=='' || k.toLowerCase().includes(this.filterName) || this.rb.account.watchList[k]?.instrument?.name.toLowerCase().includes(this.filterName)"
-                          [stock]="this.rb.account.watchList[k]"></watch-stock-tile>
-          </span>
+            <span *ngFor="let k of this.Object.keys(this.rb.account.watchList)">
+                <watch-stock-tile *ngIf="this.filterName=='' || k.toLowerCase().includes(this.filterName) || this.rb.account.watchList[k]?.instrument?.name.toLowerCase().includes(this.filterName)"
+                            [stock]="this.rb.account.watchList[k]" (showPanel)="this.openStockPanel($event)"></watch-stock-tile>
+            </span>
             </div>
           </div>
         </div>
-
-        <button (click)="togglePanel()" title="toggle order panel" class="btn toggle-panel-btn">
+        <button (click)="toggleOrderPanel()" title="toggle order panel" class="btn toggle-panel-btn">
           <span class="glyphicon glyphicon-list-alt"></span>
         </button>
       </div>
 
 
-      <div [ngClass]="{'hidden' : this.hidePanel == true}" id="order-panel">
+      <!--order-panel-->
+      <div [ngClass]="{'hidden' : this.hideOrderPanel == true}" id="order-panel">
         <order-panel></order-panel>
       </div>
 

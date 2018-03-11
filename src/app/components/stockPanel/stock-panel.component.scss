@@ -1,0 +1,61 @@
+@import '../../styles/white-theme';
+
+.container{
+  height: calc(100vh - 70px);
+  background-color: white;
+  width: 400px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow-y: hidden;
+
+  div {
+    margin: 10px 0px;
+  }
+
+  h5 {
+    font-size: $lg-font-size;
+    margin-bottom: 8px;
+    margin-top: 0px;
+
+    span {
+      color: $green-color;
+      text-transform: uppercase;
+      font-size: $xs-font-size;
+      margin-left: 10px;
+    }
+  }
+
+  h6{
+    color: $normal-font-color;
+    text-transform: uppercase;
+    font-size: $xs-font-size;
+    margin: 8px auto;
+  }
+
+  p {
+    color: $normal-font-color;
+    font-size: $xs-font-size;
+    margin: 8px auto;
+  }
+
+  #info{
+    height: 50px;
+    background-color: yellow;
+
+    @include flex-div-btw();
+
+
+  }
+
+  .stock-chart{
+    background-color: cornflowerblue;
+    height: 200px;
+  }
+  .carousel{
+    background-color: greenyellow;
+    height: 60%;
+  }
+
+}

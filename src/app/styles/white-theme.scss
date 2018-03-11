@@ -47,6 +47,12 @@ $std-btn-height: 40px;
   font-weight: 500;
 }
 
+.icon-btn{
+  background-color: transparent;
+  border: none;
+  color: $light-font-color;
+  font-size: $lg-font-size;
+}
 
 @mixin border-right{
   border-right: 2px solid $active-background-color;
@@ -56,6 +62,12 @@ $std-btn-height: 40px;
     -webkit-box-shadow: 3px 3px 10px -1px rgba(173,168,173,1);
     -moz-box-shadow: 3px 3px 10px -1px rgba(173,168,173,1);
     box-shadow: 3px 3px 10px -1px rgba(173,168,173,1);
+}
+
+@mixin static-scroll-y{
+  height: 100vh;
+  overflow-y: scroll;
+  padding-bottom: 100px;
 }
 
 @mixin flex-div-btw{
@@ -228,10 +240,6 @@ $std-btn-height: 40px;
             overflow-x: hidden;
         }
     }
-
-
-
-
-
-
 }
+
+

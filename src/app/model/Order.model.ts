@@ -1,4 +1,5 @@
 import {StockModule} from "./Stock.model";
+import {Constant} from "./constant";
 
 export module OrderModule {
   import Instrument = StockModule.Instrument;
@@ -46,6 +47,7 @@ export module OrderModule {
     position: any;
     average_price: string;
     quantity: string;
+    display:any;
 
     public constructor(data) {
       this.updated_at = data.updated_at;
@@ -68,16 +70,38 @@ export module OrderModule {
       this.extended_hours = data.extended_hours;
       this.account = data.account;
       this.url = data.url;
-      this.created_at = data.created_at
+      this.created_at = data.created_at;
       this.side = data.side;
       this.override_day_trade_checks = data.override_day_trade_checks;
       this.position = data.position;
       this.average_price = data.average_price;
       this.quantity = data.quantity;
+      this.display = null;
     }
-  }
 
+    public initDisplayData(){
+      this.display = new Order_Display(this);
+    }
 
+  };
+
+  export class Order_Display {
+    symbol: string;
+    type: string;
+    avg_cost: number;
+    quantity: number;
+    status: string;
+    color: string;
+
+    constructor(data){
+      this.symbol = data.instrument.symbol;
+      this.type = data.side + " " + (data.trigger === Constant.OrderTrigger.IMMEDIATE ? "" : data.trigger + " ") + data.type;
+      this.avg_cost = Number(data.average_price);
+      this.quantity = parseInt(data.cumulative_quantity);
+      this.status = data.state;
+      this.color = Constant.OrderColor.Color[data.state];
+    }
+  };
 }
 
 

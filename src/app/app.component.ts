@@ -14,7 +14,8 @@ export class AppComponent {
     timeOut: 2000,
     showProgressBar: false,
     pauseOnHover: true,
-    clickToClose: true
+    clickToClose: true,
+    maxStack: 3
   }
 
 }

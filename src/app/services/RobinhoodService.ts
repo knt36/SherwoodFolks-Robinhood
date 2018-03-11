@@ -315,7 +315,7 @@ export class RobinhoodService{
 
   getQuote(instrument){
     return(new Promise((resolve,reject)=>{
-      this.http.get(this._proxyURL + instrument.quotes.replace(RegExp('[^:]*:\/\/[^\/]*\/'),''), {
+      this.http.get(this._proxyURL + instrument.quote.replace(RegExp('[^:]*:\/\/[^\/]*\/'),''), {
         headers: this.setHeaders()
       }).subscribe(res=>{
         const q:Quote = res.json();

@@ -34,7 +34,8 @@ export class RobinhoodService{
     auth: "auth"
   };
 
-  public _apiUrl = 'https://api.robinhood.com/';
+  public _apiURL = 'https://api.robinhood.com/';
+  public _proxyURL = 'https://sherwoodforestproxy.herokuapp.com/';
   public _endpoints = {
     login:  'api-token-auth/',
     logout: 'api-token-logout/',
@@ -60,7 +61,7 @@ export class RobinhoodService{
     user: 'user/',
     historicals: 'quotes/historicals/',
     add_watchlist: 'watchlists/Default/bulk_add/',
-    delete_watchlist: '/watchlists/Default/',
+    delete_watchlist: 'watchlists/Default/',
 
     user_additional_info: "user/additional_info/",
     user_basic_info: "user/basic_info/",
@@ -83,6 +84,7 @@ export class RobinhoodService{
       'Accept-Language': 'en;q=1, fr;q=0.9, de;q=0.8, ja;q=0.7, nl;q=0.6, it;q=0.5',
       'Content-Type': 'application/json',
       'X-Robinhood-API-Version': '1.152.0',
+      'Target-URL': this._apiURL,
       'Authorization' : null
     },
   }
@@ -163,7 +165,7 @@ export class RobinhoodService{
         if(start){
           start = false;
           const serviceList = [that.setAccountInformation(),that.getPositions(),that.getWatchList(), that.getOrders()];
-          Promise.all(serviceList.map(p => p.catch(e => e))).then(function(res){
+          Promise.all(serviceList.map(p => p)).then(res =>{
             setTimeout(function(){
               start = true;
             }, delay);
@@ -193,7 +195,7 @@ export class RobinhoodService{
 
   getOrders(){
     return(new Promise((resolve,reject)=>{
-      this.http.get(this._apiUrl + this._endpoints.orders,{
+      this.http.get(this._proxyURL + this._endpoints.orders,{
         headers: this.setHeaders()
       }).subscribe(res=>{
         const orders = [];
@@ -221,9 +223,8 @@ export class RobinhoodService{
   }
 
   getPositions(){
-    //console.log("get positions");
     return(new Promise((resolve,reject)=>{
-      this.http.get(this._apiUrl + this._endpoints.positions
+      this.http.get(this._proxyURL + this._endpoints.positions
         +"?nonzero=true",{
         headers: this.setHeaders()
       }).subscribe(res=>{
@@ -247,8 +248,6 @@ export class RobinhoodService{
         // updating new stock after getting the promises
         Promise.all(promises).then(()=>{
           // add orders to the stock
-          console.log("positions");
-          console.log(positions);
           positions.forEach(position=>{
             this.account.recentOrders.forEach(order=>{
               if(position.instrument.symbol === order.instrument.symbol){
@@ -284,20 +283,29 @@ export class RobinhoodService{
     return(new Promise((resolve,reject)=>{
       if(this.instrumentCache[object.instrument]){
         object.instrument = JSON.parse(JSON.stringify(this.instrumentCache[object.instrument]));
-        this.getQuote(object.instrument).then(res2=>{
-          resolve(res2);
-        },error=>{
-          reject(error);
-        })
-      }else{
-        this.http.get(object.instrument).subscribe(res=>{
-          this.instrumentCache[object.instrument] = JSON.parse(JSON.stringify(res.json()));
-          object.instrument = res.json();
+        if(object.instrument){
           this.getQuote(object.instrument).then(res2=>{
             resolve(res2);
           },error=>{
             reject(error);
           })
+
+        }
+
+
+      }else{
+        this.http.get(this._proxyURL + object.instrument.replace(RegExp('[^:]*:\/\/[^\/]*\/'),''),{
+          headers: this.setHeaders()
+        }).subscribe(res=>{
+          this.instrumentCache[object.instrument] = JSON.parse(JSON.stringify(res.json()));
+          object.instrument = res.json();
+          if(res){
+            this.getQuote(object.instrument).then(res2=>{
+              resolve(res2);
+            },error=>{
+              reject(error);
+            })
+          }
         }, error=>{
           reject(error);
         })
@@ -307,7 +315,9 @@ export class RobinhoodService{
 
   getQuote(instrument){
     return(new Promise((resolve,reject)=>{
-      this.http.get(instrument.quote).subscribe(res=>{
+      this.http.get(this._proxyURL + instrument.quotes.replace(RegExp('[^:]*:\/\/[^\/]*\/'),''), {
+        headers: this.setHeaders()
+      }).subscribe(res=>{
         const q:Quote = res.json();
         instrument.quote = q;
         resolve(res);
@@ -319,7 +329,7 @@ export class RobinhoodService{
 
   getWatchList(){
     return(new Promise((resolve,reject)=>{
-      this.http.get(this._apiUrl + this._endpoints.watchlists,{
+      this.http.get(this._proxyURL + this._endpoints.watchlists,{
         headers: this.setHeaders()
       }).subscribe(res=>{
         const watchList = [];
@@ -355,7 +365,7 @@ export class RobinhoodService{
 
   setAccountInformation(){
     return(new Promise((resolve,reject)=>{
-      this.http.get(this._apiUrl + this._endpoints.accounts,{
+      this.http.get(this._proxyURL + this._endpoints.accounts,{
         headers: this.setHeaders()
       }).subscribe(res=>{
         const account: Account = new Account(res.json().results[0]);
@@ -372,7 +382,7 @@ export class RobinhoodService{
   }
   getPortfolioInformation(account:Account){
     return(new Promise((resolve,reject)=>{
-      this.http.get(account.portfolio,{
+      this.http.get(this._proxyURL + account.portfolio.replace(RegExp('[^:]*:\/\/[^\/]*\/'),''),{
         headers: this.setHeaders()
       }).subscribe(res=>{
         const port:Portfolio = res.json();
@@ -386,10 +396,10 @@ export class RobinhoodService{
 
   login(username: string, password: string){
     return(new Promise((resolve,reject)=>{
-      this.http.post(this._apiUrl + this._endpoints.login, {
+      this.http.post(this._proxyURL + this._endpoints.login, {
         username: username,
         password: password
-      },{
+      }, {
         headers: this.setHeaders()
       }).subscribe(res=>{
         this.addTokenToHeader(res.json().token);
@@ -403,7 +413,7 @@ export class RobinhoodService{
   logout(){
     return(new Promise((resolve,reject)=>{
       this.stopService();
-      this.http.post(this._apiUrl + this._endpoints.logout, {
+      this.http.post(this._proxyURL + this._endpoints.logout, {
       },{
         headers: this.setHeaders()
       }).subscribe(res=>{
@@ -442,7 +452,7 @@ export class RobinhoodService{
    */
   MarketBuy(stock:Stock,price, quantity){
     return(new Promise((resolve,reject)=>{
-      this.http.post(this._apiUrl + this._endpoints.orders, {
+      this.http.post(this._proxyURL + this._endpoints.orders, {
         account: this.account.information.url,
         instrument: stock.instrument.url,
         symbol: stock.instrument.symbol,
@@ -480,7 +490,7 @@ export class RobinhoodService{
    */
   StopLimitBuy(stock:StockModule.Stock, price, quantity, stop_price){
     return(new Promise(((resolve, reject) =>{
-      this.http.post(this._apiUrl + this._endpoints.orders, {
+      this.http.post(this._proxyURL + this._endpoints.orders, {
         account: this.account.information.url,
         instrument: stock.instrument.url,
         symbol: stock.instrument.symbol,
@@ -519,7 +529,7 @@ export class RobinhoodService{
    */
   StopLossBuy(stock:StockModule.Stock, quantity, stop_price){
     return(new Promise(((resolve, reject) =>{
-      this.http.post(this._apiUrl + this._endpoints.orders, {
+      this.http.post(this._proxyURL + this._endpoints.orders, {
         account: this.account.information.url,
         instrument: stock.instrument.url,
         symbol: stock.instrument.symbol,
@@ -550,7 +560,7 @@ export class RobinhoodService{
 
   ImmediateLimitBuy(stock:Stock, price, quantity){
     return(new Promise((resolve,reject)=>{
-      this.http.post(this._apiUrl + this._endpoints.orders, {
+      this.http.post(this._proxyURL + this._endpoints.orders, {
         account: this.account.information.url,
         instrument: stock.instrument.url,
         symbol: stock.instrument.symbol,
@@ -580,7 +590,7 @@ export class RobinhoodService{
 
   StopLimitSell(stock:StockModule.Stock, price, quantity, stop_price){
     return(new Promise(((resolve, reject) => {
-      this.http.post(this._apiUrl + this._endpoints.orders, {
+      this.http.post(this._proxyURL + this._endpoints.orders, {
         account: this.account.information.url,
         instrument: stock.instrument.url,
         symbol: stock.instrument.symbol,
@@ -620,7 +630,7 @@ export class RobinhoodService{
    */
   MarketSell(stock:Stock, marketPrice, quantity){
     return(new Promise((resolve,reject)=>{
-      this.http.post(this._apiUrl + this._endpoints.orders, {
+      this.http.post(this._proxyURL + this._endpoints.orders, {
         account: this.account.information.url,
         instrument: stock.instrument.url,
         symbol: stock.instrument.symbol,
@@ -650,7 +660,7 @@ export class RobinhoodService{
 
   ImmediateLimitSell(stock:Stock, price, quantity){
     return new Promise(((resolve, reject) => {
-      this.http.post(this._apiUrl + this._endpoints.orders, {
+      this.http.post(this._proxyURL + this._endpoints.orders, {
         account: this.account.information.url,
         instrument: stock.instrument.url,
         symbol: stock.instrument.symbol,
@@ -688,7 +698,7 @@ export class RobinhoodService{
    */
   StopLossSell(stock:StockModule.Stock, quantity, stop_price){
     return(new Promise(((resolve, reject) =>{
-      this.http.post(this._apiUrl + this._endpoints.orders, {
+      this.http.post(this._proxyURL + this._endpoints.orders, {
         account: this.account.information.url,
         instrument: stock.instrument.url,
         symbol: stock.instrument.symbol,
@@ -743,8 +753,9 @@ export class RobinhoodService{
       if(options.span) params.set(Historical.QUERY.SPAN, options.span);
       if(options.bound) params.set(Historical.QUERY.BOUND, options.bound);
 
-      this.http.get(this._apiUrl + this._endpoints.historicals + symbol + "/", {
-       search: params
+      this.http.get(this._proxyURL + this._endpoints.historicals + symbol + "/", {
+       search: params,
+       headers: this.setHeaders()
       }).subscribe(res=>{
         res = res.json();
         const data = new GraphData(res);
@@ -767,7 +778,9 @@ export class RobinhoodService{
     return(new Promise((resolve,reject)=>{
       const cacheValue = this.queryCache.getCache(query);
       if(cacheValue == null){
-        this.http.get(this._apiUrl + this._endpoints.instruments+ "?query=" + query).subscribe(res=>{
+        this.http.get(this._proxyURL + this._endpoints.instruments+ "?query=" + query, {
+          headers: this.setHeaders()
+        }).subscribe(res=>{
           this.queryCache.pushCache(query, JSON.parse(JSON.stringify(res.json())));
           resolve(res.json());
         }, error=>{
@@ -811,7 +824,7 @@ export class RobinhoodService{
 
   addStockToWatchList(item:Instrument){
     return(new Promise((resolve,reject)=>{
-      this.http.post(this._apiUrl + this._endpoints.add_watchlist, {
+      this.http.post(this._proxyURL + this._endpoints.add_watchlist, {
         symbols: item.symbol
       },{
         headers: this.setHeaders(),
@@ -827,7 +840,7 @@ export class RobinhoodService{
 
   removeStockFromWatchList(item:Instrument){
     return(new Promise((resolve,reject)=>{
-      this.http.delete(this._apiUrl + this._endpoints.delete_watchlist + item.id,{
+      this.http.delete(this._proxyURL + this._endpoints.delete_watchlist + item.id,{
         headers: this.setHeaders()
       }).subscribe(res=>{
         this.getWatchList();
@@ -848,10 +861,6 @@ export class RobinhoodService{
   filterOrderList(data){
     this.account.pendingOrders = [];
     this.account.recentOrders = [];
-
-    console.log("orders ");
-    console.log(data);
-
     for(let order of data){
       order.initDisplayData();
 

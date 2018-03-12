@@ -79,6 +79,7 @@ export class WatchStockTileComponent implements OnInit, OnChanges{
       price: this.stock.instrument.quote.last_trade_price,
       type: this.orderTypes[0]
     };
+    this.setDisplay();
   }
 
   setDisplay(){

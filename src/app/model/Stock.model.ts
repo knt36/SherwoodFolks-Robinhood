@@ -46,13 +46,12 @@ export module StockModule {
       }
 
       public getLastSoldOrder(){
-        if(this.orders == null || this.orders.length === 0){
-          return(null);
-        }
-        for(const o in this.orders){
-          const order:Order = this.orders[o];
-          if(order.side === 'sell' && order.state === Constant.State.FILLED){
-            return(order);
+        if(this.orders && this.orders.length) {
+          for (const o in this.orders) {
+            const order: Order = this.orders[o];
+            if (order.side === 'sell' && order.state === Constant.State.FILLED) {
+              return (order);
+            }
           }
         }
         return(null);

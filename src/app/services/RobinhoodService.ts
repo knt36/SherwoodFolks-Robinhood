@@ -854,9 +854,6 @@ export class RobinhoodService {
         this.account.pendingOrders.push(order);
       } else {
         this.account.recentOrders.push(order);
-        if (this.account.recentOrders.length > 10) {
-          break;
-        }
       }
     }
   }
